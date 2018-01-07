@@ -1,0 +1,66 @@
+<!doctype html>
+
+<!-- ANGULAR MODULE -->
+<html ng-app="healthtrack">
+<head>
+    <!-- META -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+
+    <title>Databox Healthtrack</title>
+
+    <!-- SCROLLS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <style>
+        html                    { overflow-y:scroll; }
+        body                    { padding-top:50px; }
+        #healthpoint-list       { margin-bottom:30px; }
+    </style>
+
+    <!-- SPELLS -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script><!-- load angular -->
+    <script src="core.js"></script>
+
+</head>
+<!-- SET THE CONTROLLER - GET ALL HEALTH POINTS-->
+<body ng-controller="mainController">
+    <div class="container">
+
+        <!-- HEADER AND HEALTH POINT COUNT -->
+        <div class="jumbotron text-center">
+            <h1>HealthPoints <span class="label label-info">{{ healthpoints.length }}</span></h1>
+        </div>
+
+        <!-- HEALTHPOINT LIST -->
+        <div id="todo-list" class="row">
+            <div class="col-sm-4 col-sm-offset-4">
+
+                <!-- LOOP OVER THE HEALTHPOINTS IN $scope.healthpoints -->
+                <div class="checkbox" ng-repeat="healthpoint in healthpoints">
+                    <label>
+                        <input type="checkbox" ng-click="deleteHealthPoint(healthpoint._id)"> {{ healthpoint.description }}
+                    </label>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- FORM TO CREATE HEALTHPOINT (testing) -->
+        <div id="todo-form" class="row">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                <form>
+                    <div class="form-group">
+                        <!-- BIND THIS VALUE TO formData.desc IN ANGULAR -->
+                        <input type="text" class="form-control input-lg text-center" placeholder="Visited the shop" ng-model="formData.description">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg" ng-click="createHealthPoint()">Add</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
+

@@ -49,10 +49,10 @@ app.get('/api/healthpoint', function(request, response) {
 // Create new health point and return the set
 app.post('/api/healthpoint', function(request, response) {
     HealthPoint.create({
-        lat : req.body.lat,
-        long : req.body.long,
-        description: req.body.description,
-        time : req.body.time
+        lat : request.body.lat,
+        long : request.body.long,
+        description: request.body.description,
+        time : request.body.time
     }, function(error, todo) {
         if (error) {
             response.send(error);
@@ -69,7 +69,7 @@ app.post('/api/healthpoint', function(request, response) {
 // Delete a health point
 app.delete('/api/healthpoint/:id', function (request, response) {
     HealthPoint.remove({
-        _id : req.params.id
+        _id : request.params.id
     }, function(error, healthpoint) {
         // Delete failed, return error
         if (error) {
