@@ -30,7 +30,7 @@ var HealthPoint = mongoose.model('HealthPoint', {
 app.get('/api/healthpoint', function(request, response) {
     HealthPoint.find(function(error, healthpoints) {
         // Failed to retrieve HealthPoints, return error
-        if (err) {
+        if (error) {
             response.send(error);
         }
         // Return all HealthPoints as JSON
