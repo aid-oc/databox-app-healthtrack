@@ -38,8 +38,28 @@ app.get('/api/healthpoint', function(request, response) {
     });
 });
 
+// Create new health point and return the set
+app.post('/api/healthpoint', function(request, response) {
+    HealthPoint.create({
+        lat : req.body.lat,
+        long : req.body.long,
+        description: req.body.description,
+        time : req.body.time
+    }, function(error, todo) {
+        if (error) {
+            response.send(error);
+        }
+        // Return new set
+        HealthPoint.find(function(err, healthpoints) {
+            if (err)
+                response.send(err)
+            response.json(healthpoints);
+        });
+    });
+});
+
 // Delete a health point
-app.get('/api/healthpoint/:id', function (request, response) {
+app.delete('/api/healthpoint/:id', function (request, response) {
     HealthPoint.remove({
         _id : req.params.id
     }, function(error, healthpoint) {
