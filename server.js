@@ -17,6 +17,7 @@ app.use(bodyParser.json());                                     // Parse JSON
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // Parse vnd.api+json as json
 app.use(methodOverride());
 
+/* Will be translated to databox equivalent calls when possible */
 // Define Database Model
 var HealthPoint = mongoose.model('HealthPoint', {
     lat : Number,
@@ -34,6 +35,27 @@ app.get('/api/healthpoint', function(request, response) {
         }
         // Return all HealthPoints as JSON
         response.json(healthpoints);
+    });
+});
+
+// Delete a health point
+app.get('/api/healthpoint/:id', function (request, response) {
+    HealthPoint.remove({
+        _id : req.params.id
+    }, function(error, healthpoint) {
+        // Delete failed, return error
+        if (error) {
+            response.send(error);
+        }
+        // Otherwise return the new set of healthpoints
+        HealthPoint.find(function(error, healthpoints) {
+            // Failed to retrieve HealthPoints, return error
+            if (err) {
+                response.send(error);
+            }
+            // Return all HealthPoints as JSON
+            response.json(healthpoints);
+        });
     });
 });
 
