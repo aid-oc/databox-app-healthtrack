@@ -46,44 +46,21 @@
       </div>
     </nav>
 
-
-
 <div class="container-fluid">
 
-    <!-- HEADER AND HEALTH POINT COUNT -->
-    <div class="jumbotron text-center">
-        <h1>HealthPoints <span class="label label-info">{{ healthpoints.length }}</span></h1>
-    </div>
 
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Dashboard</h1>
+    <!-- HEALTHPOINT LIST -->
+    <div id="healthpoint-list" class="row">
+        <div class="col-sm-4 col-sm-offset-4">
 
-          <div class="row placeholders">
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
+            <!-- LOOP OVER THE HEALTHPOINTS IN $scope.healthpoints -->
+            <div class="checkbox" ng-repeat="healthpoint in healthpoints">
+                <label>
+                    <input type="checkbox" ng-click="deleteHealthPoint(healthpoint._id)"> {{ healthpoint.description }}
+                </label>
             </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-          </div>
+
         </div>
-      </div>
     </div>
 
     <!-- FORM TO CREATE HEALTHPOINT (testing) -->

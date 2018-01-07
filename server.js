@@ -85,7 +85,12 @@ app.delete('/api/healthpoint/:id', function (request, response) {
 
 /* Frontend routes */
 
-// SPA
+// Feedback
+app.get('/feedback', function(request, response) {
+    response.sendfile('./public/feedback.html');
+});
+
+// Index
 app.get('*', function(request, response) {
     response.sendfile('./public/index.html');
 });
