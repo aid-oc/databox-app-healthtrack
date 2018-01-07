@@ -15,6 +15,7 @@
         html                    { overflow-y:scroll; }
         body                    { padding-top:50px; }
         #healthpoint-list       { margin-bottom:30px; }
+        .jumbotron              { margin-bottom: 0px; }
     </style>
 
     <!-- SPELLS -->
@@ -58,45 +59,30 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Dashboard</h1>
+          <h1 class="page-header">Your Statistics</h1>
 
           <div class="row placeholders">
-            <div class="col-xs-6 col-sm-3 placeholder">
+            <div class="col-xs-6 col-sm-4 placeholder">
               <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
+              <h4>Average Heart Rate</h4>
+              <span class="text-muted">Calculated using all-time data</span>
             </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
+            <div class="col-xs-6 col-sm-4 placeholder">
               <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
+              <h4>Most Stressful Location</h4>
+              <span class="text-muted">This year</span>
             </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
+            <div class="col-xs-6 col-sm-4 placeholder">
               <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
+              <h4>Most Stresful Day</h4>
+              <span class="text-muted">This year</span>
             </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- FORM TO CREATE HEALTHPOINT (testing) -->
-    <div id="todo-form" class="row">
-        <div class="col-sm-8 col-sm-offset-2 text-center">
-            <form>
-                <div class="form-group">
-                    <!-- BIND THIS VALUE TO formData.desc IN ANGULAR -->
-                    <input type="text" class="form-control input-lg text-center" placeholder="Visited the shop" ng-model="formData.description">
-                </div>
-                <button type="submit" class="btn btn-primary btn-lg" ng-click="createHealthPoint()">Add</button>
-            </form>
-        </div>
+      <div class="row">
+        <!-- Maps showing Lat/Lng will go here -->
+      </div>
     </div>
 
 </div>
