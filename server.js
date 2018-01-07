@@ -1,4 +1,5 @@
 /// Dependencies
+require('dotenv').config();
 var express  = require('express');
 var app      = express();                   // Create Express App
 var mongoose = require('mongoose');         // Mongo Library
@@ -8,8 +9,15 @@ var methodOverride = require('method-override'); // Simulates DELETE/PUT
 
 // Configure Application
 
-mongoose.connect('mongodb://localhost:27017/healthtrack');     // Connect to local mongo DB
+mongoose.connect('mongodb://'process.env.DB_USER+':'+process.env.DB_PASS+'@ds247077.mlab.com:47077/databoxhealthtrack', function(error) {
+    if (error) {
+        console.err(error);
+    } else {
+        console.log('Connected');
+    }    
+});  // Connect to local mongo DB
 
+// test45672sjsuser
 app.use(express.static(__dirname + '/public'));                 // Static files location
 app.use(morgan('dev'));                                         // Logging to console
 app.use(bodyParser.urlencoded({'extended':'true'}));            // Parse encoded forms
