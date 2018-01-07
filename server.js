@@ -17,6 +17,28 @@ app.use(bodyParser.json());                                     // Parse JSON
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // Parse vnd.api+json as json
 app.use(methodOverride());
 
+// Define Database Model
+var HealthPoint = mongoose.model('HealthPoint', {
+    lat : Number,
+    long : Number,
+    description : String,
+    time : Date
+});
+
+// Get all health points
+app.get('/api/healthpoint', function(request, response) {
+    HealthPoint.find(function(error, healthpoints) {
+        // Failed to retrieve HealthPoints, return error
+        if (err) {
+            response.send(error);
+        }
+        // Return all HealthPoints as JSON
+        response.json(healthpoints);
+    });
+});
+
+
+
 // Start Application
 app.listen(8080);
 console.log("App listening on port 8080");
