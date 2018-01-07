@@ -1,0 +1,42 @@
+var healthtrack = angular.module('healthtrack', []);
+
+function mainController($scope, $http) {
+    $scope.formData = {};
+
+    // On page load get all healthpoint data
+    $http.get('/api/healthpoint')
+        .success(function(data) {
+            $scope.healthpoints = data;
+            console.log(data);
+        })
+        .error(function(data) {
+            console.log('Error: ' + data);
+        });
+
+    // Form submit, post form to API
+    $scope.createHealthPoint = function() {
+        $http.post('/api/healthpoint', $scope.formData)
+            .success(function(data) {
+                $scope.formData = {}; // Clear form data
+                $scope.healthpoints = data; // New healthpoint set
+                console.log(data);
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+    };
+
+    // Delete a healthpoint by ID
+    $scope.deleteHealthPoint = function(id) {
+        $http.delete('/api/healthpoint/' + id)
+            .success(function(data) {
+                $scope.healthpoints = data;
+                console.log(data);
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+    };
+
+}
+

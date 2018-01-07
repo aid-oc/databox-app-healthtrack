@@ -9,7 +9,7 @@ var methodOverride = require('method-override'); // Simulates DELETE/PUT
 
 // Configure Application
 
-mongoose.connect('mongodb://'process.env.DB_USER+':'+process.env.DB_PASS+'@ds247077.mlab.com:47077/databoxhealthtrack', function(error) {
+mongoose.connect('mongodb://'+process.env.DB_USER+':'+process.env.DB_PASS+'@ds247077.mlab.com:47077/databoxhealthtrack', function(error) {
     if (error) {
         console.err(error);
     } else {
@@ -85,6 +85,14 @@ app.delete('/api/healthpoint/:id', function (request, response) {
             response.json(healthpoints);
         });
     });
+});
+
+
+/* Frontend routes */
+
+// SPA
+app.get('*', function(request, response) {
+    response.sendfile('./public/index.html');
 });
 
 
