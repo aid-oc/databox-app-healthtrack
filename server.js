@@ -108,7 +108,7 @@ app.get('/feedback', function(request, response) {
 });
 
 // Index
-app.get('*', function(request, response) {
+app.get('/ui', function(request, response) {
     response.sendfile('./public/index.html');
 });
 
