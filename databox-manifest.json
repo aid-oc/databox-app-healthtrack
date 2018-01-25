@@ -1,7 +1,7 @@
 {
 	"manifest-version": 1,
 
-	"name": "app-healthtrack",
+	"name": "databox-app-healthtrack",
 	"version": "0.3.1",
 
 	"description": "A databox application to see where you've been and how these places impact you",
