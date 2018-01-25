@@ -55,3 +55,6 @@ function mainController($scope, $http) {
 
 }
 
+healthtrack.controller("mainController",mainController);
+
+
