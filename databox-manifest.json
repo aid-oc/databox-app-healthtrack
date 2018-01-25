@@ -23,12 +23,12 @@
 
 	"packages": [
 		{
-			"name": "Light Level Plotter",
-			"purpose": "To visualise your smartphone's light level in real time",
+			"name": "Location visualise",
+			"purpose": "To visualise your location history",
 			"install": "required",
-			"risks": "Estimating time of day and perhaps even location based on light patterns over time.",
-			"benefits": "A cool demo of plotting phone light levels.",
-			"datastores": [ "DS_light" ]
+			"risks": "Shows where you have been.",
+			"benefits": "Shows your location history",
+			"datastores": [ "DS_movesPlaces" ]
 		}
 	],
 
