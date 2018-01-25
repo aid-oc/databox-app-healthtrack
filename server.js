@@ -2,6 +2,8 @@
 require('dotenv').config();
 var express  = require('express');
 var app      = express();                   // Create Express App
+var https = require('https');
+var databox = require('node-databox');
 var mongoose = require('mongoose');         // Mongo Library
 var morgan = require('morgan');             // Logger
 var mongoose = require('mongoose');         // For MongoDB
@@ -12,7 +14,6 @@ var methodOverride = require('method-override'); // Simulates DELETE/PUT
 
 mongoose.connect('mongodb://localhost/healthtrack');
 
-// test45672sjsuser
 app.use(express.static(__dirname + '/public'));                 // Static files location
 app.use(morgan('dev'));                                         // Logging to console
 app.use(bodyParser.urlencoded({'extended':'true'}));            // Parse encoded forms
@@ -98,6 +99,8 @@ app.get('*', function(request, response) {
 
 
 // Start Application
-app.listen(8080);
+let httpsCredentials = databox.getHttpsCredentials();
+let server = https.createServer(httpsCredentials, app);
+server.listen(8080); 
 console.log("App listening on port 8080");
 
