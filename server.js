@@ -18,6 +18,29 @@ app.use(bodyParser.json());                                     // Parse JSON
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // Parse vnd.api+json as json
 app.use(methodOverride());
 
+// Set up stores
+const DATABOX_ZMQ_ENDPOINT = process.env.DATABOX_ZMQ_ENDPOINT;
+
+var kvc = databox.NewKeyValueClient(DATABOX_ZMQ_ENDPOINT, false);
+
+// Set up data stores 
+var movesAppSettings = databox.NewDataSourceMetadata();
+movesAppSettings.Description = 'Moves app settings';
+movesAppSettings.ContentType = 'application/json';
+movesAppSettings.Vendor = 'psyao1';
+movesAppSettings.DataSourceType = 'movesAppSettings';
+movesAppSettings.DataSourceID = 'movesAppSettings';
+movesAppSettings.StoreType = 'kv';
+
+// Register Key-Value Store
+kvc.RegisterDatasource(movesAppSettings)
+.then(() => {
+  console.log("Registered datasource: movesAppSettings");
+})
+.catch((err) => {
+  console.log("Error registering data source:" + err);
+});
+
 
 app.get('/api/movesPlaces', function(request, response) {
     let DATASOURCE_DS_movesPlaces = process.env.DATASOURCE_DS_movesPlaces;
