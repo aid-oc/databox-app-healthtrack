@@ -5,11 +5,8 @@
   "main": "server.js",
   "author": "Aidan O'Connell",
   "dependencies": {
-    "angular": "^1.6.8",
     "body-parser": "~1.5.2",
-    "bootstrap": "^4.0.0",
     "express": "~4.7.2",
-    "jquery": "^3.3.1",
     "method-override": "~2.1.2",
     "moment": "^2.20.1",
     "mongoose": "^5.0.1",
