@@ -44,7 +44,7 @@ kvc.RegisterDatasource(movesAppSettings)
 });
 
 
-app.get('/api/movesPlaces', function(request, response) {
+app.get('/ui/api/movesPlaces', function(request, response) {
     let DATASOURCE_DS_movesPlaces = process.env.DATASOURCE_DS_movesPlaces;
     databox.HypercatToSourceDataMetadata(DATASOURCE_DS_movesPlaces)
     .then((data)=>{
