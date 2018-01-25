@@ -6,7 +6,6 @@
   "author": "Aidan O'Connell",
   "dependencies": {
     "body-parser": "~1.5.2",
-    "dotenv": "^4.0.0",
     "express": "~4.7.2",
     "method-override": "~2.1.2",
     "node-databox": "^0.6.2",

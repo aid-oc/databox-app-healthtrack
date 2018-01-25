@@ -4,6 +4,19 @@ function mainController($scope, $http) {
     $scope.formData = {};
 
     // On page load get all healthpoint data
+    $http.get('/api/movesPlaces')
+        .success(function(data) {
+            $scope.movesplaces = data;
+            console.log(data);
+        })
+        .error(function(data) {
+            console.log('Error: ' + data);
+        });
+
+
+    /* Used for testing, now use databox store data ^
+
+    // On page load get all healthpoint data
     $http.get('/api/healthpoint')
         .success(function(data) {
             $scope.healthpoints = data;
@@ -37,6 +50,8 @@ function mainController($scope, $http) {
                 console.log('Error: ' + data);
             });
     };
+
+    */
 
 }
 

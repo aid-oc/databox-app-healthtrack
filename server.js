@@ -1,18 +1,14 @@
 /// Dependencies
-require('dotenv').config();
 var express  = require('express');
 var app      = express();                   // Create Express App
 var https = require('https');
 var databox = require('node-databox');
-var mongoose = require('mongoose');         // Mongo Library
 var morgan = require('morgan');             // Logger
 var mongoose = require('mongoose');         // For MongoDB
 var bodyParser = require('body-parser');    // HTML Post Parsing
 var methodOverride = require('method-override'); // Simulates DELETE/PUT
 
 // Configure Application
-
-mongoose.connect('mongodb://localhost/healthtrack');
 
 app.use(express.static(__dirname + '/public'));                 // Static files location
 app.use(morgan('dev'));                                         // Logging to console
