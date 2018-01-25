@@ -11,7 +11,9 @@ var methodOverride = require('method-override'); // Simulates DELETE/PUT
 
 // Configure Application
 
+
 app.use(express.static(__dirname + '/public'));                 // Static files location
+app.use('/ui', express.static(__dirname + '/public'));
 app.use(morgan('dev'));                                         // Logging to console
 app.use(bodyParser.urlencoded({'extended':'true'}));            // Parse encoded forms
 app.use(bodyParser.json());                                     // Parse JSON
