@@ -31,6 +31,7 @@ app.get('/api/movesPlaces', function(request, response) {
         let storeUrl = data.DataSourceURL;
         let kvc = databox.NewKeyValueClient(storeUrl, false);
         kvc.Read(dataSourceId).then((res) => {
+            console.log("Attempting read on kvc...");
             console.log(JSON.stringify(res));
             response.send('Found places');
         }).catch((err) => {
