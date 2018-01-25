@@ -1,0 +1,46 @@
+{
+	"manifest-version": 1,
+
+	"name": "app-healthtrack",
+	"version": "0.3.1",
+
+	"description": "A databox application to see where you've been and how these places impact you",
+	"author": "Aidan O'Connell",
+	"license": "MIT",
+
+	"databox-type":"app",
+
+	"tags": [
+		"databox",
+		"app",
+	],
+
+	"homepage": "https://github.com/psyaoc/databox-app-healthtrack",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/psyaoc/databox-app-healthtrack.git"
+	},
+
+	"packages": [
+		{
+			"name": "Light Level Plotter",
+			"purpose": "To visualise your smartphone's light level in real time",
+			"install": "required",
+			"risks": "Estimating time of day and perhaps even location based on light patterns over time.",
+			"benefits": "A cool demo of plotting phone light levels.",
+			"datastores": [ "DS_light" ]
+		}
+	],
+
+	"allowed-combinations": [],
+
+	"datasources": [
+		{
+			"type": "movesPlaces",
+			"required": true,
+			"name": "movesPlaces",
+			"clientid": "DS_movesPlaces",
+			"granularities": []
+		}
+	]
+}

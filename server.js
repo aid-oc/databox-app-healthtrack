@@ -3,6 +3,7 @@ var express  = require('express');
 var app      = express();                   // Create Express App
 var https = require('https');
 var databox = require('node-databox');
+var moment = require('moment');
 var morgan = require('morgan');             // Logger
 var mongoose = require('mongoose');         // For MongoDB
 var bodyParser = require('body-parser');    // HTML Post Parsing
@@ -17,15 +18,33 @@ app.use(bodyParser.json());                                     // Parse JSON
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // Parse vnd.api+json as json
 app.use(methodOverride());
 
-/* Will be translated to databox equivalent calls when possible */
-// Define Database Model
-var HealthPoint = mongoose.model('HealthPoint', {
-    lat : Number,
-    long : Number,
-    description : String,
-    time : Date
+
+app.get('/api/movesPlaces', function(request, response) {
+    let DATASOURCE_DS_movesPlaces = process.env.DATASOURCE_DS_movesPlaces;
+    databox.HypercatToSourceDataMetadata(DATASOURCE_DS_movesPlaces)
+    .then((data)=>{
+        let placesOptions = {
+            month: moment().format("YYYY-MM")
+        }
+        let dataSourceId = 'movesPlaces-'+placesOptions.month;
+        let DS_movesPlaces_Metadata = data.DataSourceMetadata;
+        let storeUrl = data.DataSourceURL;
+        let kvc = databox.NewKeyValueClient(storeUrl, false);
+        kvc.Read(dataSourceId).then((res) => {
+            console.log(JSON.stringify(res));
+            response.send('Found places');
+        }).catch((err) => {
+            console.log("No user profile found: " + err);
+            response.send('error finding places: ' + err);
+        });
+    })
+    .catch((err)=>{
+        console.log("Error getting datasource: ", err);
+    });
 });
 
+
+/*
 // Get all health points
 app.get('/api/healthpoint', function(request, response) {
     HealthPoint.find(function(error, healthpoints) {
@@ -78,6 +97,7 @@ app.delete('/api/healthpoint/:id', function (request, response) {
         });
     });
 });
+*/
 
 
 /* Frontend routes */
