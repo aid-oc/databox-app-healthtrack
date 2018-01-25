@@ -42,5 +42,9 @@
 			"clientid": "DS_movesPlaces",
 			"granularities": []
 		}
-	]
+	],
+
+	"resource-requirements": {
+    	"store":"core-store"
+	}
 }
