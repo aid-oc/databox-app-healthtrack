@@ -6,8 +6,8 @@ function mainController($scope, $http) {
     // On page load get all healthpoint data
 
     $http.get('/databox-app-healthtrack/ui/api/movesPlaces').then(function (success) {
-        $scope.movesplaces = data;
-        console.log(data);
+        console.log(success);
+        $scope.movesplaces = success;
     }, function (error) {
         console.log('Error: ' + error);
     });
