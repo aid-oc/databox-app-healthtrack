@@ -54,7 +54,7 @@
       <div class="row">
           <div ng-repeat="day in movesPlaces">
             <div ng-repeat="segment in day.segments">
-              {{segment}}
+              {{segment.place.name || 'PlaceNeedsName'}}
             </div>
           </div>
       </div>
