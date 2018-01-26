@@ -9,6 +9,8 @@
     <title>Databox Healthtrack</title>
 
     <link rel="stylesheet" href="ui/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="ui/static/leaflet/leaflet.css">
+    <link rel="stylesheet" href="ui/static/core.css">
     <style>
         html                    { overflow-y:scroll; }
         body                    { padding-top:50px; }
@@ -19,6 +21,7 @@
     <script src="ui/static/bootstrap/js/bootstrap.bundle.min.js"></script><!-- load bootstrap js -->
     <script src="ui/static/jquery/jquery.min.js"></script><!-- load jquery -->
     <script src="ui/static/angular/angular.min.js"></script>
+    <script src="ui/static/leaflet/leaflet.js"></script>
     <script src="ui/static/core.js"></script>
 
 </head>
@@ -27,40 +30,18 @@
 
 
 <div class="container-fluid">
-
-  
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Your Statistics</h1>
-
-          <div class="row placeholders">
-            <div class="col-xs-6 col-sm-4 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Average Heart Rate</h4>
-              <span class="text-muted">Calculated using all-time data</span>
-            </div>
-            <div class="col-xs-6 col-sm-4 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Most Stressful Location</h4>
-              <span class="text-muted">This year</span>
-            </div>
-            <div class="col-xs-6 col-sm-4 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Most Stressful Day</h4>
-              <span class="text-muted">This year</span>
-            </div>
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+          <div ng-repeat="day in movesPlaces">
+            <!--
+            <div ng-repeat="segment in day.segments">
+              {{segment.place.name || 'PlaceNeedsName'}}
+            </div> -->
+             <div scope-element="placesmap" id="placesmap"></div>
           </div>
         </div>
       </div>
-      <div class="row">
-          <div ng-repeat="day in movesPlaces">
-            <div ng-repeat="segment in day.segments">
-              {{segment.place.name || 'PlaceNeedsName'}}
-            </div>
-          </div>
-      </div>
-
 </div>
-
 </body>
 </html>
 
