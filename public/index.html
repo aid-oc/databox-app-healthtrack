@@ -25,38 +25,10 @@
 <!-- SET THE CONTROLLER - GET ALL HEALTH POINTS-->
 <body ng-controller="mainController">
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">HealthTrack</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="/">Dashboard</a></li>
-            <li><a href="#">Heatmaps</a></li>
-            <li><a href="#">Warnings</a></li>
-            <li><a href="/feedback">Feedback</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-
 
 <div class="container-fluid">
 
-    <!-- HEADER AND HEALTH POINT COUNT -->
-    <div class="jumbotron text-center">
-        <h1>HealthPoints <span class="label label-info">{{ healthpoints.length }}</span></h1>
-        <h3>Provide feedback to earn more and provide more insight.</h3>
-    </div>
-
-    <div class="container-fluid">
-      <div class="row">
+  
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h1 class="page-header">Your Statistics</h1>
 
@@ -80,9 +52,8 @@
         </div>
       </div>
       <div class="row">
-        <!-- Maps showing Lat/Lng will go here -->
+          <div ng-repeat="place in parsedPlaces" ng-init="parsedPlaces=parseJson(movesPlaces)">{{place.name}}</div>
       </div>
-    </div>
 
 </div>
 

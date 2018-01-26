@@ -61,9 +61,9 @@ app.get('/ui/api/movesPlaces', function(request, response) {
             movesStore.Read('movesPlaces').then((res) => {
                 console.log("Attempting read on movesPlaces...");
                 console.log(JSON.stringify(res));
-                response.send('Found places');
+                response.json(res);
             }).catch((err) => {
-                response.send('error finding places: ' + err);
+                response.json({"error" : err}});
             });
         });
     })
@@ -72,69 +72,7 @@ app.get('/ui/api/movesPlaces', function(request, response) {
     });
 });
 
-
-/*
-// Get all health points
-app.get('/api/healthpoint', function(request, response) {
-    HealthPoint.find(function(error, healthpoints) {
-        // Failed to retrieve HealthPoints, return error
-        if (error) {
-            response.send(error);
-        }
-        // Return all HealthPoints as JSON
-        response.json(healthpoints);
-    });
-});
-
-// Create new health point and return the set
-app.post('/api/healthpoint', function(request, response) {
-    HealthPoint.create({
-        lat : request.body.lat,
-        long : request.body.long,
-        description: request.body.description,
-        time : request.body.time
-    }, function(error, todo) {
-        if (error) {
-            response.send(error);
-        }
-        // Return new set
-        HealthPoint.find(function(err, healthpoints) {
-            if (err)
-                response.send(err)
-            response.json(healthpoints);
-        });
-    });
-});
-
-// Delete a health point
-app.delete('/api/healthpoint/:id', function (request, response) {
-    HealthPoint.remove({
-        _id : request.params.id
-    }, function(error, healthpoint) {
-        // Delete failed, return error
-        if (error) {
-            response.send(error);
-        }
-        // Otherwise return the new set of healthpoints
-        HealthPoint.find(function(error, healthpoints) {
-            // Failed to retrieve HealthPoints, return error
-            if (error) {
-                response.send(error);
-            }
-            // Return all HealthPoints as JSON
-            response.json(healthpoints);
-        });
-    });
-});
-*/
-
-
 /* Frontend routes */
-
-// Feedback
-app.get('/feedback', function(request, response) {
-    response.sendfile('./public/feedback.html');
-});
 
 // Index
 app.get('/ui', function(request, response) {
