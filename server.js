@@ -59,6 +59,8 @@ app.get('/ui/api/movesPlaces', function(request, response) {
             movesStream = data
             movesStore = databox.NewKeyValueClient(movesStream.DataSourceURL, false)
             movesStore.Read('movesPlaces').then((res) => {
+                console.log(res);
+                console.log(JSON.parse(res));
                 response.send(res);
             }).catch((err) => {
                 response.json({"error" : err});
