@@ -12,11 +12,12 @@ function mainController($scope, $http) {
     });
 
     $scope.parseJson = function (json) {
-    	return JSON.parse(json);
+    	let parsed = JSON.parse(json);
+    	console.log("JSON Parsed: " + parsed);
+    	return parsed;
     }
 
 }
 
 healthtrack.controller("mainController",mainController);
-
 
