@@ -37,7 +37,10 @@
             <div ng-repeat="segment in day.segments">
               {{segment.place.name || 'PlaceNeedsName'}}
             </div> -->
-             <div scopeElement="placesmap" id="placesmap"></div>
+             <div id="placesmap"></div>
+             <script>
+               var placesmap = L.map('mapid').setView([51.505, -0.09], 13);
+             </script>
           </div>
         </div>
       </div>
