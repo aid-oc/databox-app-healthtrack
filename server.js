@@ -52,16 +52,19 @@ app.get('/ui/api/movesPlaces', function(request, response) {
             month: moment().format("YYYY-MM")
         }
         let dataSourceId = 'movesPlaces-'+placesOptions.month;
-        let DS_movesPlaces_Metadata = data.DataSourceMetadata;
-        let storeUrl = data.DataSourceURL;
-        let kvc = databox.NewKeyValueClient(storeUrl, false);
-        kvc.Read(dataSourceId).then((res) => {
-            console.log("Attempting read on kvc...");
-            console.log(JSON.stringify(res));
-            response.send('Found places');
-        }).catch((err) => {
-            console.log("No user profile found: " + err);
-            response.send('error finding places: ' + err);
+        let movesStream = {};
+        let movesStore = null;
+        databox.HypercatToSourceDataMetadata(process.env.DATASOURCE_DS_movesPlaces)
+        .then((data)=>{
+            movesStream = data
+            movesStore = databox.NewTimeSeriesClient(movesStream.DataSourceURL, false)
+            movesStore.Read(dataSourceId).then((res) => {
+                console.log("Attempting read on movesStore...");
+                console.log(JSON.stringify(res));
+                response.send('Found places');
+            }).catch((err) => {
+                response.send('error finding places: ' + err);
+            });
         });
     })
     .catch((err)=>{
