@@ -52,7 +52,11 @@
         </div>
       </div>
       <div class="row">
-          <div ng-repeat="place in parsedPlaces" ng-init="parsedPlaces=parseJson(movesPlaces)">{{place.name}}</div>
+          <div ng-repeat="day in movesPlaces">
+            <div ng-repeat="segment in day.segments">
+              {{segment.place.name}}
+            </div>
+          </div>
       </div>
 
 </div>
