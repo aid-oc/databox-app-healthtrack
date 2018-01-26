@@ -1,14 +1,5 @@
 var healthtrack = angular.module('healthtrack', []);
 
-healthtrack.directive('scopeElement', function () {
-    return {
-        restrict:"A", // E-Element A-Attribute C-Class M-Comments
-        replace: false,
-        link: function($scope, elem, attrs) {
-            $scope[attrs.scopeElement] = elem[0];
-        }
-    };
-});
 
 function mainController($scope, $http) {
     $scope.formData = {};
@@ -26,9 +17,6 @@ function mainController($scope, $http) {
     }, function (error) {
         console.log('Error: ' + error);
     });
-
-    // Set up map
-    $scope.placesmap.setView(([51.505, -0.09], 13));
 }
 
 
