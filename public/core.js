@@ -29,6 +29,7 @@ function mainController($scope, $http) {
 
     // Set up map
     $scope.placesmap.setView(([51.505, -0.09], 13));
+}
 
 
 
