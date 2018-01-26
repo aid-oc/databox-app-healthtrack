@@ -48,7 +48,7 @@
         {
           "urls": [
               "https://api.moves-app.com/",
-              "openstreetmap.org"
+              "https://openstreetmap.org"
           ],
           "description": "Used to access the Moves API"
         }
