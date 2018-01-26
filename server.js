@@ -57,7 +57,7 @@ app.get('/ui/api/movesPlaces', function(request, response) {
         databox.HypercatToSourceDataMetadata(process.env.DATASOURCE_DS_movesPlaces)
         .then((data)=>{
             movesStream = data
-            movesStore = databox.NewTimeSeriesClient(movesStream.DataSourceURL, false)
+            movesStore = databox.NewKeyValueClient(movesStream.DataSourceURL, false)
             movesStore.Read(dataSourceId).then((res) => {
                 console.log("Attempting read on movesStore...");
                 console.log(JSON.stringify(res));
