@@ -44,6 +44,16 @@
 		}
 	],
 
+	"external-whitelist": [
+        {
+          "urls": [
+              "https://api.moves-app.com/",
+              "openstreetmap.org"
+          ],
+          "description": "Used to access the Moves API"
+        }
+      ],
+
 	"resource-requirements": {
     	"store":"core-store"
 	}
