@@ -58,8 +58,15 @@ app.get('/ui/api/movesPlaces', function(request, response) {
         .then((data)=>{
             movesStream = data
             movesStore = databox.NewKeyValueClient(movesStream.DataSourceURL, false)
-            movesStore.Read(dataSourceId).then((res) => {
-                console.log("Attempting read on movesStore...");
+            movesStore.Read('movesPlaces').then((res) => {
+                console.log("Attempting read on movesPlaces...");
+                console.log(JSON.stringify(res));
+                response.send('Found places');
+            }).catch((err) => {
+                response.send('error finding places: ' + err);
+            });
+            movesStore.Read('DS_movesPlaces').then((res) => {
+                console.log("Attempting read on movesPlaces...");
                 console.log(JSON.stringify(res));
                 response.send('Found places');
             }).catch((err) => {
