@@ -50,7 +50,7 @@
               "https://api.moves-app.com/",
               "https://openstreetmap.org"
           ],
-          "description": "Used to access the Moves API"
+          "description": "Needed to access your Moves App data. Needed to download tiles for Leaflet map."
         }
       ],
 
