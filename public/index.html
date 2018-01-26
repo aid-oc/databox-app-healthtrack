@@ -41,11 +41,8 @@
                }).addTo(placesmap);
              </script>
           <div ng-repeat="day in movesPlaces">
-            <!--
             <div ng-repeat="segment in day.segments">
-              {{segment.place.name || 'PlaceNeedsName'}}
-            </div> -->
-             
+              {{addMarker(segment.place.name, segement.place.location.lat, segment.place.location.lon)}}
           </div>
         </div>
       </div>

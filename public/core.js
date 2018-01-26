@@ -1,14 +1,18 @@
 var healthtrack = angular.module('healthtrack', []);
 
 
-function mainController($scope, $http) {
+function mainController($scope, $http, $window) {
     $scope.formData = {};
 
     $scope.parseJson = function (json) {
     	let parsed = JSON.parse(json);
     	console.log("JSON Parsed: " + parsed);
     	return parsed;
-    }
+    };
+
+    $scope.addMarker = function (name, lat, lon) {
+        $window.L.marker([lat, long]).addTo($window.placesmap);
+    };
 
     // On controller load get movesPlaces
     $http.get('/databox-app-healthtrack/ui/api/movesPlaces').then(function (success) {
