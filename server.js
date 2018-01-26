@@ -63,7 +63,7 @@ app.get('/ui/api/movesPlaces', function(request, response) {
                 console.log(JSON.stringify(res));
                 response.json(res);
             }).catch((err) => {
-                response.json({"error" : err}});
+                response.json({"error" : err});
             });
         });
     })
