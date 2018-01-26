@@ -65,13 +65,6 @@ app.get('/ui/api/movesPlaces', function(request, response) {
             }).catch((err) => {
                 response.send('error finding places: ' + err);
             });
-            movesStore.Read('DS_movesPlaces').then((res) => {
-                console.log("Attempting read on movesPlaces...");
-                console.log(JSON.stringify(res));
-                response.send('Found places');
-            }).catch((err) => {
-                response.send('error finding places: ' + err);
-            });
         });
     })
     .catch((err)=>{
