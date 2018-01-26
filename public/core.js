@@ -12,7 +12,7 @@ function mainController($scope, $http) {
     // On controller load get movesPlaces
     $http.get('/databox-app-healthtrack/ui/api/movesPlaces').then(function (success) {
         console.log(success);
-        $scope.movesPlaces = JSON.parse(success);
+        $scope.movesPlaces = JSON.parse(success.data);
     }, function (error) {
         console.log('Error: ' + error);
     });
