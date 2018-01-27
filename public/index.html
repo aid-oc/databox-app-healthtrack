@@ -31,6 +31,7 @@
 
 <div class="container-fluid">
       <div class="row justify-content-center">
+         <div class="col-md-8 col-md-offset-2">
           <h2>Visited Places</h2>
           <div id="placesmap"></div>
              <script>
@@ -40,6 +41,7 @@
                   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                }).addTo(placesmap);
              </script>
+         </div>  
           <div ng-repeat="day in movesPlaces">
             <div ng-repeat="segment in day.segments">
               {{addMarker(segment.place.name, segment.place.location.lat, segment.place.location.lon)}}
