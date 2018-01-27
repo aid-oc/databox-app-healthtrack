@@ -53,7 +53,7 @@ function mainController($scope, $http, $window) {
     };
 
     var generateRandom = function (min, max) {
-        return Math.random() * (max-min) + min;
+        return Math.round(Math.random() * (max-min) + min);
     }
 
     // On controller load get movesPlaces
