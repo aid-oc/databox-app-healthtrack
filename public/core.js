@@ -12,13 +12,49 @@ function mainController($scope, $http, $window) {
 
     $scope.addMarker = function (name, lat, lon) {
         if (!name) name = "Unknown";
+        // Generate random average HR (testing, will be replaced by driver data)
+        let testHR = generateRandom(60, 101);
+        // Marker values based on HR
+        let markerIcon = "";
+        // Classify colour based on HR
+        switch (true) {
+            case (testHR < 80):
+                markerIcon = L.AwesomeMarkers.icon({
+                    icon: 'heart-o',
+                    markerColor: 'green'
+                  });
+                break;
+            case (testHR >= 80 && testHR < 90):
+                markerIcon = L.AwesomeMarkers.icon({
+                    icon: 'heart',
+                    markerColor: 'orange'
+                  });
+                break;
+            case (testHR >= 90):
+                markerIcon = L.AwesomeMarkers.icon({
+                    icon: 'heartbeat',
+                    markerColor: 'red'
+                  });
+                break;
+            default:
+                markerIcon = L.AwesomeMarkers.icon({
+                    icon: 'heart-o',
+                    markerColor: 'green'
+                  });
+                break;
+        }   
+        // Create marker     
         $window.L.marker([lat, lon], {
-            title : name
-        }).addTo($window.placesmap);
+            title : name,
+            icon  : markerIcon
+        }).bindLabel('You have a average HR of ' + testHR + ' at ' + name).addTo($window.placesmap);
         // Focus on latest marker
         $window.placesmap.setView([lat, lon], 13);
     };
 
+    var generateRandom = function (min, max) {
+        return Math.random() * (max-min) + min;
+    }
 
     // On controller load get movesPlaces
     $http.get('/databox-app-healthtrack/ui/api/movesPlaces').then(function (success) {
