@@ -16,6 +16,7 @@ function mainController($scope, $http, $window) {
         let testHR = generateRandom(60, 101);
         // Marker values based on HR
         let markerIcon = "";
+        $window.L.AwesomeMarkers.Icon.prototype.options.prefix = 'fa';
         // Classify colour based on HR
         switch (true) {
             case (testHR < 80):
