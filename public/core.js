@@ -11,7 +11,10 @@ function mainController($scope, $http, $window) {
     };
 
     $scope.addMarker = function (name, lat, lon) {
-        $window.L.marker([lat, lon]).addTo($window.placesmap);
+        if (!name) name = "Unknown";
+        $window.L.marker([lat, lon], {
+            title : name
+        }).addTo($window.placesmap);
     };
 
     // On controller load get movesPlaces
