@@ -15,7 +15,10 @@ function mainController($scope, $http, $window) {
         $window.L.marker([lat, lon], {
             title : name
         }).addTo($window.placesmap);
+        // Focus on latest marker
+        $window.placesmap.setView([lat, lon], 13);
     };
+
 
     // On controller load get movesPlaces
     $http.get('/databox-app-healthtrack/ui/api/movesPlaces').then(function (success) {
