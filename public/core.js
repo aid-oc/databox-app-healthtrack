@@ -47,7 +47,7 @@ function mainController($scope, $http, $window) {
         $window.L.marker([lat, lon], {
             title : name,
             icon  : markerIcon
-        }).bindLabel('You have a average HR of ' + testHR + ' at ' + name).addTo($window.placesmap);
+        }).bindTooltip('You have a average HR of ' + testHR + ' at ' + name).addTo($window.placesmap);
         // Focus on latest marker
         $window.placesmap.setView([lat, lon], 13);
     };
