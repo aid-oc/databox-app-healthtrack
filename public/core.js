@@ -47,14 +47,14 @@ function mainController($scope, $http, $window) {
         // Calculate time spent
         let startTime = moment(start);
         let endTime = moment(end);
-        let difference = startTime.diff(endTime, 'hours');
+        let difference = endTime.diff(startTime, 'hours', true);
         // Last visited
         let timeSince = endTime.fromNow();
         // Create marker     
         $window.L.marker([lat, lon], {
             title : name,
             icon  : markerIcon
-        }).bindTooltip('You have a average HR of ' + testHR + ' at ' + name + "\n" + "Last Visited: " + timeSince + "\n" + "Time spent here: " + difference).addTo($window.placesmap);
+        }).bindTooltip('You have a average HR of ' + testHR + ' at ' + name + "</br>" + "Last Visited: " + timeSince + "</br>" + "Time spent here: " + difference).addTo($window.placesmap);
         // Focus on latest marker
         $window.placesmap.setView([lat, lon], 13);
     };
