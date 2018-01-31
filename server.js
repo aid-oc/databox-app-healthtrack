@@ -70,6 +70,7 @@ app.get('/ui/api/movesPlaces', function(request, response) {
     });
 });
 
+
 /* Frontend routes */
 
 // Index

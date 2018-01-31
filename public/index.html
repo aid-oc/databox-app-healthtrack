@@ -35,7 +35,7 @@
 
 <div class="container-fluid">
       <div class="row justify-content-center">
-         <div class="col-md-4 col-md-offset-4">
+         <div class="col-md-8 col-md-offset-4">
           <h2>Visited Places</h2>
           <div id="placesmap"></div>
              <script>
@@ -45,39 +45,6 @@
                   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                }).addTo(placesmap);
              </script>
-         </div>
-         <div class="col-md-4">
-          <h2>Statistics</h2>
-          <table class="table">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Heart Rate</th>
-              <th scope="col">Time Spent</th>
-              <th scope="col">Location</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>99</td>
-              <td>2 Hours</td>
-              <td>Tesco</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>70</td>
-              <td>4 Hours</td>
-              <td>Lidl</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>55</td>
-              <td>8 Hours</td>
-              <td>Home</td>
-            </tr>
-          </tbody>
-          </table>
          </div>  
           <div ng-repeat="day in movesPlaces">
             <div ng-repeat="segment in day.segments">
