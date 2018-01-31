@@ -3,7 +3,6 @@ var healthtrack = angular.module('healthtrack', []);
 
 function mainController($scope, $http, $window) {
     $scope.formData = {};
-    let latLngPushes = new Array();
 
     $scope.parseJson = function (json) {
     	let parsed = JSON.parse(json);
@@ -12,12 +11,6 @@ function mainController($scope, $http, $window) {
     };
 
     $scope.addMarker = function (name, lat, lon, start, end) {
-        // Check if multiple places exist for the same location
-        if (latLngPushes.includes([lat, lon])) {
-            console.log("Location already exists in array");
-        }
-        // Keep track of marker locations
-        latLngPushes.push([lat, lon]);
         if (!name) {
             name = "Unknown";
         }
