@@ -11,6 +11,11 @@ function mainController($scope, $http, $window) {
     };
 
     $scope.addMarker = function (name, lat, lon, start, end) {
+        // Check if marker already exists in this location
+        if ($window.placesmap.hasLayer($window.L.marker([lat, lon]))) {
+            console.log("Marker exists in this location already");
+            return;
+        }
         if (!name) {
             name = "Unknown";
         }
