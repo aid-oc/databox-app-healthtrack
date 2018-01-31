@@ -47,7 +47,11 @@ function mainController($scope, $http, $window) {
         // Calculate time spent
         let startTime = moment(start);
         let endTime = moment(end);
-        let difference = endTime.diff(startTime, 'hours', true);
+        let difference = Math.round(endTime.diff(startTime, 'hours', true)) + " hours";
+        // < 1 hour, display minutes
+        if (difference < 0) {
+            difference = Math.round(endTime.diff(startTime, 'minutes', true)) + " minutes";
+        }
         // Last visited
         let timeSince = endTime.fromNow();
         // Create marker     
