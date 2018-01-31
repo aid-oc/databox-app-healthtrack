@@ -63,6 +63,10 @@ function mainController($scope, $http, $window) {
         $window.placesmap.setView([lat, lon], 13);
     };
 
+    $scope.worstOffenders = function() {
+        let places = $scope.movesPlaces;
+    } 
+
     var generateRandom = function (min, max) {
         return Math.round(Math.random() * (max-min) + min);
     }
