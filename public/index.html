@@ -47,7 +47,7 @@
          </div>  
           <div ng-repeat="day in movesPlaces">
             <div ng-repeat="segment in day.segments">
-              {{addMarker(segment.place.name, segment.place.location.lat, segment.place.location.lon)}}
+              {{addMarker(segment.place.name, segment.place.location.lat, segment.place.location.lon, segment.startTime, segment.endTime)}}
             </div>
         </div>
     </div>
