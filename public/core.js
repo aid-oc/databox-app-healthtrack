@@ -3,9 +3,6 @@ var healthtrack = angular.module('healthtrack', []);
 
 function mainController($scope, $http, $window) {
     $scope.formData = {};
-    $scope.untaggedLocations = 0;
-    $scope.informationNeeded = 0;
-    $scope.problematicLocations = 0;
 
     $scope.parseJson = function (json) {
     	let parsed = JSON.parse(json);
@@ -16,7 +13,6 @@ function mainController($scope, $http, $window) {
     $scope.addMarker = function (name, lat, lon, start, end) {
         if (!name) {
             name = "Unknown";
-            $scope.untaggedLocations++;
         }
         // Generate random average HR (testing, will be replaced by driver data)
         let testHR = generateRandom(60, 101);
@@ -42,7 +38,6 @@ function mainController($scope, $http, $window) {
                     icon: 'heartbeat',
                     markerColor: 'red'
                   });
-                $scope.problematicLocations++;
                 break;
             default:
                 markerIcon = L.AwesomeMarkers.icon({
