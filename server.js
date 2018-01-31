@@ -74,7 +74,7 @@ app.get('/ui/api/movesPlaces', function(request, response) {
 
 // Index
 app.get('/ui', function(request, response) {
-    response.sendfile('./public/index-dash.html');
+    response.sendfile('./public/index.html');
 });
 
 
