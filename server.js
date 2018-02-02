@@ -43,7 +43,47 @@ kvc.RegisterDatasource(movesAppSettings)
   console.log("Error registering data source:" + err);
 });
 
+/* Util functions */
 
+var getPlacesFromStore = function() {
+    let DATASOURCE_DS_movesPlaces = process.env.DATASOURCE_DS_movesPlaces;
+    databox.HypercatToSourceDataMetadata(DATASOURCE_DS_movesPlaces)
+    .then((data)=>{
+        let movesStream = {};
+        let movesStore = null;
+        databox.HypercatToSourceDataMetadata(process.env.DATASOURCE_DS_movesPlaces)
+        .then((data)=>{
+            movesStream = data
+            movesStore = databox.NewKeyValueClient(movesStream.DataSourceURL, false)
+            movesStore.Read('movesPlaces').then((res) => {
+                return res;
+            }).catch((err) => {
+                return { "error" : err };
+            });
+        });
+    })
+    .catch((err)=>{
+        console.log("Error getting datasource: ", err);
+    });
+};
+
+app.get('/ui/api/locationMarkers', function(request, response) {
+    getPlacesFromStore.then((data) => {
+        let json = JSON.parse(JSON.stringify(data));
+        for (day in json) {
+            for (segment in day.segments) {
+                console.log(segment.place.name);
+            }
+        }
+        response.json({"res" : "test"});
+    })
+    .catch((err) => {
+        response.json({ "error" : err });
+    });
+});
+
+
+/* Returns raw data from the moves API (sourced by driver) */
 app.get('/ui/api/movesPlaces', function(request, response) {
     let DATASOURCE_DS_movesPlaces = process.env.DATASOURCE_DS_movesPlaces;
     databox.HypercatToSourceDataMetadata(DATASOURCE_DS_movesPlaces)

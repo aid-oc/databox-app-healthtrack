@@ -79,6 +79,13 @@ function mainController($scope, $http, $window) {
     }, function (error) {
         console.log('Error: ' + error);
     });
+
+    // On controller load get movesPlaces
+    $http.get('/databox-app-healthtrack/ui/api/locationMarkers').then(function (success) {
+        console.log('Markers: ' + success);
+    }, function (error) {
+        console.log('Error: ' + error);
+    });
 }
 
 
