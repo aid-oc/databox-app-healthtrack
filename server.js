@@ -45,7 +45,7 @@ kvc.RegisterDatasource(movesAppSettings)
 
 /* Util functions */
 
-var getPlacesFromStore = function() {
+var getPlacesFromStore = new Promise(function(resolve, reject) {
     let DATASOURCE_DS_movesPlaces = process.env.DATASOURCE_DS_movesPlaces;
     databox.HypercatToSourceDataMetadata(DATASOURCE_DS_movesPlaces)
     .then((data)=>{
@@ -56,16 +56,16 @@ var getPlacesFromStore = function() {
             movesStream = data
             movesStore = databox.NewKeyValueClient(movesStream.DataSourceURL, false)
             movesStore.Read('movesPlaces').then((res) => {
-                return res;
+                resolve(res);
             }).catch((err) => {
-                return { "error" : err };
+                reject({ "error" : err });
             });
         });
     })
     .catch((err)=>{
-        console.log("Error getting datasource: ", err);
+        reject(err);
     });
-};
+});    
 
 app.get('/ui/api/locationMarkers', function(request, response) {
     getPlacesFromStore.then((data) => {
