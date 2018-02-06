@@ -108,6 +108,7 @@ app.get('/ui/api/locationGroups', function(request, response) {
                 marker.lat = json[day].segments[segment].place.location.lat;
                 marker.lon = json[day].segments[segment].place.location.lon;
                 marker.name = placeName;
+                console.log("Created marker for: " + placeName);
 
                 if (locationGroups.length > 0) {
                     let groupFound = false;
@@ -115,20 +116,24 @@ app.get('/ui/api/locationGroups', function(request, response) {
                         if (geoDist.getDistance(marker.lat, marker.lon, locationGroups[group][0].lat, locationGroups[group][0].lon) < 15) {
                             locationGroups[group].push(marker);
                             groupFound = true;
+                            console.log("Found a group for this marker");
                         }
                     }
                     if (!groupFound) {
                         let newGroup = [];
                         newGroup.push(marker);
                         locationGroups.push(newGroup);
+                        console.log("Could not find a group for this marker");
                     }
                 } else {
                     let newGroup = [];
                     newGroup.push(marker);
                     locationGroups.push(newGroup);
+                    console.log("No groups, creating a group for this marker");
                 }
             }
         }
+        console.log("Sending back: " + JSON.stringify(locationGroups));
         response.json(locationGroups);
     })
     .catch((err) => {
