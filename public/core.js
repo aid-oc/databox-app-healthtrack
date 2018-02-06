@@ -74,19 +74,37 @@ function mainController($scope, $http, $window, $document) {
             let locationGroup = groups[group];
             let rootLocation = locationGroup[0];
 
+            let groupName = "";
+            let mostRecentVisit = {};
+            // Loop over group members, generate group name and find most recent visit
             for (var i = 0; i < locationGroup.length; i++) {
                 let currentLocation = locationGroup[i];
-                console.log(currentLocation.name);
+                // Check if this is the most recent visit so far
+                if (angular.equals({}, mostRecentVisit) || mostRecentVisit.end < currentLocation.end) {
+                    mostRecentVisit.start = currentLocation.start;
+                    mostRecentVisit.end = currentLocation.end;
+                }
+                // Construct group name (append all different location names)
+                if (currentLocation.name) {
+                    if (!(groupName.trim() === currentLocation.name.trim())) {
+                        if (groupName === "") {
+                            groupName += currentLocation.name;
+                        } else {
+                            groupName += ", " + currentLocation.nam;
+                        }
+                    }
+                }
             }
 
-
+            // Generate group zone
             let locationCircle = $window.L.circle([rootLocation.lat, rootLocation.lon], {
                 color: 'red',
                 fillColor: '#f03',
                 fillOpacity: 0.5,
                 radius: 150
             }).bindTooltip('You have visited ' + locationGroup.length + ' locations in this area').addTo($window.placesmap);
-
+            // Generate group HR marker
+            $scope.generateMarker(groupName, rootLocation.lat, rootLocation.lon, mostRecentVisit.startTime, mostRecentVisit.endTime);
         }
     } 
 
