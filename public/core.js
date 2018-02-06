@@ -73,10 +73,11 @@ function mainController($scope, $http, $window, $document) {
         for (group in groups) {
             let locationGroup = groups[group];
             console.log("Adding marker for group: " + JSON.stringify(locationGroup));
+
             let rootLocation = locationGroup[0];
             let locationGroupName = "Unknown (Group)";
             for (location in locationGroup) {
-                console.log("Location within group: " + JSON.stringify(locationGroup[location]));
+                console.log(JSON.stringify(location));
                 if (locationGroup[location].name) {
                     locationGroupName = locationGroup[location].name + " (Group)";
                 }
