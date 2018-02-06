@@ -74,7 +74,7 @@ app.get('/ui/api/locationMarkers', function(request, response) {
         for (day in json) {
             console.log("Day: " + day);
             for (segment in day.segments) {
-                console.log("Segment: " = segment);
+                console.log("Segment: " + segment);
             }
         }
         response.json({"res" : "test"});
