@@ -147,7 +147,7 @@ app.get('/ui/api/locationGroups', function(request, response) {
         }
         // Filter for invalid groups
         locationGroups = locationGroups.filter(function(elGroup) {
-            return elGroup.length !== 1 && elGroup[0].name;
+            return elGroup.length >= 1 && elGroup[0].name;
         });
         console.log("Sending back: " + JSON.stringify(locationGroups));
         response.json(locationGroups);
