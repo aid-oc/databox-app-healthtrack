@@ -96,10 +96,6 @@ function mainController($scope, $http, $window, $document) {
                 }
                 
             }
-            // Did we not find a name for this group?
-            if (groupName === "") {
-                $scope.monthlyUntaggedGroups++;
-            }
             // Generate group zone
             let locationCircle = $window.L.circle([rootLocation.lat, rootLocation.lon], {
                 color: 'red',
@@ -132,7 +128,8 @@ function mainController($scope, $http, $window, $document) {
         $http.get('/databox-app-healthtrack/ui/api/locationGroups').then(function (success) {
             $scope.locationGroups = JSON.parse(JSON.stringify(success.data));
             $scope.monthlyGroups = $scope.locationGroups.length;
-            $scope.monthlyUntaggedGroups = 0;
+            // TODO Add check here when possible against a feedback store for zones
+            $scope.monthlyFeedbackNeeded = $scope.locationGroups.length;
             $scope.addGroups($scope.locationGroups);
         }, function (error) {
             console.log('Groups Error: ' + error);
