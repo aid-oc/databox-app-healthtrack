@@ -1,7 +1,7 @@
 var healthtrack = angular.module('healthtrack', []);
 
 
-function mainController($scope, $http, $window) {
+function mainController($scope, $http, $window, $document) {
     $scope.formData = {};
 
     $scope.parseJson = function (json) {
@@ -113,8 +113,12 @@ function mainController($scope, $http, $window) {
         }, function (error) {
             console.log('Groups Error: ' + error);
         });
-    }
-    
+    };
+
+    $document.ready(function() {
+        $scope.downloadGroups();
+    });
+
 }
 
 
