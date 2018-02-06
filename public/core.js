@@ -104,7 +104,7 @@ function mainController($scope, $http, $window, $document) {
                 radius: 150
             }).bindTooltip('You have visited ' + locationGroup.length + ' locations in this area').addTo($window.placesmap);
             // Generate group HR marker
-            $scope.addMarker(groupName, rootLocation.lat, rootLocation.lon, mostRecentVisit.startTime, mostRecentVisit.endTime);
+            $scope.addMarker(groupName, rootLocation.lat, rootLocation.lon, mostRecentVisit.start, mostRecentVisit.end);
         }
     } 
 
