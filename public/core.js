@@ -10,34 +10,31 @@ function mainController($scope, $http, $window, $document) {
     	return parsed;
     };
 
-    var generateRandom = function (min, max) {
-        return Math.round(Math.random() * (max-min) + min);
-    }
+    
 
-    $scope.addMarker = function (name, lat, lon, start, end) {
+    $scope.addMarker = function (name, lat, lon, start, end, hr) {
         if (!name) {
             name = "Unknown";
         }
-        // Generate random average HR (testing, will be replaced by driver data)
-        let testHR = generateRandom(60, 101);
+        
         // Marker values based on HR
         let markerIcon = "";
         $window.L.AwesomeMarkers.Icon.prototype.options.prefix = 'fa';
         // Classify colour based on HR
         switch (true) {
-            case (testHR < 80):
+            case (hr < 80):
                 markerIcon = L.AwesomeMarkers.icon({
                     icon: 'heart-o',
                     markerColor: 'green'
                   });
                 break;
-            case (testHR >= 80 && testHR < 90):
+            case (hr >= 80 && hr < 90):
                 markerIcon = L.AwesomeMarkers.icon({
                     icon: 'heart',
                     markerColor: 'orange'
                   });
                 break;
-            case (testHR >= 90):
+            case (hr >= 90):
                 markerIcon = L.AwesomeMarkers.icon({
                     icon: 'heartbeat',
                     markerColor: 'red'
@@ -64,7 +61,7 @@ function mainController($scope, $http, $window, $document) {
         $window.L.marker([lat, lon], {
             title : name,
             icon  : markerIcon
-        }).bindTooltip('You have a average HR of ' + testHR + ' at ' + name + "</br>" + "Last Visited: " + timeSince + "</br>" + "Time spent here: " + difference).addTo($window.placesmap);
+        }).bindTooltip('You have a average HR of ' + hr + ' at ' + name + "</br>" + "Last Visited: " + timeSince + "</br>" + "Time spent here: " + difference).addTo($window.placesmap);
         // Focus on latest marker
         $window.placesmap.setView([lat, lon], 13);
     };
@@ -73,7 +70,7 @@ function mainController($scope, $http, $window, $document) {
         for (group in groups) {
             let locationGroup = groups[group];
             let rootLocation = locationGroup[0];
-
+            let groupHeartRate = locationGroup[0].heartRate;
             let groupName = "";
             let mostRecentVisit = {};
             // Loop over group members, generate group name and find most recent visit
@@ -104,7 +101,7 @@ function mainController($scope, $http, $window, $document) {
                 radius: 150
             }).bindTooltip('You have visited ' + locationGroup.length + ' locations in this area').addTo($window.placesmap);
             // Generate group HR marker
-            $scope.addMarker(groupName, rootLocation.lat, rootLocation.lon, mostRecentVisit.start, mostRecentVisit.end);
+            $scope.addMarker(groupName, rootLocation.lat, rootLocation.lon, mostRecentVisit.start, mostRecentVisit.end, groupHeartRate);
         }
 
     } 

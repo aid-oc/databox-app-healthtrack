@@ -44,6 +44,10 @@ kvc.RegisterDatasource(movesAppSettings)
   console.log("Error registering data source:" + err);
 });
 
+var generateRandom = function (min, max) {
+    return Math.round(Math.random() * (max-min) + min);
+};
+
 var getPlacesFromStore = new Promise(function(resolve, reject) {
     let DATASOURCE_DS_movesPlaces = process.env.DATASOURCE_DS_movesPlaces;
     databox.HypercatToSourceDataMetadata(DATASOURCE_DS_movesPlaces)
@@ -149,6 +153,11 @@ app.get('/ui/api/locationGroups', function(request, response) {
         locationGroups = locationGroups.filter(function(elGroup) {
             return elGroup.length >= 1 && elGroup[0].name;
         });
+        // Calculate average HR per group (assign random for now)
+        for (var i = 0; i < locationGroups.length; i++) {
+            locationGroups[i][0].heartRate = generateRandom(67, 120);
+        }
+
         console.log("Sending back: " + JSON.stringify(locationGroups));
         response.json(locationGroups);
     })
