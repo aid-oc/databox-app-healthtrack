@@ -1,3 +1,12 @@
 #placesmap { height: 600px; }
 
 #header-wrapper {padding-left: 15px; padding-bottom: 20px;}
+
+.card-header {
+	color: white;
+	background-color: #3F51B5;
+}
+
+.nav-link.active {
+	background-color: #3F51B5;
+}
