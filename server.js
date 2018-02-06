@@ -114,11 +114,12 @@ app.get('/ui/api/locationGroups', function(request, response) {
                     let groupFound = false;
                     // Loop over each group, check if this marker belongs
                     for (group in locationGroups) {
-                        console.log("Checking Group: " + JSON.stringify(locationGroups[group]);
-                        let distance = geolib.getDistance(
+                        console.log("Checking Group: " + JSON.stringify(locationGroups[group]));
+                            let distance = geolib.getDistance(
                             {latitude: marker.lat, longitude: marker.lon},
                             {latitude: locationGroups[group][0].lat, longitude: locationGroups[group][0].lon}
                         );
+                        
                         console.log("Distance to this group: " + distance);
                         // If this marker is <15m from group root
                         if (distance < 15) {
