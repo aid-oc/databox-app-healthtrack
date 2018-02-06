@@ -43,7 +43,7 @@
         <div class="row">
           <div class="col-md-3">
             <h1>
-            HealthTrack<i class="fa fa-gratipay" aria-hidden="true"></i>
+            HealthTrack <i class="fa fa-gratipay" aria-hidden="true"></i>
             </h1>
           </div>
           <div class="col-md-9">
@@ -61,16 +61,18 @@
                   <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                     <a class="nav-link active" id="v-pills-monthly-tab" data-toggle="pill" href="#v-pills-monthly" role="tab" aria-controls="v-pills-monthly" aria-selected="true">Monthly Overview<div class="alert alert-success" role="alert">{{monthlyGroups}} Zones, {{monthlyFeedbackNeeded}} Need Feedback</div></a>
                     <a class="nav-link" id="v-pills-daily-tab" data-toggle="pill" href="#v-pills-daily" role="tab" aria-controls="v-pills-daily" aria-selected="false">Daily Overview</a>
-                    <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Feedback</a>
-                    <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Statistics</a>
+                    <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Zone Diary</a>
                   </div>
                </div>
-                <div class="col-9 bg-faded">
+                <div class="col-9">
                   <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="v-pills-monthly" role="tabpanel" aria-labelledby="v-pills-monthly-tab">
                       <div class="row">
                         <div class="col-md-9">
-                          <div id="placesmap"></div>
+                          <div class="card">
+                            <div class="card-header">Zone Map</div>
+                            <div class="card-body"><div id="placesmap"></div></div>
+                          </div>
                            <script>
                              var placesmap = L.map('placesmap').setView([52.9536, -1.15047], 13);
                              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -79,11 +81,12 @@
                              }).addTo(placesmap);
                            </script>
                         </div>
-                        <div class="col-md-3 bg-faded">
-                          <h2>Monthly Statistics <i class="fa fa-bar-chart" aria-hidden="true"></i></h2>
-                          Average HR: X
-                          Problematic Zones: X
-                          Recent Feedback: X
+                        <div class="col-md-3">
+                          <div class="card">
+                            <div class="card-header"><h2>Monthly Statistics <i class="fa fa-bar-chart" aria-hidden="true"></i></h2></div>
+                            <div class="card-body">Example</div>
+                          </div>
+                  
                         </div>
                      </div>
                     </div>
