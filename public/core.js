@@ -90,16 +90,16 @@ function mainController($scope, $http, $window, $document) {
                         if (groupName === "") {
                             groupName += currentLocation.name;
                         } else {
-                            groupName += ", " + currentLocation.nam;
+                            groupName += ", " + currentLocation.name;
                         }
                     }
                 }
-                // Did we not find a name for this group?
-                if (groupName === "") {
-                    $scope.monthlyUntaggedGroups++;
-                }
+                
             }
-
+            // Did we not find a name for this group?
+            if (groupName === "") {
+                $scope.monthlyUntaggedGroups++;
+            }
             // Generate group zone
             let locationCircle = $window.L.circle([rootLocation.lat, rootLocation.lon], {
                 color: 'red',
