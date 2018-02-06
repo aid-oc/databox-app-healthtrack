@@ -8,6 +8,7 @@ var morgan = require('morgan');             // Logger
 var mongoose = require('mongoose');         // For MongoDB
 var bodyParser = require('body-parser');    // HTML Post Parsing
 var methodOverride = require('method-override'); // Simulates DELETE/PUT
+var geoDist = require('geo-distance-js');
 
 // Configure Application
 
@@ -65,6 +66,7 @@ var getPlacesFromStore = new Promise(function(resolve, reject) {
     });
 });    
 
+/* Returns a JSON array of markers (start/end/lat/lon/name)*/
 app.get('/ui/api/locationMarkers', function(request, response) {
     let markers = [];
     getPlacesFromStore.then((data) => {
@@ -80,11 +82,54 @@ app.get('/ui/api/locationMarkers', function(request, response) {
                 marker.lat = json[day].segments[segment].place.location.lat;
                 marker.lon = json[day].segments[segment].place.location.lon;
                 marker.name = placeName;
-                console.log("Marker object created for place: " + placeName);
                 markers.push(marker);
             }
         }
         response.json(markers);
+    })
+    .catch((err) => {
+        response.json({ "error" : err });
+    });
+});
+
+app.get('/ui/api/locationGroups', function(request, response) {
+    let locationGroups = [];
+
+    getPlacesFromStore.then((data) => {
+        let jsonString = JSON.stringify(data);
+        let json = JSON.parse(jsonString);
+        for (day in json) {
+            for (segment in json[day].segments) {
+                let marker = {};
+                // For logging
+                let placeName = json[day].segments[segment].place.name;
+                marker.start = json[day].segments[segment].startTime;
+                marker.end = json[day].segments[segment].endTime;
+                marker.lat = json[day].segments[segment].place.location.lat;
+                marker.lon = json[day].segments[segment].place.location.lon;
+                marker.name = placeName;
+
+                if (locationGroups.length > 0) {
+                    let groupFound = false;
+                    for (group in locationGroups) {
+                        if (geoDist.getDistance(marker.lat, marker.lon, locationGroups[group][0].lat, locationGroups[group][0].lon) < 15) {
+                            locationGroups[group].push(marker);
+                            groupFound = true;
+                        }
+                    }
+                    if (!groupFound) {
+                        let newGroup = [];
+                        newGroup.push(marker);
+                        locationGroups.push(newGroup);
+                    }
+                } else {
+                    let newGroup = [];
+                    newGroup.push(marker);
+                    locationGroups.push(newGroup);
+                }
+            }
+        }
+        response.json(locationGroups);
     })
     .catch((err) => {
         response.json({ "error" : err });

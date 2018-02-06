@@ -80,11 +80,18 @@ function mainController($scope, $http, $window) {
         console.log('Error: ' + error);
     });
 
-    // On controller load get movesPlaces
+    // On controller load get markers
     $http.get('/databox-app-healthtrack/ui/api/locationMarkers').then(function (success) {
         console.log('Markers: ' + success);
     }, function (error) {
-        console.log('Error: ' + error);
+        console.log('Markers Error: ' + error);
+    });
+
+    // On controller load get groups
+    $http.get('/databox-app-healthtrack/ui/api/locationGroups').then(function (success) {
+        console.log('Groups: ' + success);
+    }, function (error) {
+        console.log('Groups Error: ' + error);
     });
 }
 
