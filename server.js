@@ -100,8 +100,8 @@ app.get('/ui/api/locationGroups', function(request, response) {
         let json = JSON.parse(jsonString);
         for (day in json) {
             for (segment in json[day].segments) {
+                // Create marker
                 let marker = {};
-                // For logging
                 let placeName = json[day].segments[segment].place.name;
                 marker.start = json[day].segments[segment].startTime;
                 marker.end = json[day].segments[segment].endTime;
@@ -109,22 +109,29 @@ app.get('/ui/api/locationGroups', function(request, response) {
                 marker.lon = json[day].segments[segment].place.location.lon;
                 marker.name = placeName;
                 console.log("Created marker for: " + placeName);
-
+                // Check if any valid groups exist
                 if (locationGroups.length > 0) {
                     let groupFound = false;
+                    // Loop over each group, check if this marker belongs
                     for (group in locationGroups) {
-                        if (geoDist.getDistance(marker.lat, marker.lon, locationGroups[group][0].lat, locationGroups[group][0].lon) < 15) {
+                        console.log("Checking Group: " + group);
+                        let distance = geoDist.getDistance(marker.lat, marker.lon, locationGroups[group][0].lat, locationGroups[group][0].lon);
+                        console.log("Distance to this group: " + distance);
+                        // If this marker is <15m from group root
+                        if (distance < 15) {
                             locationGroups[group].push(marker);
                             groupFound = true;
                             console.log("Found a group for this marker");
                         }
                     }
+                    // After looping groups, a valid match was not found
                     if (!groupFound) {
                         let newGroup = [];
                         newGroup.push(marker);
                         locationGroups.push(newGroup);
                         console.log("Could not find a group for this marker");
                     }
+                // No groups exist yet, create one
                 } else {
                     let newGroup = [];
                     newGroup.push(marker);
