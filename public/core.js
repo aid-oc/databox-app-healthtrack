@@ -126,6 +126,7 @@ function mainController($scope, $http, $window, $document) {
         // On controller load get groups
         $http.get('/databox-app-healthtrack/ui/api/locationGroups').then(function (success) {
             $scope.locationGroups = JSON.parse(JSON.stringify(success.data));
+            $scope.monthlyGroups = $scope.locationGroups.length;
             $scope.addGroups($scope.locationGroups);
         }, function (error) {
             console.log('Groups Error: ' + error);
