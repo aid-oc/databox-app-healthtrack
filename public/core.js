@@ -90,12 +90,16 @@ function mainController($scope, $http, $window, $document) {
                         if (groupName === "") {
                             groupName += currentLocation.name;
                         } else {
-                            groupName += ", " + currentLocation.nam;
+                            groupName += ", " + currentLocation.name;
                         }
                     }
                 }
+                
             }
-
+            // Did we not find a name for this group?
+            if (groupName === "") {
+                $scope.monthlyUntaggedGroups++;
+            }
             // Generate group zone
             let locationCircle = $window.L.circle([rootLocation.lat, rootLocation.lon], {
                 color: 'red',
@@ -106,6 +110,7 @@ function mainController($scope, $http, $window, $document) {
             // Generate group HR marker
             $scope.addMarker(groupName, rootLocation.lat, rootLocation.lon, mostRecentVisit.start, mostRecentVisit.end);
         }
+
     } 
 
     // On controller load get movesPlaces
@@ -126,6 +131,8 @@ function mainController($scope, $http, $window, $document) {
         // On controller load get groups
         $http.get('/databox-app-healthtrack/ui/api/locationGroups').then(function (success) {
             $scope.locationGroups = JSON.parse(JSON.stringify(success.data));
+            $scope.monthlyGroups = $scope.locationGroups.length;
+            $scope.monthlyUntaggedGroups = 0;
             $scope.addGroups($scope.locationGroups);
         }, function (error) {
             console.log('Groups Error: ' + error);
