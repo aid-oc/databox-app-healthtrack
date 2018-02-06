@@ -92,6 +92,7 @@ app.get('/ui/api/locationMarkers', function(request, response) {
     });
 });
 
+/* Returns a JSON array of location groups, grouped by 15m distance */
 app.get('/ui/api/locationGroups', function(request, response) {
     let locationGroups = [];
 

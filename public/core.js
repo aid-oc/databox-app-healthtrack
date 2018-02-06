@@ -10,6 +10,10 @@ function mainController($scope, $http, $window) {
     	return parsed;
     };
 
+    var generateRandom = function (min, max) {
+        return Math.round(Math.random() * (max-min) + min);
+    }
+
     $scope.addMarker = function (name, lat, lon, start, end) {
         if (!name) {
             name = "Unknown";
@@ -65,13 +69,27 @@ function mainController($scope, $http, $window) {
         $window.placesmap.setView([lat, lon], 13);
     };
 
-    $scope.worstOffenders = function() {
-        let places = $scope.movesPlaces;
-    } 
+    $scope.addGroups = function(groups) {
+        for (group in groups) {
+            let locationGroup = groups[group];
+            let rootLocation = locationGroup[0];
 
-    var generateRandom = function (min, max) {
-        return Math.round(Math.random() * (max-min) + min);
-    }
+            let locationGroupName = "Unknown (Group)";
+            for (location in locationGroup) {
+                if (locationGroup[location].name) {
+                    locationGroupName = locationGroup[location].name + " (Group)";
+                }
+            }
+
+            let locationCircle = $window.L.circle([rootLocation.lat, rootLocation.lon], {
+                color: 'red',
+                fillColor: '#f03',
+                fillOpacity: 0.5,
+                radius: 15
+            }).bindTooltip('You have visited ' + locationGroup.length + ' locations in the area of ' + ).addTo($window.placesmap);
+
+        }
+    } 
 
     // On controller load get movesPlaces
     $http.get('/databox-app-healthtrack/ui/api/movesPlaces').then(function (success) {
@@ -87,12 +105,16 @@ function mainController($scope, $http, $window) {
         console.log('Markers Error: ' + error);
     });
 
-    // On controller load get groups
-    $http.get('/databox-app-healthtrack/ui/api/locationGroups').then(function (success) {
-        console.log('Groups: ' + success);
-    }, function (error) {
-        console.log('Groups Error: ' + error);
-    });
+    $scope.downloadGroups = function() {
+        // On controller load get groups
+        $http.get('/databox-app-healthtrack/ui/api/locationGroups').then(function (success) {
+            $scope.locationGroups = JSON.parse(JSON.stringify(success.data));
+            $scope.addGroups($scope.locationGroups);
+        }, function (error) {
+            console.log('Groups Error: ' + error);
+        });
+    }
+    
 }
 
 
