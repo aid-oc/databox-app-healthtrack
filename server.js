@@ -68,11 +68,11 @@ var getPlacesFromStore = new Promise(function(resolve, reject) {
 app.get('/ui/api/locationMarkers', function(request, response) {
     let markers = [];
     getPlacesFromStore.then((data) => {
-        let marker = {};
         let jsonString = JSON.stringify(data);
         let json = JSON.parse(jsonString);
         for (day in json) {
             for (segment in json[day].segments) {
+                let marker = {};
                 // For logging
                 let placeName = json[day].segments[segment].place.name;
                 marker.start = json[day].segments[segment].startTime;
