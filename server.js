@@ -123,7 +123,7 @@ app.get('/ui/api/locationGroups', function(request, response) {
                         
                         console.log("Distance to this group: " + distance);
                         // If this marker is <15m from group root
-                        if (distance < 15) {
+                        if (distance < 100) {
                             locationGroups[group].push(marker);
                             groupFound = true;
                             console.log("Found a group for this marker");

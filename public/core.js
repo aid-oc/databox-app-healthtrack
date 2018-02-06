@@ -74,19 +74,17 @@ function mainController($scope, $http, $window, $document) {
             let locationGroup = groups[group];
             let rootLocation = locationGroup[0];
 
-            /*
-            let locationGroupName = "Unknown (Group)";
-            for (location in locationGroup) {
-                if (locationGroup[location].name) {
-                    locationGroupName = locationGroup[location].name + " (Group)";
-                }
-            }*/
+            for (var i = 0; i < locationGroup.length; i++) {
+                let currentLocation = locationGroup[i];
+                console.log(currentLocation.name);
+            }
+
 
             let locationCircle = $window.L.circle([rootLocation.lat, rootLocation.lon], {
                 color: 'red',
                 fillColor: '#f03',
                 fillOpacity: 0.5,
-                radius: 15
+                radius: 100
             }).bindTooltip('You have visited ' + locationGroup.length + ' locations in this area').addTo($window.placesmap);
 
         }
