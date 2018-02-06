@@ -55,7 +55,7 @@ function mainController($scope, $http, $window, $document) {
         let endTime = moment(end);
         let difference = Math.round(endTime.diff(startTime, 'hours', true)) + " hours";
         // < 1 hour, display minutes
-        if (difference < 0) {
+        if (difference < 1) {
             difference = Math.round(endTime.diff(startTime, 'minutes', true)) + " minutes";
         }
         // Last visited
