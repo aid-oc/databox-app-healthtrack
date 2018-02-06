@@ -43,8 +43,6 @@ kvc.RegisterDatasource(movesAppSettings)
   console.log("Error registering data source:" + err);
 });
 
-/* Util functions */
-
 var getPlacesFromStore = new Promise(function(resolve, reject) {
     let DATASOURCE_DS_movesPlaces = process.env.DATASOURCE_DS_movesPlaces;
     databox.HypercatToSourceDataMetadata(DATASOURCE_DS_movesPlaces)
@@ -69,10 +67,14 @@ var getPlacesFromStore = new Promise(function(resolve, reject) {
 
 app.get('/ui/api/locationMarkers', function(request, response) {
     getPlacesFromStore.then((data) => {
-        let json = JSON.parse(JSON.stringify(data));
+        let jsonString = JSON.stringify(data);
+        console.log("Stringify: " + jsonString);
+        let json = JSON.parse(jsonString);
+        console.log("Object: " + json)
         for (day in json) {
+            console.log("Day: " + day);
             for (segment in day.segments) {
-                console.log(segment.place.name);
+                console.log("Segment: " = segment);
             }
         }
         response.json({"res" : "test"});
