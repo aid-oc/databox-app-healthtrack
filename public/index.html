@@ -68,14 +68,23 @@
                 <div class="col-9">
                   <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="v-pills-monthly" role="tabpanel" aria-labelledby="v-pills-monthly-tab">
-                      <div id="placesmap"></div>
-                       <script>
-                         var placesmap = L.map('placesmap').setView([52.9536, -1.15047], 13);
-                         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                            maxZoom: 19,
-                            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                         }).addTo(placesmap);
-                       </script>
+                      <div class="row">
+                        <div class="col-md-9">
+                          <div id="placesmap"></div>
+                           <script>
+                             var placesmap = L.map('placesmap').setView([52.9536, -1.15047], 13);
+                             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                maxZoom: 19,
+                                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                             }).addTo(placesmap);
+                           </script>
+                        </div>
+                        <div class="col-md-3">
+                          Col test
+                          Col test
+                          Col test
+                        </div>
+                     </div>
                     </div>
                     <div class="tab-pane fade" id="v-pills-daily" role="tabpanel" aria-labelledby="v-pills-daily-tab">...</div>
                     <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
