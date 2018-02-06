@@ -86,7 +86,7 @@ function mainController($scope, $http, $window) {
                 fillColor: '#f03',
                 fillOpacity: 0.5,
                 radius: 15
-            }).bindTooltip('You have visited ' + locationGroup.length + ' locations in the area of ' + ).addTo($window.placesmap);
+            }).bindTooltip('You have visited ' + locationGroup.length + ' locations in the area of ' + locationGroupName).addTo($window.placesmap);
 
         }
     } 
