@@ -66,18 +66,25 @@ var getPlacesFromStore = new Promise(function(resolve, reject) {
 });    
 
 app.get('/ui/api/locationMarkers', function(request, response) {
+    let markers = [];
     getPlacesFromStore.then((data) => {
+        let marker = {};
         let jsonString = JSON.stringify(data);
-        console.log("Stringify: " + jsonString);
         let json = JSON.parse(jsonString);
-        console.log("Object: " + json)
         for (day in json) {
-            console.log("Day: " + day);
-            for (segment in day.segments) {
-                console.log("Segment: " + segment);
+            for (segment in json[day].segments) {
+                // For logging
+                let placeName = json[day].segments[segment].place.name;
+                marker.start = json[day].segments[segment].startTime;
+                marker.end = json[day].segments[segment].endTime;
+                marker.lat = json[day].segments[segment].place.location.lat;
+                marker.lon = json[day].segments[segment].place.location.lon;
+                marker.name = placeName;
+                console.log("Marker object created for place: " + placeName);
+                markers.push(marker);
             }
         }
-        response.json({"res" : "test"});
+        response.json(markers);
     })
     .catch((err) => {
         response.json({ "error" : err });
