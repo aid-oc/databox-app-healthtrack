@@ -57,14 +57,29 @@
 
         <div id="page-content-wrapper">
             <div class="container-fluid">
-                <div id="placesmap"></div>
-                 <script>
-                   var placesmap = L.map('placesmap').setView([52.9536, -1.15047], 13);
-                   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                      maxZoom: 19,
-                      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                   }).addTo(placesmap);
-                 </script>
+
+              <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-monthly-tab" data-toggle="pill" href="#v-pills-monthly" role="tab" aria-controls="v-pills-monthly" aria-selected="true">Monthly Overview</a>
+                <a class="nav-link" id="v-pills-daily-tab" data-toggle="pill" href="#v-pills-daily" role="tab" aria-controls="v-pills-daily" aria-selected="false">Daily Overview</a>
+                <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Feedback</a>
+                <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Statistics</a>
+              </div>
+              <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-monthly" role="tabpanel" aria-labelledby="v-pills-monthly-tab">
+                  <div id="placesmap"></div>
+                   <script>
+                     var placesmap = L.map('placesmap').setView([52.9536, -1.15047], 13);
+                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 19,
+                        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                     }).addTo(placesmap);
+                   </script>
+                </div>
+                <div class="tab-pane fade" id="v-pills-daily" role="tabpanel" aria-labelledby="v-pills-daily-tab">...</div>
+                <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
+                <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
+              </div>
+                
             </div>
         </div>
 
