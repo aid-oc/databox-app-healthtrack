@@ -1,12 +1,16 @@
-<!DOCTYPE html>
-<!-- ANGULAR MODULE -->
-<html ng-app="healthtrack">
-<head>
-    <!-- META -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
 
-    <title>Databox Healthtrack</title>
+<!DOCTYPE html>
+<html ng-app="healthtrack">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>HealthTrack</title>
+
 
     <link rel="stylesheet" href="ui/static/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="ui/static/leaflet/leaflet.css">
@@ -32,23 +36,41 @@
 
 <body ng-controller="mainController">
 
+    <div id="wrapper">
 
-<div class="container-fluid">
-      <div class="row justify-content-center">
-         <div class="col-md-8 col-md-offset-4">
-          <h2>Heart Rate Map</h2>
-          <div id="placesmap"></div>
-             <script>
-               var placesmap = L.map('placesmap').setView([52.9536, -1.15047], 13);
-               L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                  maxZoom: 19,
-                  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-               }).addTo(placesmap);
-             </script>
-         </div>  
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        Databox HealthTrack
+                    </a>
+                </li>
+                <li>
+                    <a href="#">Monthly Overview</a>
+                </li>
+                <li>
+                    <a href="#">Feedback</a>
+                </li>
+            </ul>
+        </div>
+
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div id="placesmap"></div>
+                 <script>
+                   var placesmap = L.map('placesmap').setView([52.9536, -1.15047], 13);
+                   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                      maxZoom: 19,
+                      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                   }).addTo(placesmap);
+                 </script>
+            </div>
+        </div>
+
     </div>
-</div>
 
 </body>
+
 </html>
 
