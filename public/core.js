@@ -71,21 +71,23 @@ function mainController($scope, $http, $window, $document) {
 
     $scope.addGroups = function(groups) {
         for (group in groups) {
-            let locationGroup = JSON.parse(JSON.stringify(groups[group]));
+            let locationGroup = groups[group];
             let rootLocation = locationGroup[0];
+
+            /*
             let locationGroupName = "Unknown (Group)";
             for (location in locationGroup) {
                 if (locationGroup[location].name) {
                     locationGroupName = locationGroup[location].name + " (Group)";
                 }
-            }
+            }*/
 
             let locationCircle = $window.L.circle([rootLocation.lat, rootLocation.lon], {
                 color: 'red',
                 fillColor: '#f03',
                 fillOpacity: 0.5,
                 radius: 15
-            }).bindTooltip('You have visited ' + locationGroup.length + ' locations in the area of ' + locationGroupName).addTo($window.placesmap);
+            }).bindTooltip('You have visited ' + locationGroup.length + ' locations in this area').addTo($window.placesmap);
 
         }
     } 
