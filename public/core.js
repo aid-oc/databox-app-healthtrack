@@ -64,6 +64,12 @@ function mainController($scope, $http, $window, $document) {
         $window.placesmap.setView([lat, lon], 13);
     };
 
+    // Event listener for a zone click
+    var onZoneClick = function(e) {
+        let clickedCircle = e.target;
+        console.log("Clicked: " + JSON.stringify(clickedCircle));
+    };
+
     $scope.addGroups = function(groups) {
         for (group in groups) {
             let locationGroup = groups[group];
@@ -97,7 +103,7 @@ function mainController($scope, $http, $window, $document) {
                 fillColor: '#f03',
                 fillOpacity: 0.5,
                 radius: 150
-            }).bindTooltip('You have visited ' + locationGroup.length + ' locations in this area').addTo($window.placesmap);
+            }).bindTooltip('You have visited ' + locationGroup.length + ' locations in this area').addTo($window.placesmap).on("click", onZoneClick);
             // Generate group HR marker
             $scope.addMarker(groupName, rootLocation.lat, rootLocation.lon, mostRecentVisit.start, mostRecentVisit.end, groupHeartRate);
         }
