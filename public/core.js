@@ -70,6 +70,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
         let latLng = clickedCircle.getBounds().getCenter();
 
         var confirm = $mdDialog.prompt()
+          .parent($document.wrapper)
           .title('Zone Feedback')
           .textContent('Please describe any information you have abotu this visit, any stressful events etc.')
           .placeholder('What happened?')
