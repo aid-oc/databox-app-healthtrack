@@ -1,29 +1,22 @@
-
 <!DOCTYPE html>
 <html ng-app="healthtrack">
-
-<head>
-
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>HealthTrack</title>
-
-
     <link rel="stylesheet" href="ui/static/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="ui/static/leaflet/leaflet.css">
     <link rel="stylesheet" href="ui/static/core.css">
     <link rel="stylesheet" href="ui/static/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="ui/static/leaflet-markers/leaflet.awesome-markers.css">
     <style>
-        html                    { overflow-y:scroll; }
-        body                    { padding-top:50px; }
-        #healthpoint-list       { margin-bottom:30px; }
-        .jumbotron              { margin-bottom: 0px; }
+    html                    { overflow-y:scroll; }
+    body                    { padding-top:50px; }
+    #healthpoint-list       { margin-bottom:30px; }
+    .jumbotron              { margin-bottom: 0px; }
     </style>
-
     <script src="ui/static/jquery/jquery.min.js"></script><!-- load jquery -->
     <script src="ui/static/bootstrap/js/bootstrap.bundle.min.js"></script><!-- load bootstrap js -->
     <script src="ui/static/angular/angular.min.js"></script>
@@ -31,14 +24,9 @@
     <script src="ui/static/moment/moment.js"></script>
     <script src="ui/static/core.js"></script>
     <script src="ui/static/leaflet-markers/leaflet.awesome-markers.js"></script>
-
-</head>
-
-<body ng-controller="mainController">
-
-
+  </head>
+  <body ng-controller="mainController">
     <div id="wrapper">
-
       <div id="header-wrapper">
         <div class="row">
           <div class="col-md-12">
@@ -50,59 +38,56 @@
         <div class="row">
           <div class="col-md-12">
             <h2>
-              <small class="text-muted" style="font-style: italic;">An insight into how your body changes as you change locations.</small>
+            <small class="text-muted" style="font-style: italic;">An insight into how your body changes as you change locations.</small>
             </h2>
           </div>
         </div>
       </div>
-
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-3">
-                  <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link active" id="v-pills-monthly-tab" data-toggle="pill" href="#v-pills-monthly" role="tab" aria-controls="v-pills-monthly" aria-selected="true">Monthly Overview<div class="alert alert-success" role="alert">{{monthlyGroups}} Zones, {{monthlyFeedbackNeeded}} Need Feedback</div></a>
-                    <a class="nav-link" id="v-pills-daily-tab" data-toggle="pill" href="#v-pills-daily" role="tab" aria-controls="v-pills-daily" aria-selected="false">Daily Overview</a>
-                    <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Zone Diary</a>
-                  </div>
-               </div>
-                <div class="col-9">
-                  <div class="tab-content" id="v-pills-tabContent">
-                    <div class="tab-pane fade show active" id="v-pills-monthly" role="tabpanel" aria-labelledby="v-pills-monthly-tab">
-                      <div class="row">
-                        <div class="col-md-9">
-                          <div class="card">
-                            <div class="card-header"><i class="fa fa-map-marker" aria-hidden="true"></i> Zone Map</div>
-                            <div class="card-body"><div id="placesmap"></div></div>
-                          </div>
-                           <script>
-                             var placesmap = L.map('placesmap').setView([52.9536, -1.15047], 13);
-                             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                maxZoom: 19,
-                                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                             }).addTo(placesmap);
-                           </script>
-                        </div>
-                        <div class="col-md-3">
-                          <div class="card">
-                            <div class="card-header"><i class="fa fa-bar-chart" aria-hidden="true"></i> Monthly Statistics</div>
-                            <div class="card-body">Example</div>
-                          </div>
-                  
-                        </div>
-                     </div>
-                    </div>
-                    <div class="tab-pane fade" id="v-pills-daily" role="tabpanel" aria-labelledby="v-pills-daily-tab">...</div>
-                    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
-                    <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
-                  </div>
-                </div>
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-3">
+              <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-monthly-tab" data-toggle="pill" href="#v-pills-monthly" role="tab" aria-controls="v-pills-monthly" aria-selected="true">Monthly Overview<div class="alert alert-success" role="alert">{{monthlyGroups}} Zones, {{monthlyFeedbackNeeded}} Need Feedback</div></a>
+                <a class="nav-link" id="v-pills-daily-tab" data-toggle="pill" href="#v-pills-daily" role="tab" aria-controls="v-pills-daily" aria-selected="false">Daily Overview</a>
+                <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Zone Diary</a>
               </div>
             </div>
+            <div class="col-9">
+              <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-monthly" role="tabpanel" aria-labelledby="v-pills-monthly-tab">
+                  <div class="row">
+                    <div class="col-md-9">
+                      <div class="card">
+                        <div class="card-header"><i class="fa fa-map-marker" aria-hidden="true"></i> Zone Map</div>
+                        <div class="card-body"><div id="placesmap"></div></div>
+                      </div>
+                      <script>
+                      var placesmap = L.map('placesmap').setView([52.9536, -1.15047], 13);
+                      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                      maxZoom: 19,
+                      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                      }).addTo(placesmap);
+                      </script>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="card">
+                        <div class="card-header"><i class="fa fa-bar-chart" aria-hidden="true"></i> Monthly Statistics</div>
+                        <div class="card-body">Example</div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="v-pills-daily" role="tabpanel" aria-labelledby="v-pills-daily-tab">...</div>
+                <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
+                <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
+              </div>
+            </div>
+          </div>
         </div>
-        
+      </div>
+      
     </div>
-</body>
-
+  </body>
 </html>
-

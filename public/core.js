@@ -10,8 +10,6 @@ function mainController($scope, $http, $window, $document) {
     	return parsed;
     };
 
-    
-
     $scope.addMarker = function (name, lat, lon, start, end, hr) {
         if (!name) {
             name = "Unknown";

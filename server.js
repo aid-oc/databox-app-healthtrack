@@ -27,18 +27,20 @@ const DATABOX_ZMQ_ENDPOINT = process.env.DATABOX_ZMQ_ENDPOINT;
 var kvc = databox.NewKeyValueClient(DATABOX_ZMQ_ENDPOINT, false);
 
 // Set up data stores 
-var movesAppSettings = databox.NewDataSourceMetadata();
-movesAppSettings.Description = 'Moves app settings';
-movesAppSettings.ContentType = 'application/json';
-movesAppSettings.Vendor = 'psyao1';
-movesAppSettings.DataSourceType = 'movesAppSettings';
-movesAppSettings.DataSourceID = 'movesAppSettings';
-movesAppSettings.StoreType = 'kv';
+
+/* Handle zone tagging */
+var healthtrackZoneTags = databox.NewDataSourceMetadata();
+healthtrackZoneTags.Description = 'HealthTrack Zone Tags';
+healthtrackZoneTags.ContentType = 'application/json';
+healthtrackZoneTags.Vendor = 'psyao1';
+healthtrackZoneTags.DataSourceType = 'healthtrackZoneTags';
+healthtrackZoneTags.DataSourceID = 'healthtrackZoneTags';
+healthtrackZoneTags.StoreType = 'kv';
 
 // Register Key-Value Store
-kvc.RegisterDatasource(movesAppSettings)
+kvc.RegisterDatasource(healthtrackZoneTags)
 .then(() => {
-  console.log("Registered datasource: movesAppSettings");
+  console.log("Registered datasource: healthtrackZoneTags");
 })
 .catch((err) => {
   console.log("Error registering data source:" + err);
@@ -191,6 +193,21 @@ app.get('/ui/api/movesPlaces', function(request, response) {
     })
     .catch((err)=>{
         console.log("Error getting datasource: ", err);
+    });
+});
+
+/* Handles saving a tag to a zone (description against a zone identified by lat/long) */
+app.post('/ui/app/tagZone', function(request, response) {
+    let zoneIdentity = "zoneTag:"+req.body.lat+":"+req.body.lon;
+    let zoneLon = req.body.lon;
+    let zoneTag = req.body.tag;
+    // Write zonetag
+    kvc.Write(zoneIdentity, zoneTag).then((res) => {
+        console.log("Successfully tagged zone: " + zoneIdentity + " with tag: " + zoneTag);
+        response.send(200);
+    }).catch((err) => {
+        console.log("Error tagging zone: " + err);
+        response.send(500);
     });
 });
 
