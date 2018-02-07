@@ -104,19 +104,20 @@ function mainController($scope, $http, $window, $document) {
 
     } 
 
-    // On controller load get movesPlaces
-    $http.get('/databox-app-healthtrack/ui/api/movesPlaces').then(function (success) {
-        $scope.movesPlaces = JSON.parse(JSON.stringify(success.data));
-    }, function (error) {
-        console.log('Error: ' + error);
-    });
-
-    // On controller load get markers
-    $http.get('/databox-app-healthtrack/ui/api/locationMarkers').then(function (success) {
-        console.log('Markers: ' + success);
-    }, function (error) {
-        console.log('Markers Error: ' + error);
-    });
+ 
+    // Ask server to tag a zone and store
+    $scope.tagZone = function(zoneLat, zoneLon, zoneTag) {
+        let postData = {
+            lat : zoneLat,
+            lon : zoneLon,
+            tag : zoneTag
+        };
+        $http.post('/databox-app-healthtrack/ui/api/tagZone', postData).then(function (success) {
+            console.log("Posted Tag Request Successful: " + success);
+        }, function (error) {
+            console.log("Posted Tag Request Error: " + success);
+        });
+    };
 
     $scope.downloadGroups = function() {
         // On controller load get groups
@@ -133,6 +134,20 @@ function mainController($scope, $http, $window, $document) {
 
     $document.ready(function() {
         $scope.downloadGroups();
+    });
+
+    // On controller load get movesPlaces
+    $http.get('/databox-app-healthtrack/ui/api/movesPlaces').then(function (success) {
+        $scope.movesPlaces = JSON.parse(JSON.stringify(success.data));
+    }, function (error) {
+        console.log('Error: ' + error);
+    });
+
+    // On controller load get markers
+    $http.get('/databox-app-healthtrack/ui/api/locationMarkers').then(function (success) {
+        console.log('Markers: ' + success);
+    }, function (error) {
+        console.log('Markers Error: ' + error);
     });
 
 }
