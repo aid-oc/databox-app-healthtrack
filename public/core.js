@@ -70,6 +70,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
         let latLng = clickedCircle.getBounds().getCenter();
 
         var confirm = $mdDialog.prompt()
+          .parent($window.placesmap)
           .title('Zone Feedback')
           .textContent('Please describe any information you have abotu this visit, any stressful events etc.')
           .placeholder('What happened?')
@@ -86,7 +87,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
           console.log("Zone Feedback canceleld");
         });
 
-        $scope.tagZone(latLng.lat, latLng.lng);
+        //$scope.tagZone(latLng.lat, latLng.lng);
     };
 
     $scope.addGroups = function(groups) {
@@ -140,7 +141,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
         $http.post('/databox-app-healthtrack/ui/api/tagZone', postData).then(function (success) {
             console.log("Posted Tag Request Successful: " + success);
         }, function (error) {
-            console.log("Posted Tag Request Error: " + success);
+            console.log("Posted Tag Request Error: " + error);
         });
     };
 
