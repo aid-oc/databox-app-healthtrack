@@ -1,7 +1,7 @@
 var healthtrack = angular.module('healthtrack', []);
 
 
-function mainController($scope, $http, $window, $document) {
+function mainController($scope, $http, $window, $document, $mdDialog) {
     $scope.formData = {};
 
     $scope.parseJson = function (json) {
@@ -68,7 +68,25 @@ function mainController($scope, $http, $window, $document) {
     var onZoneClick = function(e) {
         let clickedCircle = e.target;
         let latLng = clickedCircle.getBounds().getCenter();
-        console.log("Clicked Bounds: " + JSON.stringify(latLng));
+
+        var confirm = $mdDialog.prompt()
+          .title('Zone Feedback')
+          .textContent('Please describe any information you have abotu this visit, any stressful events etc.')
+          .placeholder('What happened?')
+          .ariaLabel('What happened?')
+          .initialValue('')
+          .targetEvent(e)
+          .required(true)
+          .ok('Okay')
+          .cancel('Cancel');
+
+        $mdDialog.show(confirm).then(function(result) {
+          console.log("Zone Feedback: " + result);
+        }, function() {
+          console.log("Zone Feedback canceleld");
+        });
+
+        $scope.tagZone(latLng.lat, latLng.lng);
     };
 
     $scope.addGroups = function(groups) {
