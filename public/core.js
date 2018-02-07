@@ -1,4 +1,4 @@
-var healthtrack = angular.module('healthtrack', []);
+var healthtrack = angular.module('healthtrack', ['ngMaterial']);
 
 
 function mainController($scope, $http, $window, $document, $mdDialog) {
