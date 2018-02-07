@@ -197,7 +197,7 @@ app.get('/ui/api/movesPlaces', function(request, response) {
 });
 
 /* Handles saving a tag to a zone (description against a zone identified by lat/long) */
-app.post('/ui/app/tagZone', function(request, response) {
+app.post('/ui/api/tagZone', function(request, response) {
     let zoneIdentity = "zoneTag:"+req.body.lat+":"+req.body.lon;
     let zoneLon = req.body.lon;
     let zoneTag = req.body.tag;
