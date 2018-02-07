@@ -67,7 +67,7 @@ function mainController($scope, $http, $window, $document) {
     // Event listener for a zone click
     var onZoneClick = function(e) {
         let clickedCircle = e.target;
-        let latLng = clickedCircle.getBounds();
+        let latLng = clickedCircle.getBounds().getCenter();
         console.log("Clicked Bounds: " + JSON.stringify(latLng));
     };
 
