@@ -70,13 +70,11 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
         let latLng = clickedCircle.getBounds().getCenter();
 
         var confirm = $mdDialog.prompt()
-          .parent($document.body)
           .title('Zone Feedback')
           .textContent('Please describe any information you have abotu this visit, any stressful events etc.')
           .placeholder('What happened?')
           .ariaLabel('What happened?')
           .initialValue('')
-          .targetEvent(e)
           .required(true)
           .ok('Okay')
           .cancel('Cancel');
@@ -84,7 +82,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
         $mdDialog.show(confirm).then(function(result) {
           console.log("Zone Feedback: " + result);
         }, function() {
-          console.log("Zone Feedback cancelled" + erro);
+          console.log("Zone Feedback cancelled");
         });
 
         //$scope.tagZone(latLng.lat, latLng.lng);
