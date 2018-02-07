@@ -71,7 +71,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
 
         var confirm = $mdDialog.prompt()
           .title('Zone Feedback')
-          .textContent('Please describe any information you have abotu this visit, any stressful events etc.')
+          .textContent('Please provide as much information about how you felt during your visit to this area as possible.')
           .placeholder('What happened?')
           .ariaLabel('What happened?')
           .initialValue('')
@@ -81,11 +81,12 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
 
         $mdDialog.show(confirm).then(function(result) {
           console.log("Zone Feedback: " + result);
+          $scope.tagZone(latLng.lat, latLng.lng, result);
         }, function() {
           console.log("Zone Feedback cancelled");
         });
 
-        //$scope.tagZone(latLng.lat, latLng.lng);
+        
     };
 
     $scope.addGroups = function(groups) {
