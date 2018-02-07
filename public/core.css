@@ -11,3 +11,7 @@
 	color: #fff;
 	background-color: #3F51B5;
 }
+
+.md-dialog-container {
+	z-index: 5000;
+}
