@@ -94,7 +94,7 @@ app.post('/ui/api/tagZone', function(request, response) {
         if (emptyObject(currentContentArray)) {
             currentContentArray = [];
         }
-        currentContentArray = currentContentArray.push(newTag);
+        currentContentArray.push(newTag);
         console.log("Array: " + currentContentArray);
         console.log("Parsed: " + JSON.parse(currentContentArray));
         console.log("Parsed + Stringify: " + JSON.stringify(JSON.parse(currentContentArray)));
