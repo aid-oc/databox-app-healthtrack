@@ -80,7 +80,7 @@ var getPlacesFromStore = new Promise(function(resolve, reject) {
 app.post('/ui/api/tagZone', function(request, response) {
 
     let newTag = {
-        zoneIdentity: "zoneTag&"+request.body.lat+"&"+request.body.lon,
+        zoneLat: request.body.lat,
         zoneLon: request.body.lon,
         zoneTag: request.body.tag
     };
