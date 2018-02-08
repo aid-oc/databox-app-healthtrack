@@ -84,8 +84,9 @@ app.post('/ui/api/tagZone', function(request, response) {
     let datasourceId = "healthtrackZoneTags";
 
     kvc.Read(datasourceId).then((res) => {
-        console.log("Read from tags: " + res);
+        console.log("Read from tags: " + JSON.stringify(res));
         let currentContentArray = JSON.parse(JSON.stringify(res));
+        console.log("Parsed res to content array: " + JSON.stringify(currentContentArray));
         currentContentArray = currentContentArray.push(newTag);
         // Write zonetag
         kvc.Write(datasourceId, JSON.stringify(currentContentArray)).then((res) => {
