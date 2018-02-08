@@ -12,7 +12,6 @@ var geolib = require('geolib');
 
 // Configure Application
 
-
 app.use(express.static(__dirname + '/public'));                 // Static files location
 app.use('/ui/static', express.static(__dirname + '/public'));
 app.use(morgan('dev'));                                         // Logging to console
@@ -71,6 +70,22 @@ var getPlacesFromStore = new Promise(function(resolve, reject) {
         reject(err);
     });
 });    
+
+
+/* Handles saving a tag to a zone (description against a zone identified by lat/long) */
+app.post('/ui/api/tagZone', function(request, response) {
+    let zoneIdentity = "zoneTag:"+req.body.lat+":"+req.body.lon;
+    let zoneLon = req.body.lon;
+    let zoneTag = req.body.tag;
+    // Write zonetag
+    kvc.Write(zoneIdentity, zoneTag).then((res) => {
+        console.log("Successfully tagged zone: " + zoneIdentity + " with tag: " + zoneTag);
+        response.send(200);
+    }).catch((err) => {
+        console.log("Error tagging zone: " + err);
+        response.send(500);
+    });
+});
 
 /* Returns a JSON array of markers (start/end/lat/lon/name)*/
 app.get('/ui/api/locationMarkers', function(request, response) {
@@ -193,21 +208,6 @@ app.get('/ui/api/movesPlaces', function(request, response) {
     })
     .catch((err)=>{
         console.log("Error getting datasource: ", err);
-    });
-});
-
-/* Handles saving a tag to a zone (description against a zone identified by lat/long) */
-app.post('/ui/api/tagZone', function(request, response) {
-    let zoneIdentity = "zoneTag:"+req.body.lat+":"+req.body.lon;
-    let zoneLon = req.body.lon;
-    let zoneTag = req.body.tag;
-    // Write zonetag
-    kvc.Write(zoneIdentity, zoneTag).then((res) => {
-        console.log("Successfully tagged zone: " + zoneIdentity + " with tag: " + zoneTag);
-        response.send(200);
-    }).catch((err) => {
-        console.log("Error tagging zone: " + err);
-        response.send(500);
     });
 });
 
