@@ -74,16 +74,29 @@ var getPlacesFromStore = new Promise(function(resolve, reject) {
 
 /* Handles saving a tag to a zone (description against a zone identified by lat/long) */
 app.post('/ui/api/tagZone', function(request, response) {
-    let zoneIdentity = "zoneTag&"+request.body.lat+"&"+request.body.lon;
-    let zoneLon = request.body.lon;
-    let zoneTag = request.body.tag;
 
-    // Write zonetag
-    kvc.Write(zoneIdentity, zoneTag).then((res) => {
-        console.log("Successfully tagged zone: " + zoneIdentity + " with tag: " + zoneTag);
-        response.stats(200).end();
+    let newTag = {
+        zoneIdentity: "zoneTag&"+request.body.lat+"&"+request.body.lon,
+        zoneLon: request.body.lon,
+        zoneTag: request.body.tag
+    };
+
+    let datasourceId = "healthtrackZoneTags";
+
+    kvc.Read(datasourceId).then((res) => {
+        console.log("Read from tags: " + res);
+        let currentContentArray = JSON.parse(JSON.stringify(res));
+        currentContentArray = currentContentArray.push(newTag);
+        // Write zonetag
+        kvc.Write(datasourceId, JSON.stringify(currentContentArray)).then((res) => {
+            console.log("Successfully tagged zone: " + zoneIdentity + " with tag: " + zoneTag);
+            response.stats(200).end();
+        }).catch((err) => {
+            console.log("Error tagging zone: " + err);
+            response.status(500).end();
+        });
     }).catch((err) => {
-        console.log("Error tagging zone: " + err);
+        console.log("Failed to read from tags: " + err);
         response.status(500).end();
     });
 });
