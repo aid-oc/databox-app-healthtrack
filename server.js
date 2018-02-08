@@ -97,7 +97,7 @@ app.post('/ui/api/tagZone', function(request, response) {
         currentContentArray.push(newTag);
         // Write zonetag
         kvc.Write(datasourceId, currentContentArray).then((res) => {
-            console.log("Successfully tagged zone: " + zoneIdentity + " with tag: " + zoneTag);
+            console.log("Successfully tagged zone");
             response.stats(200).end();
         }).catch((err) => {
             console.log("Error tagging zone: " + err);
