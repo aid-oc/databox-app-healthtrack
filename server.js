@@ -49,6 +49,10 @@ var generateRandom = function (min, max) {
     return Math.round(Math.random() * (max-min) + min);
 };
 
+var emptyObject = function (obj) {
+    return !Object.keys(obj).length;
+}
+
 var getPlacesFromStore = new Promise(function(resolve, reject) {
     let DATASOURCE_DS_movesPlaces = process.env.DATASOURCE_DS_movesPlaces;
     databox.HypercatToSourceDataMetadata(DATASOURCE_DS_movesPlaces)
@@ -87,6 +91,9 @@ app.post('/ui/api/tagZone', function(request, response) {
         console.log("Read from tags: " + JSON.stringify(res));
         let currentContentArray = JSON.parse(JSON.stringify(res));
         console.log("Parsed res to content array: " + JSON.stringify(currentContentArray));
+        if (emptyObject(currentContentArray)) {
+            currentContentArray = [];
+        }
         currentContentArray = currentContentArray.push(newTag);
         // Write zonetag
         kvc.Write(datasourceId, JSON.stringify(currentContentArray)).then((res) => {
