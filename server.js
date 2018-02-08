@@ -96,7 +96,7 @@ app.post('/ui/api/tagZone', function(request, response) {
         }
         currentContentArray = currentContentArray.push(newTag);
         // Write zonetag
-        kvc.Write(datasourceId, JSON.stringify(currentContentArray)).then((res) => {
+        kvc.Write(datasourceId, currentContentArray).then((res) => {
             console.log("Successfully tagged zone: " + zoneIdentity + " with tag: " + zoneTag);
             response.stats(200).end();
         }).catch((err) => {
