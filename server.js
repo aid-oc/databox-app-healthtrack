@@ -74,9 +74,9 @@ var getPlacesFromStore = new Promise(function(resolve, reject) {
 
 /* Handles saving a tag to a zone (description against a zone identified by lat/long) */
 app.post('/ui/api/tagZone', function(request, response) {
-    let zoneIdentity = "zoneTag:"+req.body.lat+":"+req.body.lon;
-    let zoneLon = req.body.lon;
-    let zoneTag = req.body.tag;
+    let zoneIdentity = "zoneTag:"+request.body.lat+":"+request.body.lon;
+    let zoneLon = request.body.lon;
+    let zoneTag = request.body.tag;
     // Write zonetag
     kvc.Write(zoneIdentity, zoneTag).then((res) => {
         console.log("Successfully tagged zone: " + zoneIdentity + " with tag: " + zoneTag);
