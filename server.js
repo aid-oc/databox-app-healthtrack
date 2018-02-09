@@ -14,7 +14,7 @@ var geolib = require('geolib');
 
 app.use(express.static(__dirname + '/public'));                 // Static files location
 app.use('/ui/static', express.static(__dirname + '/public'));
-app.use('/static', express.static(__dirname + '/node_modules'));
+app.use('/ui/nm', express.static(__dirname + '/node_modules'));
 app.use(morgan('dev'));                                         // Logging to console
 app.use(bodyParser.urlencoded({'extended':'true'}));            // Parse encoded forms
 app.use(bodyParser.json());                                     // Parse JSON
