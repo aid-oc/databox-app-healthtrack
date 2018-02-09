@@ -102,8 +102,6 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
     $scope.addGroups = function(groups) {
 
         downloadTags.then((tags) => {
-            
-
             for (group in groups) {
 
                 let locationGroup = groups[group];
@@ -191,7 +189,9 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
     };
 
     $document.ready(function() {
-        $scope.downloadGroups();
+        $scope.$apply(function () {
+            $scope.downloadGroups();
+        });
     });
 
     // On controller load get movesPlaces
