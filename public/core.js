@@ -123,6 +123,9 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
                         groupTagged = true;
                         groupColour = 'green';
                         $scope.monthlyFeedbackNeeded--;
+                    } else {
+                        console.log("Tag not found, Root Lat/Lon: " + rootLocation.lat + " - " + rootLocation.lon);
+                        console.log("Zone Lat/Lon: " + tag.zoneLat + " - " + tag.zoneLon);
                     }
                 }
 
