@@ -75,7 +75,6 @@ var getPlacesFromStore = new Promise(function(resolve, reject) {
     });
 });    
 
-
 /* Handles saving a tag to a zone (description against a zone identified by lat/long) */
 app.post('/ui/api/tagZone', function(request, response) {
 
@@ -105,6 +104,17 @@ app.post('/ui/api/tagZone', function(request, response) {
         });
     }).catch((err) => {
         console.log("Failed to read from tags: " + err);
+        response.status(500).end();
+    });
+});
+
+/* Returns JSON of stored zone tags */
+app.get('/ui/api/zoneTags', function (request, response) {
+    kvc.Read('healthtrackZoneTags').then((res) => {
+        console.log("Zone Tags Requested, Response: " + res);
+        response.json(res);
+    }).catch((err) => {
+        console.log("Zone Tags Requested, Error: " + err);
         response.status(500).end();
     });
 });
