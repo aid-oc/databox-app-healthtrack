@@ -120,7 +120,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
                         groupTag = tag.zoneTag;
                         groupTagged = true;
                         groupColour = 'green';
-                        $scope.monthlyFeedbackGiven = 6;
+                        $scope.monthlyFeedbackGiven++;
                     } else {
                         console.log("Tag not found, Root Lat/Lon: " + rootLocation.lat + " - " + rootLocation.lon);
                         console.log("Zone Lat/Lon: " + tag.zoneLat + " - " + tag.zoneLon);
@@ -180,6 +180,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
         $http.get('/databox-app-healthtrack/ui/api/locationGroups').then(function(success) {
             $scope.locationGroups = JSON.parse(JSON.stringify(success.data));
             $scope.monthlyGroups = $scope.locationGroups.length;
+            $scope.monthlyFeedbackGiven = 0;
             $scope.addGroups($scope.locationGroups);
         }, function(error) {
             console.log('Groups Error: ' + error);
