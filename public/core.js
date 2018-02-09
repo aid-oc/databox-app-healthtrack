@@ -11,7 +11,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
     };
 
     var downloadTags = new Promise(function(resolve, reject) {
-        $http.get('/ui/api/zoneTags').then(function (success) {
+        $http.get('/databox-app-healthtrack/ui/api/zoneTags').then(function (success) {
             console.log("Got Tags: " + JSON.stringify(success.data));
             $scope.zoneTags = JSON.parse(JSON.stringify(success.data));
             resolve($scope.zoneTags);
