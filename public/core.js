@@ -10,11 +10,21 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
     	return parsed;
     };
 
+    var downloadTags = new Promise(function(resolve, reject) {
+        $http.get('/ui/api/zoneTags').then(function (success) {
+            console.log("Got Tags: " + JSON.stringify(success.data));
+            $scope.zoneTags = JSON.parse(JSON.stringify(success.data));
+            resolve($scope.zoneTags);
+        }, function (error) {
+            console.log('Zone Tags Request Error: ' + error);
+            reject(error);
+        });
+    });
+
     $scope.addMarker = function (name, lat, lon, start, end, hr) {
         if (!name) {
             name = "Unknown";
         }
-        
         // Marker values based on HR
         let markerIcon = "";
         $window.L.AwesomeMarkers.Icon.prototype.options.prefix = 'fa';
@@ -91,6 +101,16 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
 
     $scope.addGroups = function(groups) {
         for (group in groups) {
+
+            downloadTags.then((tags) => {
+                for (var i = 0; i < tags.length; i++) {
+                    let tag = tags[i];
+                    console.log("Tag: " + JSON.stringify(tag));
+                }
+            }).catch((err) => {
+                console.log("Tag Loop Err: " + err);
+            });
+
             let locationGroup = groups[group];
             let rootLocation = locationGroup[0];
             let groupHeartRate = locationGroup[0].heartRate;
@@ -126,9 +146,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
             // Generate group HR marker
             $scope.addMarker(groupName, rootLocation.lat, rootLocation.lon, mostRecentVisit.start, mostRecentVisit.end, groupHeartRate);
         }
-
-    } 
-
+    };
  
     // Ask server to tag a zone and store
     $scope.tagZone = function(zoneLat, zoneLon, zoneTag) {
@@ -174,8 +192,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
     }, function (error) {
         console.log('Markers Error: ' + error);
     });
-
-}
+};
 
 
 
