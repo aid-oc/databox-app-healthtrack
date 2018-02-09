@@ -121,7 +121,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
                 color: 'red',
                 fillColor: '#f03',
                 fillOpacity: 0.5,
-                radius: 150
+                radius: 120
             }).bindTooltip('You have visited ' + locationGroup.length + ' locations in this area').addTo($window.placesmap).on("click", onZoneClick);
             // Generate group HR marker
             $scope.addMarker(groupName, rootLocation.lat, rootLocation.lon, mostRecentVisit.start, mostRecentVisit.end, groupHeartRate);
