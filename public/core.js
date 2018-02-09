@@ -109,7 +109,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
                     if (!(groupName.trim() === currentLocation.name.trim())) {
                         if (groupName === "") {
                             groupName += currentLocation.name;
-                        } else {
+                        } else if (groupName.indexOf(currentLocation.name) !== -1) {
                             groupName += ", " + currentLocation.name;
                         }
                     }
