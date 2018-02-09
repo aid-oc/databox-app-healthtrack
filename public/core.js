@@ -151,7 +151,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
                 // Generate group zone
                 let locationCircle = $window.L.circle([rootLocation.lat, rootLocation.lon], {
                     color: groupColour,
-                    fillColor: '#f03',
+                    fillColor: groupColour,
                     fillOpacity: 0.5,
                     radius: 120
                 }).bindTooltip('You have visited ' + locationGroup.length + ' locations in this area' + '</br>' + 'Feedback Provided: ' + groupTag).addTo($window.placesmap).on("click", onZoneClick);
