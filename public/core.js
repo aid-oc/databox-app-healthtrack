@@ -118,7 +118,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
                 // Check if this group/zone has been tagged with some feedback
                 for (var i = 0; i < tags.length; i++) {
                     let tag = tags[i];
-                    if (tag.zoneLat === rootLocation.lat && tag.zoneLon === rootLocation.lon) {
+                    if (tag.zoneLat.toFixed(8) === rootLocation.lat.toFixed(8) && tag.zoneLon.toFixed(8) === rootLocation.lon.toFixed(8)) {
                         groupTag = tag.zoneTag;
                         groupTagged = true;
                         groupColour = 'green';
