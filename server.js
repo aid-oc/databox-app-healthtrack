@@ -188,10 +188,12 @@ app.get('/ui/api/locationGroups', function(request, response) {
                 }
             }
         }
+        /*
         // Filter for invalid groups
         locationGroups = locationGroups.filter(function(elGroup) {
             return elGroup.length >= 1 && elGroup[0].name;
         });
+        */
         // Calculate average HR per group (assign random for now)
         for (var i = 0; i < locationGroups.length; i++) {
             locationGroups[i][0].heartRate = generateRandom(67, 120);
