@@ -7,46 +7,35 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
     $scope.monthlyFeedbackGiven = 0;
 
 
-    const data = {
-        // Labels should be Date objects
-        labels: [new Date(2017, 08, 16), new Date(2017, 08, 17), new Date(2017, 08, 18)],
-        datasets: [{
-            fill: false,
-            label: 'Page Views',
-            data: [280, 250, 340],
-            borderColor: '#fe8b36',
-            backgroundColor: '#fe8b36',
-            lineTension: 0,
-        }]
-    }
-    const options = {
-        type: 'line',
-        data: data,
-        options: {
-            fill: false,
-            responsive: true,
-            scales: {
-                xAxes: [{
-                    type: 'time',
-                    display: true,
-                    scaleLabel: {
-                        display: true,
-                        labelString: "Date",
-                    }
-                }],
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true,
-                    },
-                    display: true,
-                    scaleLabel: {
-                        display: true,
-                        labelString: "Page Views",
-                    }
-                }]
-            }
+    $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
+    $scope.series = ['Series A', 'Series B'];
+    $scope.data = [
+        [65, 59, 80, 81, 56, 55, 40],
+        [28, 48, 40, 19, 86, 27, 90]
+    ];
+    $scope.onClick = function(points, evt) {
+        console.log(points, evt);
+    };
+    $scope.datasetOverride = [{
+        yAxisID: 'y-axis-1'
+    }, {
+        yAxisID: 'y-axis-2'
+    }];
+    $scope.options = {
+        scales: {
+            yAxes: [{
+                id: 'y-axis-1',
+                type: 'linear',
+                display: true,
+                position: 'left'
+            }, {
+                id: 'y-axis-2',
+                type: 'linear',
+                display: true,
+                position: 'right'
+            }]
         }
-    }
+    };
 
     $scope.parseJson = function(json) {
         let parsed = JSON.parse(json);
