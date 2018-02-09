@@ -4,6 +4,8 @@ var healthtrack = angular.module('healthtrack', ['ngMaterial']);
 function mainController($scope, $http, $window, $document, $mdDialog) {
     $scope.formData = {};
 
+    $scope.monthlyFeedbackGiven = 0;
+
     $scope.parseJson = function(json) {
         let parsed = JSON.parse(json);
         console.log("JSON Parsed: " + parsed);
@@ -180,7 +182,6 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
         $http.get('/databox-app-healthtrack/ui/api/locationGroups').then(function(success) {
             $scope.locationGroups = JSON.parse(JSON.stringify(success.data));
             $scope.monthlyGroups = $scope.locationGroups.length;
-            $scope.monthlyFeedbackGiven = 0;
             $scope.addGroups($scope.locationGroups);
         }, function(error) {
             console.log('Groups Error: ' + error);
