@@ -126,7 +126,7 @@ app.post('/ui/api/renameZone', function(request, response) {
     let newRename = {
         zoneLat: request.body.lat,
         zoneLon: request.body.lon,
-        zoneTag: request.body.name
+        zoneName: request.body.name
     };
     let datasourceID = "healthtrackZoneRenames";
     kvc.Read(datasourceId).then((res) => {
@@ -158,6 +158,17 @@ app.get('/ui/api/zoneTags', function (request, response) {
         response.json(res);
     }).catch((err) => {
         console.log("Zone Tags Requested, Error: " + err);
+        response.status(500).end();
+    });
+});
+
+/* Returns JSON of stored zone tags */
+app.get('/ui/api/zoneNames', function (request, response) {
+    kvc.Read('healthtrackZoneRenames').then((res) => {
+        console.log("Zone Names Requested, Response: " + res);
+        response.json(res);
+    }).catch((err) => {
+        console.log("Zone Names Requested, Error: " + err);
         response.status(500).end();
     });
 });
