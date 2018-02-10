@@ -23,6 +23,30 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
         });
     });
 
+    // Event listener for a zone click
+    var onMarkerClick = function(e) {
+        let clickedMarker = e.target;
+        let latLng = clickedMarker.getBounds().getCenter();
+
+        var confirm = $mdDialog.prompt()
+            .title('Zone Name')
+            .textContent('Would you like to rename this zone?')
+            .placeholder("Friend's House")
+            .ariaLabel("Friend's House")
+            .initialValue('')
+            .required(true)
+            .ok('Okay')
+            .cancel('Cancel');
+
+        $mdDialog.show(confirm).then(function(result) {
+            console.log("Zone Rename: " + result);
+            // Request to rename zone (we have latLng)
+        }, function() {
+            console.log("Zone Rename cancelled");
+        });
+
+    };
+
     $scope.addMarker = function(name, lat, lon, start, end, hr) {
         if (!name) {
             name = "Unknown";
@@ -71,7 +95,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
         $window.L.marker([lat, lon], {
             title: name,
             icon: markerIcon
-        }).bindTooltip('You have a average HR of ' + hr + ' at ' + name + "</br>" + "Last Visited: " + timeSince + "</br>" + "Time spent here: " + difference).addTo($window.placesmap);
+        }).bindTooltip('You have a average HR of ' + hr + ' at ' + name + "</br>" + "Last Visited: " + timeSince + "</br>" + "Time spent here: " + difference).addTo($window.placesmap).on("click", onMarkerClick);
         // Focus on latest marker
         $window.placesmap.setView([lat, lon], 13);
     };
@@ -97,7 +121,6 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
         }, function() {
             console.log("Zone Feedback cancelled");
         });
-
 
     };
 

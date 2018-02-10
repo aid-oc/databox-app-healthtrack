@@ -37,10 +37,23 @@ healthtrackZoneTags.DataSourceType = 'healthtrackZoneTags';
 healthtrackZoneTags.DataSourceID = 'healthtrackZoneTags';
 healthtrackZoneTags.StoreType = 'kv';
 
+/* Handle zone renaming */
+var healthtrackZoneRenames = databox.NewDataSourceMetadata();
+healthtrackZoneRenames.Description = 'HealthTrack Zone Renames';
+healthtrackZoneRenames.ContentType = 'application/json';
+healthtrackZoneRenames.Vendor = 'psyao1';
+healthtrackZoneRenames.DataSourceType = 'healthtrackZoneRenames';
+healthtrackZoneRenames.DataSourceID = 'healthtrackZoneRenames';
+healthtrackZoneRenames.StoreType = 'kv';
+
 // Register Key-Value Store
 kvc.RegisterDatasource(healthtrackZoneTags)
 .then(() => {
   console.log("Registered datasource: healthtrackZoneTags");
+  return kvc.RegisterDatasource(healthtrackZoneRenames);
+})
+.then(() => {
+    console.log("Registered datasource: healthtrackZoneRenames");
 })
 .catch((err) => {
   console.log("Error registering data source:" + err);
@@ -105,6 +118,35 @@ app.post('/ui/api/tagZone', function(request, response) {
         });
     }).catch((err) => {
         console.log("Failed to read from tags: " + err);
+        response.status(500).end();
+    });
+});
+
+app.post('/ui/api/renameZone', function(request, response) {
+    let newRename = {
+        zoneLat: request.body.lat,
+        zoneLon: request.body.lon,
+        zoneTag: request.body.name
+    };
+    let datasourceID = "healthtrackZoneRenames";
+    kvc.Read(datasourceId).then((res) => {
+        console.log("Read from Names: " + JSON.stringify(res));
+        let currentContentArray = JSON.parse(JSON.stringify(res));
+        console.log("Parsed res to content array: " + JSON.stringify(currentContentArray));
+        if (emptyObject(currentContentArray)) {
+            currentContentArray = [];
+        }
+        currentContentArray.push(newRename);
+        // Write zonetag
+        kvc.Write(datasourceId, currentContentArray).then((res) => {
+            console.log("Successfully named zone");
+            response.status(200).end();
+        }).catch((err) => {
+            console.log("Error naming zone: " + err);
+            response.status(500).end();
+        });
+    }).catch((err) => {
+        console.log("Failed to read from names: " + err);
         response.status(500).end();
     });
 });
