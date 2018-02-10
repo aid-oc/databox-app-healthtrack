@@ -37,8 +37,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
     // Event listener for a zone click
     var onMarkerClick = function(e) {
         let clickedMarker = e.target;
-        let latLng = clickedMarker.getBounds().getCenter();
-
+        let latLng = clickedMarker.getLatLng();
         var confirm = $mdDialog.prompt()
             .title('Zone Name')
             .textContent('Would you like to rename this zone?')
@@ -51,7 +50,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
 
         $mdDialog.show(confirm).then(function(result) {
             console.log("Zone Rename: " + result);
-            // Request to rename zone (we have latLng)
+            $scope.renameZone(latLng.lat, latLng.lng, result);
         }, function() {
             console.log("Zone Rename cancelled");
         });
@@ -195,7 +194,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
                                 }
                             }
                         }
-                        
+
                         // Generate group zone
                         let locationCircle = $window.L.circle([rootLocation.lat, rootLocation.lon], {
                             color: groupColour,
@@ -226,6 +225,20 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
             console.log("Posted Tag Request Successful: " + success);
         }, function(error) {
             console.log("Posted Tag Request Error: " + error);
+        });
+    };
+
+    // Ask server to tag a zone and store
+    $scope.renameZone = function(zoneLat, zoneLon, zoneName) {
+        let postData = {
+            lat: zoneLat,
+            lon: zoneLon,
+            name: zoneName
+        };
+        $http.post('/databox-app-healthtrack/ui/api/renameZone', postData).then(function(success) {
+            console.log("Posted Name Request Successful: " + success);
+        }, function(error) {
+            console.log("Posted Name Request Error: " + error);
         });
     };
 
