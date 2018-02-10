@@ -128,7 +128,7 @@ app.post('/ui/api/renameZone', function(request, response) {
         zoneLon: request.body.lon,
         zoneName: request.body.name
     };
-    let datasourceID = "healthtrackZoneRenames";
+    let datasourceId = "healthtrackZoneRenames";
     kvc.Read(datasourceId).then((res) => {
         console.log("Read from Names: " + JSON.stringify(res));
         let currentContentArray = JSON.parse(JSON.stringify(res));
