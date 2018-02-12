@@ -36,7 +36,6 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
     });
 
     $scope.calculateStats = function() {
-        /*
         let totalHr;
         let maxHr;
         let minHr;
@@ -69,11 +68,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
         $scope.averageHr = totalHr / $scope.activeZones.length;
         $scope.maxHr = maxHr;
         $scope.minHr = minHr;
-        */
-        $scope.maxHr = 40;
-        $scope.averageHr = 20;
-        $scope.minHr = 30;
-        console.log("Most Visited Location: " + $scope.mostVisitedLocation );
+        $scope.mostVisitedLocation = $scope.activeZones[$scope.activeZones.length-1].name;
     };
 
     // Event listener for a zone click
