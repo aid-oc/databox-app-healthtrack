@@ -40,6 +40,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
         let maxHr;
         let minHr;
         let totalTimeSpent = 0;
+        console.log("Calculating stats...");
         // Sort by most visited
         $scope.activeZones.sort(function(a,b) {
             return a.visits > b.visits;
