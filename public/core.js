@@ -36,6 +36,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
     });
 
     $scope.calculateStats = function() {
+        /*
         let totalHr;
         let maxHr;
         let minHr;
@@ -54,13 +55,13 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
                 if (currentZone.hr < minhr) minHr = currentZone.hr;
             }
             totalHr += currentZone.hr;
-            /*
+            
             // Calculate time spent
             let startTime = moment(currentZone.start);
             let endTime = moment(currentZone.end);
             let difference = endTime.diff(startTime);
             $scope.totalTimeSpent += difference;
-            */
+            
         }
         // Calculate total time in days, mins, hours
         //$scope.trackedHours = moment(totalTimeSpent).asHours();
@@ -68,6 +69,10 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
         $scope.averageHr = totalHr / $scope.activeZones.length;
         $scope.maxHr = maxHr;
         $scope.minHr = minHr;
+        */
+        $scope.maxHr = 40;
+        $scope.averageHr = 20;
+        $scope.minHr = 30;
         console.log("Most Visited Location: " + $scope.mostVisitedLocation );
     };
 
