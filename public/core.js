@@ -41,11 +41,6 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
         let minHr;
         let totalTimeSpent = 0;
         console.log("Calculating stats...");
-        // Sort by most visited
-        $scope.activeZones.sort(function(a,b) {
-            return a.visits > b.visits;
-        });
-        $scope.mostVisitedLocation = $scope.activeZones[$scope.activeZones-1].name;
         for (var i = 0; i < $scope.activeZones.length; i++) {
             let currentZone = $scope.activeZones[i];
             if (i==0) {
