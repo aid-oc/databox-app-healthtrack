@@ -44,7 +44,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
         $scope.activeZones.sort(function(a,b) {
             return a.visits > b.visits;
         });
-        $scope.mostVisitedLocation = $scope.activeZones[0].name;
+        $scope.mostVisitedLocation = $scope.activeZones[$scope.activeZones-1].name;
         for (var i = 0; i < $scope.activeZones.length; i++) {
             let currentZone = $scope.activeZones[i];
             if (i==0) {
@@ -65,6 +65,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
         $scope.trackedHours = moment(totalTimeSpent).asHours();
         $scope.averageTimeSpent = monent($scope.totalTimeSpent / $scope.activeZones.length).asHours();
         $scope.averageHr = totalHr / $scope.activeZones.length;
+        console.log("Most Visited Location: " + $scope.mostVisitedLocation );
     };
 
     // Event listener for a zone click
@@ -82,7 +83,6 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
             .cancel('Cancel');
 
         $mdDialog.show(confirm).then(function(result) {
-            console.log("Zone Rename: " + result);
             $scope.renameZone(latLng.lat, latLng.lng, result);
         }, function() {
             console.log("Zone Rename cancelled");
@@ -159,7 +159,6 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
             .cancel('Cancel');
 
         $mdDialog.show(confirm).then(function(result) {
-            console.log("Zone Feedback: " + result);
             $scope.tagZone(latLng.lat, latLng.lng, result);
         }, function() {
             console.log("Zone Feedback cancelled");
@@ -192,8 +191,6 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
                                 groupColour = 'green';
                                 $scope.monthlyFeedbackGiven++;
                             } else {
-                                console.log("Tag not found, Root Lat/Lon: " + rootLocation.lat + " - " + rootLocation.lon);
-                                console.log("Zone Lat/Lon: " + tag.zoneLat + " - " + tag.zoneLon);
                             }
                         }
                         // Check if this group has a name override
@@ -201,9 +198,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
                             let name = names[i];
                             if (name.zoneLat.toFixed(8) === rootLocation.lat.toFixed(8) && name.zoneLon.toFixed(8) === rootLocation.lon.toFixed(8)) {
                                 groupName = name.zoneName;
-                                console.log("Name override FOUND for zone");
                             } else {
-                                console.log("Name override not found for zone");
                             }
                         }
                         // Loop over group members, generate group name and find most recent visit
