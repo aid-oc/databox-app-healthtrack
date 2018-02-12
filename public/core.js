@@ -5,6 +5,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
     $scope.formData = {};
 
     $scope.monthlyFeedbackGiven = 0;
+    $scope.activeZones = [];
 
     $scope.parseJson = function(json) {
         let parsed = JSON.parse(json);
@@ -33,6 +34,38 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
             reject(error);
         });
     });
+
+    $scope.calculateStats = function() {
+        let totalHr;
+        let maxHr;
+        let minHr;
+        let totalTimeSpent = 0;
+        // Sort by most visited
+        $scope.activeZones.sort(function(a,b) {
+            return a.visits > b.visits;
+        });
+        $scope.mostVisitedLocation = $scope.activeZones[0].name;
+        for (var i = 0; i < $scope.activeZones.length; i++) {
+            let currentZone = $scope.activeZones[i];
+            if (i==0) {
+                minHr = currentZone.hr;
+                maxHr = currentZone.hr;
+            } else {
+                if (currentZone.hr > maxHr) maxHr = currentZone.hr;
+                if (currentZone.hr < minhr) minHr = currentZone.hr;
+            }
+            totalHr += currentZone.hr;
+            // Calculate time spent
+            let startTime = moment(currentZone.start);
+            let endTime = moment(currentZone.end);
+            let difference = endTime.diff(startTime);
+            $scope.totalTimeSpent += difference;
+        }
+        // Calculate total time in days, mins, hours
+        $scope.trackedHours = moment(totalTimeSpent).asHours();
+        $scope.averageTimeSpent = monent($scope.totalTimeSpent / $scope.activeZones.length).asHours();
+        $scope.averageHr = totalHr / $scope.activeZones.length;
+    };
 
     // Event listener for a zone click
     var onMarkerClick = function(e) {
@@ -148,8 +181,8 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
                         let groupTag = "";
                         let groupColour = 'red';
                         let groupTagged = false;
+                        let groupVisits = 0;
                         let mostRecentVisit = {};
-
                         // Check if this group/zone has been tagged with some feedback
                         for (var i = 0; i < tags.length; i++) {
                             let tag = tags[i];
@@ -163,7 +196,6 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
                                 console.log("Zone Lat/Lon: " + tag.zoneLat + " - " + tag.zoneLon);
                             }
                         }
-
                         // Check if this group has a name override
                         for (var i = 0; i < names.length; i++) {
                             let name = names[i];
@@ -174,9 +206,9 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
                                 console.log("Name override not found for zone");
                             }
                         }
-
                         // Loop over group members, generate group name and find most recent visit
                         for (var i = 0; i < locationGroup.length; i++) {
+                            groupVisits = locationGroup.length;
                             let currentLocation = locationGroup[i];
                             // Check if this is the most recent visit so far
                             if (angular.equals({}, mostRecentVisit) || mostRecentVisit.end < currentLocation.end) {
@@ -194,7 +226,6 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
                                 }
                             }
                         }
-
                         // Generate group zone
                         let locationCircle = $window.L.circle([rootLocation.lat, rootLocation.lon], {
                             color: groupColour,
@@ -202,9 +233,21 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
                             fillOpacity: 0.5,
                             radius: 120
                         }).bindTooltip('You have visited ' + locationGroup.length + ' locations in this area' + '</br>' + 'Feedback Provided: ' + groupTag).addTo($window.placesmap).on("click", onZoneClick);
+                        // Add as an active zone
+                        let zone = {
+                            name : groupName,
+                            lat  : rootLocation.lat,
+                            lon  : rootLocation.lon,
+                            start : mostRecentVisit.start,
+                            end  : mostRecentVisit.end,
+                            hr : groupHeartRate,
+                            visits : groupVisits
+                        };
+                        $scope.activeZones.push(zone);
                         // Generate group HR marker
                         $scope.addMarker(groupName, rootLocation.lat, rootLocation.lon, mostRecentVisit.start, mostRecentVisit.end, groupHeartRate);
                     }
+                    $scope.calculateStats();
                 })
                 .catch((err) => {
 
@@ -246,7 +289,6 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
         // On controller load get groups
         $http.get('/databox-app-healthtrack/ui/api/locationGroups').then(function(success) {
             $scope.locationGroups = JSON.parse(JSON.stringify(success.data));
-            $scope.monthlyGroups = $scope.locationGroups.length;
             $scope.addGroups($scope.locationGroups);
         }, function(error) {
             console.log('Groups Error: ' + error);
