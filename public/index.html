@@ -72,7 +72,7 @@
                       </div>
                       <script>
                       var placesmap = L.map('placesmap').setView([52.9536, -1.15047], 12);
-                      L.tileLayer('ui/static/tiles/{z}/{x}/{y}.png', {
+                      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                       maxZoom: 12,
                       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                       }).addTo(placesmap);
