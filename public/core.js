@@ -215,8 +215,8 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
         });
     };
 
-    let getTags = $http.get('/databox-app-healthtrack/ui/api/zoneTags');
-    let getNames = $http.get('/databox-app-healthtrack/ui/api/zoneNames');
+    let getTags = $http.get('/databox-app-healthtrack/ui/api/tags');
+    let getNames = $http.get('/databox-app-healthtrack/ui/api/names');
     let getGroups = $http.get('/databox-app-healthtrack/ui/api/locationGroups');
     let getPlaces = $http.get('/databox-app-healthtrack/ui/api/movesPlaces');
 

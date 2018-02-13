@@ -145,7 +145,7 @@ app.post('/ui/api/renameZone', function(request, response) {
 });
 
 /* Returns JSON of stored zone tags */
-app.get('/ui/api/zoneTags', function (request, response) {
+app.get('/ui/api/tags', function (request, response) {
     kvc.Read('healthtrackZoneTags').then((res) => {
         response.json(res);
     }).catch((err) => {
@@ -154,7 +154,7 @@ app.get('/ui/api/zoneTags', function (request, response) {
 });
 
 /* Returns JSON of stored zone tags */
-app.get('/ui/api/zoneNames', function (request, response) {
+app.get('/ui/api/names', function (request, response) {
     kvc.Read('healthtrackZoneRenames').then((res) => {
         response.json(res);
     }).catch((err) => {
