@@ -14,28 +14,6 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
         return parsed;
     };
 
-    var downloadTags = new Promise(function(resolve, reject) {
-        $http.get('/databox-app-healthtrack/ui/api/zoneTags').then(function(success) {
-            console.log("Got Tags: " + JSON.stringify(success.data));
-            $scope.zoneTags = JSON.parse(JSON.stringify(success.data));
-            resolve($scope.zoneTags);
-        }, function(error) {
-            console.log('Zone Tags Request Error: ' + error);
-            reject(error);
-        });
-    });
-
-    var downloadNames = new Promise(function(resolve, reject) {
-        $http.get('/databox-app-healthtrack/ui/api/zoneNames').then(function(success) {
-            console.log("Got Names: " + JSON.stringify(success.data));
-            $scope.zoneNames = JSON.parse(JSON.stringify(success.data));
-            resolve($scope.zoneNames);
-        }, function(error) {
-            console.log('Zone Names Request Error: ' + error);
-            reject(error);
-        });
-    });
-
     /*
     var calculateStats = function() {
 
@@ -279,35 +257,22 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
         });
     };
 
-    $scope.downloadGroups = function() {
-        // On controller load get groups
-        $http.get('/databox-app-healthtrack/ui/api/locationGroups').then(function(success) {
-            $scope.locationGroups = JSON.parse(JSON.stringify(success.data));
-            $scope.addGroups($scope.locationGroups);
-        }, function(error) {
-            console.log('Groups Error: ' + error);
-        });
-    };
+    let getTags = $http.get('/databox-app-healthtrack/ui/api/zoneTags');
+    let getNames = $http.get('/databox-app-healthtrack/ui/api/zoneNames');
+    let getGroups = $http.get('/databox-app-healthtrack/ui/api/locationGroups');
+    let getPlaces = $http.get('/databox-app-healthtrack/ui/api/movesPlaces');
 
-    $document.ready(function() {
-        $scope.downloadGroups();
+    $q.all([getTags, getNames, getGroups, getPlaces]).then((data) => {
+        console.log("Got Tags: " + data[0].data);
+        console.log("Got Names: " + data[1].data);
+        console.log("Got Groups: " + data[2].data);
+        console.log("Got Places: " + data[3].data);
+    })
+    .catch((error) => {
+        console.log("Error!: " + JSON.stringify(error));
     });
 
-    // On controller load get movesPlaces
-    $http.get('/databox-app-healthtrack/ui/api/movesPlaces').then(function(success) {
-        $scope.movesPlaces = JSON.parse(JSON.stringify(success.data));
-    }, function(error) {
-        console.log('Error: ' + error);
-    });
-
-    // On controller load get markers
-    $http.get('/databox-app-healthtrack/ui/api/locationMarkers').then(function(success) {
-        console.log('Markers: ' + success);
-    }, function(error) {
-        console.log('Markers Error: ' + error);
-    });
 };
-
 
 
 healthtrack.controller("mainController", mainController);
