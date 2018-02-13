@@ -5,7 +5,6 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
     $scope.formData = {};
 
     $scope.monthlyFeedbackGiven = 0;
-    $scope.mostVisitedLocation = "Not yet known";
 
     $scope.parseJson = function(json) {
         let parsed = JSON.parse(json);
@@ -35,7 +34,7 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
 
     };
 
-    $scope.addMarker = function(name, lat, lon, start, end, hr) {
+    var addMarker = function(name, lat, lon, start, end, hr) {
         if (!name) {
             name = "Unknown";
         }
@@ -73,10 +72,6 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
         let startTime = moment(start);
         let endTime = moment(end);
         let difference = Math.round(endTime.diff(startTime, 'hours', true)) + " hours";
-        // < 1 hour, display minutes
-        if (difference < 1) {
-            difference = Math.round(endTime.diff(startTime, 'minutes', true)) + " minutes";
-        }
         // Last visited
         let timeSince = endTime.fromNow();
         // Create marker     
@@ -117,11 +112,22 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
 
     var addGroups = function(tags, names, groups, places) {
 
-        for (group in groups) {
+        let feedbackGiven = 0;
+        let totalTime = 0;
+        let totalHr = 0;
+        let maxHr = 0;
+        let minHr = 200;
 
+        for (group in groups) {
+            // Current working group/group root
             let locationGroup = groups[group];
             let rootLocation = locationGroup[0];
+            // Keep track of totals for all group (to be shared as scope variable)
             let groupHeartRate = locationGroup[0].heartRate;
+            totalHr += groupHeartRate;
+            if (groupHeartRate > maxHr) maxHr = groupHeartRate;
+            if (groupHeartRate < minHr) minHr = groupHeartRate;
+            // Group properties
             let groupName = "";
             let groupTag = "";
             let groupColour = 'red';
@@ -135,7 +141,7 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
                     groupTag = tag.zoneTag;
                     groupTagged = true;
                     groupColour = 'green';
-                    $scope.monthlyFeedbackGiven++;
+                    feedbackGiven++;
                 }
             }
             // Check if this group has a name override
@@ -143,7 +149,7 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
                 let name = names[i];
                 if (name.zoneLat.toFixed(8) === rootLocation.lat.toFixed(8) && name.zoneLon.toFixed(8) === rootLocation.lon.toFixed(8)) {
                     groupName = name.zoneName;
-                } else {}
+                }
             }
             // Loop over group members, generate group name and find most recent visit
             for (var i = 0; i < locationGroup.length; i++) {
@@ -183,8 +189,12 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
                 visits: groupVisits
             };
             // Generate group HR marker
-            $scope.addMarker(groupName, rootLocation.lat, rootLocation.lon, mostRecentVisit.start, mostRecentVisit.end, groupHeartRate);
+            addMarker(groupName, rootLocation.lat, rootLocation.lon, mostRecentVisit.start, mostRecentVisit.end, groupHeartRate);
         }
+        $scope.maxHr = maxHr;
+        $scope.minHr = minHr;
+        $scope.averageHr = totalHr / groups.length;
+        $scope.feedbackGiven = feedbackGiven;
     };
 
     // Ask server to tag a zone and store
@@ -225,13 +235,7 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
         let names = data[1].data;
         let groups = data[2].data;
         let places = data[3].data;
-        // Quick fix for bug, store mis-read or route error?
-        if (tags === names) 
-        {
-            $window.alert("Tags == Names, store misread or route mismatch?");
-        } else {
-            addGroups(tags, names, groups, places);
-        }
+        addGroups(tags, names, groups, places);
     })
     .catch((error) => {
         console.log("Error!: " + JSON.stringify(error));

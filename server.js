@@ -154,7 +154,7 @@ app.get('/ui/api/tags', function (request, response) {
     });
 });
 
-/* Returns JSON of stored zone tags */
+/* Returns JSON of stored zone names */
 app.get('/ui/api/names', function (request, response) {
     kvc.Read('healthtrackZoneRenames').then((res) => {
         console.log("Read Store with datasourceId: healthtrackZoneRenames - Response: " + JSON.stringify(res));
