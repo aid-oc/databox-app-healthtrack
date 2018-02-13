@@ -36,6 +36,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
         });
     });
 
+    /*
     var calculateStats = function() {
 
         let zones = $scope.activeZones;
@@ -67,6 +68,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
         // Testing if this will solve my issue
         $scope.$apply();
     };
+    */
 
     // Event listener for a zone click
     var onMarkerClick = function(e) {
@@ -240,7 +242,6 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
                         // Generate group HR marker
                         $scope.addMarker(groupName, rootLocation.lat, rootLocation.lon, mostRecentVisit.start, mostRecentVisit.end, groupHeartRate);
                     }
-                    calculateStats();
                 })
                 .catch((err) => {
 
