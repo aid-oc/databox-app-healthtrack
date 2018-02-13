@@ -5,6 +5,7 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
     $scope.formData = {};
 
     $scope.monthlyFeedbackGiven = 0;
+    $scope.mostVisitedLocation = "Not yet known";
     $scope.activeZones = [];
 
     $scope.parseJson = function(json) {
