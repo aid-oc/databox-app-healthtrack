@@ -140,6 +140,7 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
                     groupTagged = true;
                     groupColour = 'green';
                     feedbackGiven++;
+                    break;
                 }
             }
             // Check if this group has a name override
