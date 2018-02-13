@@ -56,7 +56,7 @@
           <div class="row">
             <div class="col-3">
               <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a class="nav-link active" id="v-pills-monthly-tab" data-toggle="pill" href="#v-pills-monthly" role="tab" aria-controls="v-pills-monthly" aria-selected="true">Monthly Overview<div class="alert alert-success" role="alert">{{activeZones.length - monthlyFeedbackGiven}} Need Feedback</div></a>
+                <a class="nav-link active" id="v-pills-monthly-tab" data-toggle="pill" href="#v-pills-monthly" role="tab" aria-controls="v-pills-monthly" aria-selected="true">Monthly Overview<div class="alert alert-success" role="alert">{{feedbackNeeded}} Need Feedback</div></a>
                 <a class="nav-link" id="v-pills-daily-tab" data-toggle="pill" href="#v-pills-daily" role="tab" aria-controls="v-pills-daily" aria-selected="false">Daily Overview</a>
                 <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Zone Diary</a>
               </div>
@@ -80,12 +80,12 @@
                     </div>
                     <div class="col-md-3">
                       <div class="card">
-                        <div class="card-header"><i class="fa fa-bar-chart" aria-hidden="true"></i> Monthly Statistics</div>
+                        <div class="card-header"><i class="fa fa-bar-chart" aria-hidden="true"></i>Statistics</div>
                         <div class="card-body">
-                          Feedback Provided: {{feedbackGiven}} </br>
-                          Max HR: {{maxHr}} </br>
-                          Average HR: {{averageHr}} </br>
-                          Min HR: {{minHr}} </br>
+                          <i class="fa fa-check" aria-hidden="true"></i> Feedback Provided: {{feedbackGiven}} / {{totalGroups}} </br>
+                          <i class="fa fa-heartbeat" aria-hidden="true" style="color:red"></i> Max HR: {{maxHr}} </br>
+                          <i class="a fa-heartbeat" aria-hidden="true" style="color:orange"></i> Average HR: {{averageHr}} </br>
+                          <i class="a fa-heartbeat" aria-hidden="true" style="color:green"></i> Min HR: {{minHr}} </br>
                         </div>
                       </div>
                       

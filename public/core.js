@@ -4,8 +4,6 @@ var healthtrack = angular.module('healthtrack', ['ngMaterial']);
 function mainController($scope, $http, $window, $document, $mdDialog, $q) {
     $scope.formData = {};
 
-    $scope.monthlyFeedbackGiven = 0;
-
     $scope.parseJson = function(json) {
         let parsed = JSON.parse(json);
         console.log("JSON Parsed: " + parsed);
@@ -193,8 +191,10 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
         }
         $scope.maxHr = maxHr;
         $scope.minHr = minHr;
-        $scope.averageHr = totalHr / groups.length;
+        $scope.averageHr = Math.round(totalHr / groups.length);
         $scope.feedbackGiven = feedbackGiven;
+        $scope.totalGroups = groups.length;
+        $scope.feedbackNeeded = groups.length - feedbackGiven;
     };
 
     // Ask server to tag a zone and store
@@ -225,17 +225,32 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
         });
     };
 
+    $scope.filterDaily = function() {
+        // Copy groups, we want a new object here
+        $scope.groupsToday = angular.copy($scope.groups);
+        // Filter current groups to today's date
+        $scope.groupsToday = $scope.groupsToday.filter(function (element) {
+            return moment(element.start).isSame(new Date(), "day");
+        });
+        // Clear map
+        $window.placesmap.eachLayer(function (layer) {
+            $window.placesmap.removeLayer(layer);
+        };
+        // Add new groups to the map
+        addGroups($scope.tags, $scope.names, $scope.groupsToday, $scope.places);
+    };
+
     let getTags = $http.get('/databox-app-healthtrack/ui/api/tags');
     let getNames = $http.get('/databox-app-healthtrack/ui/api/names');
     let getGroups = $http.get('/databox-app-healthtrack/ui/api/locationGroups');
     let getPlaces = $http.get('/databox-app-healthtrack/ui/api/movesPlaces');
 
     $q.all([getTags, getNames, getGroups, getPlaces]).then((data) => {
-        let tags = data[0].data;
-        let names = data[1].data;
-        let groups = data[2].data;
-        let places = data[3].data;
-        addGroups(tags, names, groups, places);
+        $scope.tags = data[0].data;
+        $scope.names = data[1].data;
+        $scope.groups = data[2].data;
+        $scope.places = data[3].data;
+        addGroups($scope.tags, $scope.names, $scope.groups, $scope.places);
     })
     .catch((error) => {
         console.log("Error!: " + JSON.stringify(error));
