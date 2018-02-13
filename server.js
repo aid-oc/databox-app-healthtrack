@@ -101,19 +101,15 @@ app.post('/ui/api/tagZone', function(request, response) {
     let datasourceId = "healthtrackZoneTags";
 
     kvc.Read(datasourceId).then((res) => {
-        console.log("Read from tags: " + JSON.stringify(res));
         let currentContentArray = JSON.parse(JSON.stringify(res));
-        console.log("Parsed res to content array: " + JSON.stringify(currentContentArray));
         if (emptyObject(currentContentArray)) {
             currentContentArray = [];
         }
         currentContentArray.push(newTag);
         // Write zonetag
         kvc.Write(datasourceId, currentContentArray).then((res) => {
-            console.log("Successfully tagged zone");
             response.status(200).end();
         }).catch((err) => {
-            console.log("Error tagging zone: " + err);
             response.status(500).end();
         });
     }).catch((err) => {
@@ -130,16 +126,13 @@ app.post('/ui/api/renameZone', function(request, response) {
     };
     let datasourceId = "healthtrackZoneRenames";
     kvc.Read(datasourceId).then((res) => {
-        console.log("Read from Names: " + JSON.stringify(res));
         let currentContentArray = JSON.parse(JSON.stringify(res));
-        console.log("Parsed res to content array: " + JSON.stringify(currentContentArray));
         if (emptyObject(currentContentArray)) {
             currentContentArray = [];
         }
         currentContentArray.push(newRename);
         // Write zonetag
         kvc.Write(datasourceId, currentContentArray).then((res) => {
-            console.log("Successfully named zone");
             response.status(200).end();
         }).catch((err) => {
             console.log("Error naming zone: " + err);
@@ -154,10 +147,8 @@ app.post('/ui/api/renameZone', function(request, response) {
 /* Returns JSON of stored zone tags */
 app.get('/ui/api/zoneTags', function (request, response) {
     kvc.Read('healthtrackZoneTags').then((res) => {
-        console.log("Zone Tags Requested, Response: " + res);
         response.json(res);
     }).catch((err) => {
-        console.log("Zone Tags Requested, Error: " + err);
         response.status(500).end();
     });
 });
@@ -165,10 +156,8 @@ app.get('/ui/api/zoneTags', function (request, response) {
 /* Returns JSON of stored zone tags */
 app.get('/ui/api/zoneNames', function (request, response) {
     kvc.Read('healthtrackZoneRenames').then((res) => {
-        console.log("Zone Names Requested, Response: " + res);
         response.json(res);
     }).catch((err) => {
-        console.log("Zone Names Requested, Error: " + err);
         response.status(500).end();
     });
 });
@@ -216,24 +205,20 @@ app.get('/ui/api/locationGroups', function(request, response) {
                 marker.lat = json[day].segments[segment].place.location.lat;
                 marker.lon = json[day].segments[segment].place.location.lon;
                 marker.name = placeName;
-                console.log("Created marker for: " + placeName);
                 // Check if any valid groups exist
                 if (locationGroups.length > 0) {
                     let groupFound = false;
                     // Loop over each group, check if this marker belongs
                     for (group in locationGroups) {
-                        console.log("Checking Group: " + JSON.stringify(locationGroups[group]));
                             let distance = geolib.getDistance(
                             {latitude: marker.lat, longitude: marker.lon},
                             {latitude: locationGroups[group][0].lat, longitude: locationGroups[group][0].lon}
                         );
                         
-                        console.log("Distance to this group: " + distance);
                         // If this marker is <120m from group root
                         if (distance < 120) {
                             locationGroups[group].push(marker);
                             groupFound = true;
-                            console.log("Found a group for this marker");
                         }
                     }
                     // After looping groups, a valid match was not found
@@ -241,14 +226,12 @@ app.get('/ui/api/locationGroups', function(request, response) {
                         let newGroup = [];
                         newGroup.push(marker);
                         locationGroups.push(newGroup);
-                        console.log("Could not find a group for this marker");
                     }
                 // No groups exist yet, create one
                 } else {
                     let newGroup = [];
                     newGroup.push(marker);
                     locationGroups.push(newGroup);
-                    console.log("No groups, creating a group for this marker");
                 }
             }
         }
@@ -263,7 +246,6 @@ app.get('/ui/api/locationGroups', function(request, response) {
             locationGroups[i][0].heartRate = generateRandom(67, 120);
         }
 
-        console.log("Sending back: " + JSON.stringify(locationGroups));
         response.json(locationGroups);
     })
     .catch((err) => {
