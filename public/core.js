@@ -1,7 +1,7 @@
 var healthtrack = angular.module('healthtrack', ['ngMaterial']);
 
 
-function mainController($scope, $http, $window, $document, $mdDialog) {
+function mainController($scope, $http, $window, $document, $mdDialog, $q) {
     $scope.formData = {};
 
     $scope.monthlyFeedbackGiven = 0;
