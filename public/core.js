@@ -36,13 +36,33 @@ function mainController($scope, $http, $window, $document, $mdDialog) {
     });
 
     $scope.calculateStats = function() {
-        // Calculate total time in days, mins, hours
-        $scope.trackedHours = 50;
-        $scope.averageTimeSpent = 40; 
-        $scope.averageHr = 70;
-        $scope.maxHr = 110;
-        $scope.minHr = 54;
-        $scope.mostVisitedLocation = "Example Shop";
+
+        let zones = $scope.activeZones;
+
+        let totalHr = 0;
+        let lowestHr = 200;
+        let highestHr = 0;
+        let totalTime = 0;
+        let mostVisitCount = 0;
+        let mostVisited = "";
+        for (var i = 0; i < zones.length; i++) {
+            let zone = zones[i];
+            // Check if this zone has the highest/lowest hr value
+            if (zone.hr < lowest) lowestHr = zone.hr;
+            if (zone.hr > highest) highestHr = zone.hr;
+            totalHr += zone.hr;
+            // Keep track of total time spent
+            totalTime +=  moment(zone.end).diff(moment(zone.start));
+            // Check if this zone has been visited the most
+            if (i == 0 || zone.visits > mostVisitCount) {
+                mostVisited = zone.name;
+            }
+        }
+        $scope.trackedHours = moment(totalTime).asHours() + " hours";
+        $scope.maxHr = highestHr;
+        $scope.minHr = lowestHr;
+        $scope.averageHr = Math.round(totalHr / zones.length);
+        $scope.mostVisitedLocation = mostVisited;
     };
 
     // Event listener for a zone click
