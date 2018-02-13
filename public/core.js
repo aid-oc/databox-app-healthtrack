@@ -225,7 +225,13 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
         let names = data[1].data;
         let groups = data[2].data;
         let places = data[3].data;
-        addGroups(tags, names, groups, places);
+        // Quick fix for bug, store mis-read or route error?
+        if (tags === names) 
+        {
+            $window.alert("Tags == Names, store misread or route mismatch?");
+        } else {
+            addGroups(tags, names, groups, places);
+        }
     })
     .catch((error) => {
         console.log("Error!: " + JSON.stringify(error));
