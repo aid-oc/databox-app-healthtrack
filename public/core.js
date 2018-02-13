@@ -43,8 +43,6 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
         $scope.minHr = lowestHr;
         $scope.averageHr = Math.round(totalHr / zones.length);
         $scope.mostVisitedLocation = mostVisited;
-        // Testing if this will solve my issue
-        $scope.$apply();
     };
     */
 
@@ -146,87 +144,81 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
 
     };
 
-    $scope.addGroups = function(groups) {
 
-        downloadTags.then((tags) => {
 
-            downloadNames.then((names) => {
-                    for (group in groups) {
+    // addGroups(tags, names, groups, places);
 
-                        let locationGroup = groups[group];
-                        let rootLocation = locationGroup[0];
-                        let groupHeartRate = locationGroup[0].heartRate;
-                        let groupName = "";
-                        let groupTag = "";
-                        let groupColour = 'red';
-                        let groupTagged = false;
-                        let groupVisits = 0;
-                        let mostRecentVisit = {};
-                        // Check if this group/zone has been tagged with some feedback
-                        for (var i = 0; i < tags.length; i++) {
-                            let tag = tags[i];
-                            if (tag.zoneLat.toFixed(8) === rootLocation.lat.toFixed(8) && tag.zoneLon.toFixed(8) === rootLocation.lon.toFixed(8)) {
-                                groupTag = tag.zoneTag;
-                                groupTagged = true;
-                                groupColour = 'green';
-                                $scope.monthlyFeedbackGiven++;
-                            } else {}
+    var addGroups = function(tags, names, groups, places) {
+
+        for (group in groups) {
+
+            let locationGroup = groups[group];
+            let rootLocation = locationGroup[0];
+            let groupHeartRate = locationGroup[0].heartRate;
+            let groupName = "";
+            let groupTag = "";
+            let groupColour = 'red';
+            let groupTagged = false;
+            let groupVisits = 0;
+            let mostRecentVisit = {};
+            // Check if this group/zone has been tagged with some feedback
+            for (var i = 0; i < tags.length; i++) {
+                let tag = tags[i];
+                if (tag.zoneLat.toFixed(8) === rootLocation.lat.toFixed(8) && tag.zoneLon.toFixed(8) === rootLocation.lon.toFixed(8)) {
+                    groupTag = tag.zoneTag;
+                    groupTagged = true;
+                    groupColour = 'green';
+                    $scope.monthlyFeedbackGiven++;
+                }
+            }
+            // Check if this group has a name override
+            for (var i = 0; i < names.length; i++) {
+                let name = names[i];
+                if (name.zoneLat.toFixed(8) === rootLocation.lat.toFixed(8) && name.zoneLon.toFixed(8) === rootLocation.lon.toFixed(8)) {
+                    groupName = name.zoneName;
+                } else {}
+            }
+            // Loop over group members, generate group name and find most recent visit
+            for (var i = 0; i < locationGroup.length; i++) {
+                groupVisits = locationGroup.length;
+                let currentLocation = locationGroup[i];
+                // Check if this is the most recent visit so far
+                if (angular.equals({}, mostRecentVisit) || mostRecentVisit.end < currentLocation.end) {
+                    mostRecentVisit.start = currentLocation.start;
+                    mostRecentVisit.end = currentLocation.end;
+                }
+                // Construct group name (append all different location names)
+                if (groupName === "" && currentLocation.name) {
+                    if (!(groupName.trim() === currentLocation.name.trim())) {
+                        if (groupName === "") {
+                            groupName += currentLocation.name;
+                        } else if (groupName.indexOf(currentLocation.name) !== -1) {
+                            groupName += ", " + currentLocation.name;
                         }
-                        // Check if this group has a name override
-                        for (var i = 0; i < names.length; i++) {
-                            let name = names[i];
-                            if (name.zoneLat.toFixed(8) === rootLocation.lat.toFixed(8) && name.zoneLon.toFixed(8) === rootLocation.lon.toFixed(8)) {
-                                groupName = name.zoneName;
-                            } else {}
-                        }
-                        // Loop over group members, generate group name and find most recent visit
-                        for (var i = 0; i < locationGroup.length; i++) {
-                            groupVisits = locationGroup.length;
-                            let currentLocation = locationGroup[i];
-                            // Check if this is the most recent visit so far
-                            if (angular.equals({}, mostRecentVisit) || mostRecentVisit.end < currentLocation.end) {
-                                mostRecentVisit.start = currentLocation.start;
-                                mostRecentVisit.end = currentLocation.end;
-                            }
-                            // Construct group name (append all different location names)
-                            if (groupName === "" && currentLocation.name) {
-                                if (!(groupName.trim() === currentLocation.name.trim())) {
-                                    if (groupName === "") {
-                                        groupName += currentLocation.name;
-                                    } else if (groupName.indexOf(currentLocation.name) !== -1) {
-                                        groupName += ", " + currentLocation.name;
-                                    }
-                                }
-                            }
-                        }
-                        // Generate group zone
-                        let locationCircle = $window.L.circle([rootLocation.lat, rootLocation.lon], {
-                            color: groupColour,
-                            fillColor: groupColour,
-                            fillOpacity: 0.5,
-                            radius: 120
-                        }).bindTooltip('You have visited ' + locationGroup.length + ' locations in this area' + '</br>' + 'Feedback Provided: ' + groupTag).addTo($window.placesmap).on("click", onZoneClick);
-                        // Add as an active zone
-                        let zone = {
-                            name: groupName,
-                            lat: rootLocation.lat,
-                            lon: rootLocation.lon,
-                            start: mostRecentVisit.start,
-                            end: mostRecentVisit.end,
-                            hr: groupHeartRate,
-                            visits: groupVisits
-                        };
-                        $scope.activeZones.push(zone);
-                        // Generate group HR marker
-                        $scope.addMarker(groupName, rootLocation.lat, rootLocation.lon, mostRecentVisit.start, mostRecentVisit.end, groupHeartRate);
                     }
-                })
-                .catch((err) => {
-
-                });
-        }).catch((err) => {
-            console.log("Tag Loop Err: " + err);
-        });
+                }
+            }
+            // Generate group zone
+            let locationCircle = $window.L.circle([rootLocation.lat, rootLocation.lon], {
+                color: groupColour,
+                fillColor: groupColour,
+                fillOpacity: 0.5,
+                radius: 120
+            }).bindTooltip('You have visited ' + locationGroup.length + ' locations in this area' + '</br>' + 'Feedback Provided: ' + groupTag).addTo($window.placesmap).on("click", onZoneClick);
+            // Add as an active zone
+            let zone = {
+                name: groupName,
+                lat: rootLocation.lat,
+                lon: rootLocation.lon,
+                start: mostRecentVisit.start,
+                end: mostRecentVisit.end,
+                hr: groupHeartRate,
+                visits: groupVisits
+            };
+            $scope.activeZones.push(zone);
+            // Generate group HR marker
+            $scope.addMarker(groupName, rootLocation.lat, rootLocation.lon, mostRecentVisit.start, mostRecentVisit.end, groupHeartRate);
+        }
     };
 
     // Ask server to tag a zone and store
@@ -263,14 +255,15 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
     let getPlaces = $http.get('/databox-app-healthtrack/ui/api/movesPlaces');
 
     $q.all([getTags, getNames, getGroups, getPlaces]).then((data) => {
-        console.log("Got Tags: " + data[0].data);
-        console.log("Got Names: " + data[1].data);
-        console.log("Got Groups: " + data[2].data);
-        console.log("Got Places: " + data[3].data);
-    })
-    .catch((error) => {
-        console.log("Error!: " + JSON.stringify(error));
-    });
+            let tags = data[0].data;
+            let names = data[1].data;
+            let groups = data[2].data;
+            let places = data[3].data;
+            addGroups(tags, names, groups, places);
+        })
+        .catch((error) => {
+            console.log("Error!: " + JSON.stringify(error));
+        });
 
 };
 
