@@ -235,7 +235,7 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
         // Clear map
         $window.placesmap.eachLayer(function (layer) {
             $window.placesmap.removeLayer(layer);
-        };
+        });
         // Add new groups to the map
         addGroups($scope.tags, $scope.names, $scope.groupsToday, $scope.places);
     };
