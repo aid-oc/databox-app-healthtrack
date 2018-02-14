@@ -263,7 +263,7 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
         addGroups($scope.tags, $scope.names, $scope.groups, $scope.places);
     })
     .catch((error) => {
-        console.log("Error!: " + JSON.stringify(error));
+        console.log("Error!: " + error);
     });
 
 };
