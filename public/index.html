@@ -98,7 +98,7 @@
                 <div class="tab-pane fade" id="v-pills-zone" role="tabpanel" aria-labelledby="v-pills-zone-tab">
                   <div class="row">
                     <uib-tabset active="active">
-                      <uib-tab index="$index + 1" ng-repeat="feedbackGroup in feedbackGroups" heading="{{feedbackGroup.name}}" disable="tab.disabled">
+                      <uib-tab index="$index + 1" ng-repeat="feedbackGroup in feedbackGroups | filterForFeedback(feedbackGroup.feedback)" heading="{{feedbackGroup.name}} ({{feedbackGroup.feedback.length}})" disable="tab.disabled">
                         <ul ng-repeat="feedback in feedbackGroup.feedback">
                             <li>
                               {{feedback}}
@@ -106,25 +106,6 @@
                           </ul>
                         </uib-tab>
                     </uib-tabset>
-                    <!--
-                    <div class="col-4">
-                      <div ng-repeat="feedbackGroup in feedbackGroups" class="list-group" id="list-tab" role="tablist">
-                        <a class="list-group-item list-group-item-action" id="list-{{feedbackGroup.start}}-list" data-toggle="list" href="#list-{{feedbackGroup.start}}" role="tab" aria-controls="{{feedbackGroup.start}}">{{feedbackGroup.name}}</a>
-                      </div>
-                    </div>
-                    <div class="col-8">
-                      <div ng-repeat="feedbackGroup in feedbackGroups" class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade" id="list-{{feedbackGroup.start}}" role="tabpanel" aria-labelledby="list-{{feedbackGroup.start}}-list">
-                          <ul ng-repeat="feedback in feedbackGroup.feedback">
-                            <li>
-                              {{feedbackGroup.name}}
-                              {{feedback}}
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    -->
                   </div>
                 </div>
               </div>

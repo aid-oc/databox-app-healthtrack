@@ -146,8 +146,6 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
                         feedbackGiven++;
                     }
                     groupFeedback.push(tag.zoneTag);
-                    // Will be changed soon, log all previous feedback.
-                    break;
                 }
             }
             // Check if this group has a name override
@@ -248,6 +246,10 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
         });
         // Add new groups to the map
         addGroups($scope.tags, $scope.names, $scope.groupsToday, $scope.places);
+    };
+
+    $scope.filterForFeedback = function(item) {
+        return item.length > 0;
     };
 
     let getTags = $http.get('/databox-app-healthtrack/ui/api/tags');
