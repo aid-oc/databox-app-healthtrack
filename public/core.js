@@ -245,7 +245,7 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
             $window.placesmap.removeLayer(layer);
         });
         // Add new groups to the map
-        addGroups($scope.tags, $scope.names, $scope.groupsToday, $scope.places);
+        addGroups($scope.tags, $scope.names, $scope.groupsToday);
     };
 
     $scope.filterForFeedback = function(item) {
@@ -258,6 +258,7 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
     let getZones = $http.get('/databox-app-healthtrack/ui/api/zones');
 
     $q.all([getZones]).then((data) => {
+        console.log("Got Data: " + JSON.stringify(data));
         $scope.tags = data[0].tags;
         $scope.names = data[0].names;
         $scope.groups = data[0].groups;
