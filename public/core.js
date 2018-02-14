@@ -249,7 +249,7 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
     };
 
     $scope.filterForFeedback = function(item) {
-        return item.length > 0;
+        return item.feedback.length > 0;
     };
 
     let getTags = $http.get('/databox-app-healthtrack/ui/api/tags');
