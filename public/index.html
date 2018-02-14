@@ -103,9 +103,10 @@
                     </div>
                     <div class="col-8">
                       <div ng-repeat="feedbackGroup in feedbackGroups" class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="list-{{feedbackGroup.start}}" role="tabpanel" aria-labelledby="list-{{feedbackGroup.start}}-list">
+                        <div class="tab-pane fade" id="list-{{feedbackGroup.start}}" role="tabpanel" aria-labelledby="list-{{feedbackGroup.start}}-list">
                           <ul ng-repeat="feedback in feedbackGroup.feedback">
                             <li>
+                              {{feedbackGroup.name}}
                               {{feedback}}
                             </li>
                           </ul>
