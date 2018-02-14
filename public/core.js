@@ -255,10 +255,6 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
 
 
     /* Old split-up calls */
-    let getTags = $http.get('/databox-app-healthtrack/ui/api/tags');
-    let getNames = $http.get('/databox-app-healthtrack/ui/api/names');
-    let getGroups = $http.get('/databox-app-healthtrack/ui/api/locationGroups');
-    let getPlaces = $http.get('/databox-app-healthtrack/ui/api/movesPlaces');
     let getZones = $http.get('/databox-app-healthtrack/ui/api/zones');
 
     $q.all([getZones]).then((data) => {
