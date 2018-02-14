@@ -4,6 +4,8 @@ var healthtrack = angular.module('healthtrack', ['ngMaterial']);
 function mainController($scope, $http, $window, $document, $mdDialog, $q) {
     $scope.formData = {};
 
+    $scope.feedbackGroups = [];
+
     $scope.parseJson = function(json) {
         let parsed = JSON.parse(json);
         console.log("JSON Parsed: " + parsed);
@@ -127,6 +129,7 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
             if (groupHeartRate < minHr) minHr = groupHeartRate;
             // Group properties
             let groupName = "";
+            let groupFeedback = [];
             let groupTag = "";
             let groupColour = 'red';
             let groupTagged = false;
@@ -136,10 +139,14 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
             for (var i = 0; i < tags.length; i++) {
                 let tag = tags[i];
                 if (tag.zoneLat.toFixed(8) === rootLocation.lat.toFixed(8) && tag.zoneLon.toFixed(8) === rootLocation.lon.toFixed(8)) {
-                    groupTag = tag.zoneTag;
-                    groupTagged = true;
-                    groupColour = 'green';
-                    feedbackGiven++;
+                    if (!groupTagged) {
+                        groupTag = tag.zoneTag;
+                        groupTagged = true;
+                        groupColour = 'green';
+                        feedbackGiven++;
+                    }
+                    groupFeedback.push(tag.zoneTag);
+                    // Will be changed soon, log all previous feedback.
                     break;
                 }
             }
@@ -185,8 +192,10 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
                 start: mostRecentVisit.start,
                 end: mostRecentVisit.end,
                 hr: groupHeartRate,
-                visits: groupVisits
+                visits: groupVisits,
+                feedback: groupFeedback
             };
+            feedbackGroups.push(zone);
             // Generate group HR marker
             addMarker(groupName, rootLocation.lat, rootLocation.lon, mostRecentVisit.start, mostRecentVisit.end, groupHeartRate);
         }
