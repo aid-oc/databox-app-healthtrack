@@ -9,6 +9,7 @@ var mongoose = require('mongoose');         // For MongoDB
 var bodyParser = require('body-parser');    // HTML Post Parsing
 var methodOverride = require('method-override'); // Simulates DELETE/PUT
 var geolib = require('geolib');
+var async = require('async');
 
 // Configure Application
 
@@ -141,6 +142,97 @@ app.post('/ui/api/renameZone', function(request, response) {
     }).catch((err) => {
         console.log("Failed to read from names: " + err);
         response.status(500).end();
+    });
+});
+
+
+app.get('/ui/api/zones', function(request, response) {
+
+    async.parallel({
+        tags: function(callback) {
+            kvc.Read('healthtrackZoneTags').then((res) => {
+                console.log("Read Store with datasourceId: healthtrackZoneTags - Response: " + JSON.stringify(res));
+                callback(null, res);
+            }).catch((err) => {
+                callback(err, null);
+            });
+        },
+        names: function(callback) {
+            kvc.Read('healthtrackZoneRenames').then((res) => {
+                console.log("Read Store with datasourceId: healthtrackZoneRenames - Response: " + JSON.stringify(res));
+                callback(null, res);
+            }).catch((err) => {
+                callback(err, null);
+            });
+        },
+        groups: function(callback) {
+            let locationGroups = [];
+            getPlacesFromStore.then((data) => {
+                let jsonString = JSON.stringify(data);
+                let json = JSON.parse(jsonString);
+                for (day in json) {
+                    for (segment in json[day].segments) {
+                        // Create marker
+                        let marker = {};
+                        let placeName = json[day].segments[segment].place.name;
+                        marker.start = json[day].segments[segment].startTime;
+                        marker.end = json[day].segments[segment].endTime;
+                        marker.lat = json[day].segments[segment].place.location.lat;
+                        marker.lon = json[day].segments[segment].place.location.lon;
+                        marker.name = placeName;
+                        // Check if any valid groups exist
+                        if (locationGroups.length > 0) {
+                            let groupFound = false;
+                            // Loop over each group, check if this marker belongs
+                            for (group in locationGroups) {
+                                    let distance = geolib.getDistance(
+                                    {latitude: marker.lat, longitude: marker.lon},
+                                    {latitude: locationGroups[group][0].lat, longitude: locationGroups[group][0].lon}
+                                );
+                                
+                                // If this marker is <120m from group root
+                                if (distance < 120) {
+                                    locationGroups[group].push(marker);
+                                    groupFound = true;
+                                }
+                            }
+                            // After looping groups, a valid match was not found
+                            if (!groupFound) {
+                                let newGroup = [];
+                                newGroup.push(marker);
+                                locationGroups.push(newGroup);
+                            }
+                        // No groups exist yet, create one
+                        } else {
+                            let newGroup = [];
+                            newGroup.push(marker);
+                            locationGroups.push(newGroup);
+                        }
+                    }
+                }
+                /*
+                // Filter for invalid groups
+                locationGroups = locationGroups.filter(function(elGroup) {
+                    return elGroup.length >= 1 && elGroup[0].name;
+                });
+                */
+                // Calculate average HR per group (assign random for now)
+                for (var i = 0; i < locationGroups.length; i++) {
+                    locationGroups[i][0].heartRate = generateRandom(67, 120);
+                }
+
+                callback(null, locationGroups);
+            })
+            .catch((err) => {
+                callback(err, null);
+            });
+        }
+    }, function(err, results) {
+        if (err) {
+            response.status(500).end();
+        } else {
+            response.json(results);
+        }
     });
 });
 

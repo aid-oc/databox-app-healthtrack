@@ -110,7 +110,7 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
 
     // addGroups(tags, names, groups, places);
 
-    var addGroups = function(tags, names, groups, places) {
+    var addGroups = function(tags, names, groups) {
 
         let feedbackGiven = 0;
         let totalTime = 0;
@@ -252,17 +252,20 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
         return item.feedback.length > 0;
     };
 
+
+
+    /* Old split-up calls */
     let getTags = $http.get('/databox-app-healthtrack/ui/api/tags');
     let getNames = $http.get('/databox-app-healthtrack/ui/api/names');
     let getGroups = $http.get('/databox-app-healthtrack/ui/api/locationGroups');
     let getPlaces = $http.get('/databox-app-healthtrack/ui/api/movesPlaces');
+    let getZones = $http.get('/databox-app-healthtrack/ui/api/zones');
 
-    $q.all([getTags, getNames, getGroups, getPlaces]).then((data) => {
-        $scope.tags = data[0].data;
-        $scope.names = data[1].data;
-        $scope.groups = data[2].data;
-        $scope.places = data[3].data;
-        addGroups($scope.tags, $scope.names, $scope.groups, $scope.places);
+    $q.all([getZones]).then((data) => {
+        $scope.tags = data[0].tags;
+        $scope.names = data[0].names;
+        $scope.groups = data[2].groups;
+        addGroups($scope.tags, $scope.names, $scope.groups);
     })
     .catch((error) => {
         console.log("Error!: " + error);
