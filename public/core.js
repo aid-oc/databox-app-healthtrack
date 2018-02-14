@@ -258,7 +258,7 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
     let getZones = $http.get('/databox-app-healthtrack/ui/api/zones');
 
     $q.all([getZones]).then((data) => {
-        console.log("Got Data: " + JSON.stringify(data));
+        data = JSON.parse(JSON.stringify(data));
         $scope.tags = data[0].tags;
         $scope.names = data[0].names;
         $scope.groups = data[0].groups;
