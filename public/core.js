@@ -260,7 +260,7 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
     $q.all([getZones]).then((data) => {
         $scope.tags = data[0].tags;
         $scope.names = data[0].names;
-        $scope.groups = data[2].groups;
+        $scope.groups = data[0].groups;
         addGroups($scope.tags, $scope.names, $scope.groups);
     })
     .catch((error) => {
