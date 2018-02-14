@@ -195,7 +195,7 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
                 visits: groupVisits,
                 feedback: groupFeedback
             };
-            feedbackGroups.push(zone);
+            $scope.feedbackGroups.push(zone);
             // Generate group HR marker
             addMarker(groupName, rootLocation.lat, rootLocation.lon, mostRecentVisit.start, mostRecentVisit.end, groupHeartRate);
         }
