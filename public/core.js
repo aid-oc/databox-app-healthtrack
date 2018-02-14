@@ -254,22 +254,17 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
 
 
 
-    /* Old split-up calls */
-    let getZones = $http.get('/databox-app-healthtrack/ui/api/zones');
-
-    $q.all([getZones]).then((data) => {
-        console.log("Got Data: " + data);
-        data = JSON.parse(JSON.stringify(data));
-        $scope.tags = data[0].tags;
-        $scope.names = data[0].names;
-        $scope.groups = data[0].groups;
+    $http.get('/databox-app-healthtrack/ui/api/zones').then(function(success) {
+        let data = JSON.parse(JSON.stringify(success.data));
+        $scope.tags = data.tags;
+        $scope.names = data.names;
+        $scope.groups = data.groups;
         addGroups($scope.tags, $scope.names, $scope.groups);
-    })
-    .catch((error) => {
+    }, function(error) {
         console.log("Error!: " + error);
     });
 
-};
+}
 
 
 healthtrack.controller("mainController", mainController);
