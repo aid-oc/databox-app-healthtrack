@@ -96,7 +96,7 @@
                       <uib-tab index="$index + 1" ng-repeat="feedbackGroup in feedbackGroups | filter: filterForFeedback" heading="{{feedbackGroup.name}} ({{feedbackGroup.feedback.length}})" disable="tab.disabled">
                         <ul ng-repeat="feedback in feedbackGroup.feedback">
                             <li>
-                              Feedback Submitted: {{moment(feedback.zoneTagDate}} <br/>
+                              Feedback Submitted: {{feedback.zoneTagDate}} <br/>
                               Comments: {{feedback.zoneTag}}
                             </li>
                           </ul>
