@@ -150,24 +150,30 @@ app.get('/ui/api/zones', function(request, response) {
 
     async.parallel({
         tags: function(callback) {
+            console.log("Reading tags..");
             kvc.Read('healthtrackZoneTags').then((res) => {
-                console.log("Read Store with datasourceId: healthtrackZoneTags - Response: " + JSON.stringify(res));
+                console.log("Read Store with datasourceId: healthtrackZoneTags");
                 callback(null, res);
             }).catch((err) => {
+                console.log("Error reading tags.." + err);
                 callback(err, null);
             });
         },
         names: function(callback) {
+            console.log("Reading names...");
             kvc.Read('healthtrackZoneRenames').then((res) => {
-                console.log("Read Store with datasourceId: healthtrackZoneRenames - Response: " + JSON.stringify(res));
+                console.log("Read Store with datasourceId: healthtrackZoneRenames");
                 callback(null, res);
             }).catch((err) => {
+                console.log("Error reading names...");
                 callback(err, null);
             });
         },
         groups: function(callback) {
+            console.log("Reading Places...");
             let locationGroups = [];
             getPlacesFromStore.then((data) => {
+                console.log("Read Places Store");
                 let jsonString = JSON.stringify(data);
                 let json = JSON.parse(jsonString);
                 for (day in json) {
@@ -220,17 +226,24 @@ app.get('/ui/api/zones', function(request, response) {
                 for (var i = 0; i < locationGroups.length; i++) {
                     locationGroups[i][0].heartRate = generateRandom(67, 120);
                 }
-
+                console.log("Sorted Groups...");
                 callback(null, locationGroups);
             })
             .catch((err) => {
+                console.log("Error reading Places...");
                 callback(err, null);
             });
         }
     }, function(err, results) {
-        if (err || JSON.stringify(results.names) === JSON.stringify(results.tags) ) {
+        console.log("Got names, tags, group...");
+        if (err ) {
+            console.log("Error (Final): " + err);
+            response.status(500).end();
+        } else if (JSON.stringify(results.names) === JSON.stringify(results.tags)) {
+            console.log("Error (Stores returned the same content for tags and names...): " + err);
             response.status(500).end();
         } else {
+            console.log("All ok.. returning zones");
             response.json(results);
         }
     });
