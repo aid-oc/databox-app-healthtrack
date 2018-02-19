@@ -39,22 +39,22 @@ healthtrackZoneTags.DataSourceID = 'healthtrackZoneTags';
 healthtrackZoneTags.StoreType = 'kv';
 
 /* Handle zone renaming */
-var healthtrackZoneRenames = databox.NewDataSourceMetadata();
-healthtrackZoneRenames.Description = 'HealthTrack Zone Renames';
-healthtrackZoneRenames.ContentType = 'application/json';
-healthtrackZoneRenames.Vendor = 'psyao1';
-healthtrackZoneRenames.DataSourceType = 'healthtrackZoneRenames';
-healthtrackZoneRenames.DataSourceID = 'healthtrackZoneRenames';
-healthtrackZoneRenames.StoreType = 'kv';
+var renamedGroups = databox.NewDataSourceMetadata();
+renamedGroups.Description = 'HealthTrack Zone Renames';
+renamedGroups.ContentType = 'application/json';
+renamedGroups.Vendor = 'psyao1';
+renamedGroups.DataSourceType = 'renamedGroups';
+renamedGroups.DataSourceID = 'renamedGroups';
+renamedGroups.StoreType = 'kv';
 
 // Register Key-Value Store
 kvc.RegisterDatasource(healthtrackZoneTags)
 .then(() => {
   console.log("Registered datasource: healthtrackZoneTags");
-  return kvc.RegisterDatasource(healthtrackZoneRenames);
+  return kvc.RegisterDatasource(renamedGroups);
 })
 .then(() => {
-    console.log("Registered datasource: healthtrackZoneRenames");
+    console.log("Registered datasource: renamedGroups");
 })
 .catch((err) => {
   console.log("Error registering data source:" + err);
@@ -125,7 +125,7 @@ app.post('/ui/api/renameZone', function(request, response) {
         zoneLon: request.body.lon,
         zoneName: request.body.name
     };
-    let datasourceId = "healthtrackZoneRenames";
+    let datasourceId = "renamedGroups";
     kvc.Read(datasourceId).then((res) => {
         let currentContentArray = JSON.parse(JSON.stringify(res));
         if (emptyObject(currentContentArray)) {
@@ -161,8 +161,8 @@ app.get('/ui/api/zones', function(request, response) {
         },
         names: function(callback) {
             console.log("Reading names...");
-            kvc.Read('healthtrackZoneRenames').then((res) => {
-                console.log("Read Store with datasourceId: healthtrackZoneRenames");
+            kvc.Read('renamedGroups').then((res) => {
+                console.log("Read Store with datasourceId: renamedGroups");
                 callback(null, res);
             }).catch((err) => {
                 console.log("Error reading names...");
@@ -261,8 +261,8 @@ app.get('/ui/api/tags', function (request, response) {
 
 /* Returns JSON of stored zone names */
 app.get('/ui/api/names', function (request, response) {
-    kvc.Read('healthtrackZoneRenames').then((res) => {
-        console.log("Read Store with datasourceId: healthtrackZoneRenames - Response: " + JSON.stringify(res));
+    kvc.Read('renamedGroups').then((res) => {
+        console.log("Read Store with datasourceId: renamedGroups - Response: " + JSON.stringify(res));
         response.json(res);
     }).catch((err) => {
         response.status(500).end();
