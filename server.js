@@ -27,6 +27,8 @@ const DATABOX_ZMQ_ENDPOINT = process.env.DATABOX_ZMQ_ENDPOINT;
 
 var kvc = databox.NewKeyValueClient(DATABOX_ZMQ_ENDPOINT, false);
 
+var kvctwo = databox.NewKeyValueClient(DATABOX_ZMQ_ENDPOINT, false);
+
 // Set up data stores 
 
 /* Handle zone tagging */
@@ -51,7 +53,7 @@ renamedGroups.StoreType = 'kv';
 kvc.RegisterDatasource(healthtrackZoneTags)
 .then(() => {
   console.log("Registered datasource: healthtrackZoneTags");
-  return kvc.RegisterDatasource(renamedGroups);
+  return kvctwo.RegisterDatasource(renamedGroups);
 })
 .then(() => {
     console.log("Registered datasource: renamedGroups");
@@ -161,7 +163,7 @@ app.get('/ui/api/zones', function(request, response) {
         },
         names: function(callback) {
             console.log("Reading names...");
-            kvc.Read('renamedGroups').then((res) => {
+            kvctwo.Read('renamedGroups').then((res) => {
                 console.log("Read Store with datasourceId: renamedGroups");
                 callback(null, res);
             }).catch((err) => {
@@ -240,7 +242,7 @@ app.get('/ui/api/zones', function(request, response) {
             console.log("Error (Final): " + err);
             response.status(500).end();
         } else if (JSON.stringify(results.names) === JSON.stringify(results.tags)) {
-            console.log("Error (Stores returned the same content for tags and names...): " + err);
+            console.log("Error (Stores returned the same content for tags and names...): ");
             response.status(500).end();
         } else {
             console.log("All ok.. returning zones");
