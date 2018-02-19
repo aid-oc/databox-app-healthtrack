@@ -80,7 +80,7 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
             icon: markerIcon
         }).bindTooltip('You have a average HR of ' + hr + ' at ' + name + "</br>" + "Last Visited: " + timeSince + "</br>" + "Time spent here: " + difference).addTo($window.placesmap).on("click", onMarkerClick);
         // Focus on latest marker
-        $window.placesmap.setView([lat, lon], 13);
+        $window.placesmap.setView([lat, lon], 11);
     };
 
     // Event listener for a zone click
