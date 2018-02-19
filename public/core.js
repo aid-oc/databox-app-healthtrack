@@ -145,7 +145,9 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
                         groupColour = 'green';
                         feedbackGiven++;
                     }
-                    groupFeedback.push(tag.zoneTag);
+                    // Make date more readable, parse from JSON and format
+                    tag.zoneTagDate = moment(tag.zoneTagDate).format("dddd, MMMM Do YYYY, h:mm a");
+                    groupFeedback.push(tag);
                 }
             }
             // Check if this group has a name override
@@ -208,6 +210,7 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
     // Ask server to tag a zone and store
     $scope.tagZone = function(zoneLat, zoneLon, zoneTag) {
         let postData = {
+            date: moment().toJSON(),
             lat: zoneLat,
             lon: zoneLon,
             tag: zoneTag

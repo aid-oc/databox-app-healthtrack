@@ -96,6 +96,7 @@ var getPlacesFromStore = new Promise(function(resolve, reject) {
 app.post('/ui/api/tagZone', function(request, response) {
 
     let newTag = {
+        zoneTagDate: request.body.date,
         zoneLat: request.body.lat,
         zoneLon: request.body.lon,
         zoneTag: request.body.tag
