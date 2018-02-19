@@ -228,7 +228,7 @@ app.get('/ui/api/zones', function(request, response) {
             });
         }
     }, function(err, results) {
-        if (err) {
+        if (err || JSON.stringify(results.names) === JSON.stringify(results.tags) ) {
             response.status(500).end();
         } else {
             response.json(results);
