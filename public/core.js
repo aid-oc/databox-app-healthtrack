@@ -9,6 +9,11 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
     var zoneMarkers;
     var placeMarkers;
 
+    $scope.clearLayers = function() {
+        $window.placesmap.removeLayer(zoneMarkers);
+        $window.placesmap.removeLayer(placeMarkers);
+    };
+
     $scope.parseJson = function(json) {
         let parsed = JSON.parse(json);
         console.log("JSON Parsed: " + parsed);
@@ -252,16 +257,15 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
     };
 
     $scope.filterDaily = function() {
+        // Clear map
+        $scope.clearLayers();
+        // Reset feedback
         $scope.feedbackGroups = [];
         // Copy groups, we want a new object here
         $scope.groupsToday = angular.copy($scope.groups);
         // Filter current groups to today's date
         let newGroups = $scope.groupsToday.filter(function (element) {
             return moment(element.start).isSame(new Date(), "day");
-        });
-        // Clear map
-        $window.placesmap.eachLayer(function (layer) {
-            $window.placesmap.removeLayer(layer);
         });
         // Add new groups to the map
         addGroups($scope.tags, $scope.names, newGroups);
