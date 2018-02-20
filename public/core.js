@@ -265,7 +265,7 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
         $scope.groupsToday = angular.copy($scope.groups);
         // Filter current groups to today's date
         let newGroups = $scope.groupsToday.filter(function (element) {
-            console.log("Testing Element: " + JSON.stringify(element));
+            console.log("Testing Element: " + element.start);
             return moment(element.start).isSame(new Date(), "day");
         });
         // Add new groups to the map
