@@ -6,6 +6,9 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
 
     $scope.feedbackGroups = [];
 
+    var zoneMarkers;
+    var placeMarkers;
+
     $scope.parseJson = function(json) {
         let parsed = JSON.parse(json);
         console.log("JSON Parsed: " + parsed);
@@ -75,10 +78,11 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
         // Last visited
         let timeSince = endTime.fromNow();
         // Create marker     
-        $window.L.marker([lat, lon], {
+        let markerLayer = $window.L.marker([lat, lon], {
             title: name,
             icon: markerIcon
-        }).bindTooltip('You have a average HR of ' + hr + ' at ' + name + "</br>" + "Last Visited: " + timeSince + "</br>" + "Time spent here: " + difference).addTo($window.placesmap).on("click", onMarkerClick);
+        }).bindTooltip('You have a average HR of ' + hr + ' at ' + name + "</br>" + "Last Visited: " + timeSince + "</br>" + "Time spent here: " + difference).on("click", onMarkerClick);
+        placeMarkers.addLayer(markerLayer);
         // Focus on latest marker
         $window.placesmap.setView([lat, lon], 11);
     };
@@ -111,6 +115,9 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
     // addGroups(tags, names, groups, places);
 
     var addGroups = function(tags, names, groups) {
+
+        zoneMarkers = new $window.L.FeatureGroup();
+        placeMarkers = new $window.L.FeatureGroup();
 
         let feedbackGiven = 0;
         let totalTime = 0;
@@ -183,7 +190,9 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
                 fillColor: groupColour,
                 fillOpacity: 0.5,
                 radius: 120
-            }).bindTooltip('You have visited ' + locationGroup.length + ' locations in this area' + '</br>' + 'Feedback Provided: ' + groupTag).addTo($window.placesmap).on("click", onZoneClick);
+            }).bindTooltip('You have visited ' + locationGroup.length + ' locations in this area' + '</br>' + 'Feedback Provided: ' + groupTag).on("click", onZoneClick);
+            // Add to zone markers
+            zoneMarkers.addLayer(locationCircle);
             // Add as an active zone
             let zone = {
                 name: groupName,
@@ -199,6 +208,12 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
             // Generate group HR marker
             addMarker(groupName, rootLocation.lat, rootLocation.lon, mostRecentVisit.start, mostRecentVisit.end, groupHeartRate);
         }
+
+        // Add zone layer
+        $window.placesmap.addLayer(zoneMarkers);
+        // Add places layer
+        $window.placesmap.addLayer(placeMarkers);
+
         $scope.maxHr = maxHr;
         $scope.minHr = minHr;
         $scope.averageHr = Math.round(totalHr / groups.length);
@@ -237,6 +252,7 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
     };
 
     $scope.filterDaily = function() {
+        $scope.feedbackGroups = [];
         // Copy groups, we want a new object here
         $scope.groupsToday = angular.copy($scope.groups);
         // Filter current groups to today's date
