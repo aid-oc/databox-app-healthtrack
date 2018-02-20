@@ -94,13 +94,18 @@
                   <div class="row">
                     <uib-tabset active="active">
                       <uib-tab index="$index + 1" ng-repeat="feedbackGroup in feedbackGroups | filter: filterForFeedback" heading="{{feedbackGroup.name}} ({{feedbackGroup.feedback.length}})" disable="tab.disabled">
-                        <ul ng-repeat="feedback in feedbackGroup.feedback">
-                            <li>
-                              Feedback Submitted: {{feedback.zoneTagDate}} <br/>
-                              Comments: {{feedback.zoneTag}}
-                            </li>
-                          </ul>
-                        </uib-tab>
+                        <div ng-repeat="feedback in feedbackGroup.feedback">
+                            <div class="card border-info mb-3" style="width: 18rem;">
+                              <div class="card-body">
+                                <h5 class="card-title">Feedback Submitted: {{feedback.zoneTagDate}}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Comments</h6>
+                                <p class="card-text">{{feedback.zoneTag}}</p>
+                                <a href="#" class="card-link">View Location</a>
+                                <a href="#" class="card-link">Remove</a>
+                              </div>
+                            </div>
+                          </div>
+                      </uib-tab>
                     </uib-tabset>
                   </div>
                 </div>
