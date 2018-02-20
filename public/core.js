@@ -240,7 +240,7 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
         // Copy groups, we want a new object here
         $scope.groupsToday = angular.copy($scope.groups);
         // Filter current groups to today's date
-        $scope.groupsToday = $scope.groupsToday.filter(function (element) {
+        let newGroups = $scope.groupsToday.filter(function (element) {
             return moment(element.start).isSame(new Date(), "day");
         });
         // Clear map
@@ -248,7 +248,7 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
             $window.placesmap.removeLayer(layer);
         });
         // Add new groups to the map
-        addGroups($scope.tags, $scope.names, $scope.groupsToday);
+        addGroups($scope.tags, $scope.names, newGroups);
     };
 
     $scope.filterForFeedback = function(item) {
