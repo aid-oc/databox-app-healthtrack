@@ -1,7 +1,7 @@
 var healthtrack = angular.module('healthtrack', ['ngMaterial', 'ui.bootstrap']);
 
 
-function mainController($scope, $http, $window, $document, $mdDialog, $q) {
+function mainController($scope, $http, $window, $filter, $document, $mdDialog, $q) {
     $scope.formData = {};
 
     $scope.feedbackGroups = [];
@@ -255,6 +255,12 @@ function mainController($scope, $http, $window, $document, $mdDialog, $q) {
             console.log("Posted Name Request Error: " + error);
         });
     };
+
+    $scope.getRecentFiveFeedback = function() {
+        $scope.sortedFeedback = $filter('orderBy')($scope.tags, 'zoneTagDate', false);
+        return $scope.sortedFeedback.slice(0,4);
+    };
+
 
     $scope.filterDaily = function() {
         // Clear map
