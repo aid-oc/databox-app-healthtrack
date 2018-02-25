@@ -286,8 +286,8 @@ app.get('/ui/api/zones', function(request, response) {
                                         if (dayHr.date === formattedStartDate) {
                                             console.log("Found the correct day of HR data for this visit");
 
-                                            let startTime = moment(visitStart).format("hh:mm:ss");
-                                            let endTime = moment(visitEnd).format("hh:mm:ss");
+                                            let startTime = moment(visitStart).format("HH:mm");
+                                            let endTime = moment(visitEnd).format("HH:mm");
 
                                             console.log("Searching dataset indexes between: " + startTime + " | " + endTime);
 
