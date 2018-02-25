@@ -29,6 +29,14 @@
 			"risks": "Shows where you have been.",
 			"benefits": "Shows your location history",
 			"datastores": [ "DS_movesPlaces" ]
+		},
+		{
+			"name": "HR Associate",
+			"purpose": "To associate your fitbit hr data with moves locations",
+			"install": "required",
+			"risks": "Holds your heart rate at different times of the day",
+			"benefits": "Allows you to link heart rate to location",
+			"datastores": [ "DS_fitbitHr" ]
 		}
 	],
 
