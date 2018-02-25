@@ -264,6 +264,7 @@ app.get('/ui/api/zones', function(request, response) {
 
                     getHeartRateFromStore.then((hrData) => {
                         let parsedHrData = JSON.parse(JSON.stringify(hrData));
+                        console.log("Parsed Data: " + JSON.stringify(parsedHrData));
                             for (var i = 0; i < locationGroups.length; i++) {
                                 for (var x = 0; x < locationGroups[i].length; x++) {
                                     let visit = locationGroups[i][x];
