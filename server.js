@@ -324,8 +324,10 @@ app.get('/ui/api/zones', function(request, response) {
                                 }
                                 locationGroups[i] = locationGroups[i].filter(element => element.heartRate > 1);
                             }
-                            locationGroups = locationGroups.filter(element => element.length > 0);
-
+                            locationGroups = locationGroups.filter(element => {
+                                console.log("Filtering root array current: " + JSON.stringify(element));
+                                return element[0] !== undefined;
+                            });
                         })
                         .catch((hrError) => {
                             console.log("Error getting HR data: " + hrError);
