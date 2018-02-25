@@ -41,6 +41,13 @@
 			"name": "movesPlaces",
 			"clientid": "DS_movesPlaces",
 			"granularities": []
+		},
+		{
+			"type": "fitbitHr",
+			"required": true,
+			"name": "fitbitHr",
+			"clientid": "DS_fitbitHr",
+			"granularities": []
 		}
 	],
 
