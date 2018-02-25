@@ -312,6 +312,10 @@ app.get('/ui/api/zones', function(request, response) {
                                                 visitHrCount++;
                                                 visitHrTotal += dataset[z].value;
                                             }
+                                            if (visitHrCount == 0 || visitHrTotal == 0) {
+                                                // Remove from array, we do not have valid HR data for this zone
+                                                locationGroups[i].splice(x,1);
+                                            }
                                         }
                                     }
                                     locationGroups[i][x].heartRate = visitHrTotal/visitHrCount;
@@ -321,11 +325,6 @@ app.get('/ui/api/zones', function(request, response) {
                         })
                         .catch((hrError) => {
                             console.log("Error getting HR data: " + hrError);
-                            // Calculate average HR per group (assign random for now)
-                            for (var i = 0; i < locationGroups.length; i++) {
-                                locationGroups[i][0].heartRate = generateRandom(110, 120);
-                            }
-
                         });
                     console.log("Sorted Groups...");
                     callback(null, locationGroups);
