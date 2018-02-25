@@ -289,7 +289,6 @@ app.get('/ui/api/zones', function(request, response) {
                                             let startTime = moment(visitStart).format("HH:mm");
                                             let endTime = moment(visitEnd).format("HH:mm");
 
-                                            console.log("Searching dataset indexes between: " + startTime + " | " + endTime);
 
                                             // Loop over each entry of the day to find the start/end time for this visit
                                             let dataset = dayHr.data[0]["activities-heart-intraday"].dataset;
@@ -297,12 +296,12 @@ app.get('/ui/api/zones', function(request, response) {
                                             let startIndex;
                                             let endIndex;
                                             for (datasetEntry in dataset) {
-                                                console.log("Searching Dataset: Current Entry = " + JSON.stringify(dataset[datasetEntry]));
-                                                if (dataset[datasetEntry].time === startTime) {
+                                                console.log("(Start) Comparing: " + dataset[datasetEntry].time + " | " + startTime);
+                                                if (dataset[datasetEntry].time.indexOf(startTime) !== -1) {
                                                     startIndex = datasetEntry;
                                                     console.log("Found start index: " + startIndex);
                                                 }
-                                                if (dataset[datasetEntry].time === endTime) {
+                                                if (dataset[datasetEntry].time.indexOf(endTime) !== -1) {
                                                     endIndex = datasetEntry;
                                                     console.log("Found end index: " + endIndex);
                                                 }
