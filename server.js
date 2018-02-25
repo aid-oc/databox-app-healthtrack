@@ -267,8 +267,9 @@ app.get('/ui/api/zones', function(request, response) {
                         console.log(JSON.stringify(hrData));
                         let parsedHrData = JSON.parse(JSON.stringify(hrData));
                         console.log("Parsed Data: " + JSON.stringify(parsedHrData));
-                            for (var i = 0; i < locationGroups.length; i++) {
-                                for (var x = 0; x < locationGroups[i].length; x++) {
+
+                            for (var i = locationGroups.length -1; i >=0 ; i--) {
+                                for (var x = locationGroups[i].length -1; x >= 0; x--) {
                                     let visit = locationGroups[i][x];
                                     let visitStart = locationGroups[i][x].start;
                                     let visitEnd = locationGroups[i][x].end;
@@ -319,7 +320,8 @@ app.get('/ui/api/zones', function(request, response) {
                                         console.log("HR was NaN, setting to 1");
                                         locationGroups[i][x].heartRate = 1;
                                     }
-                                    console.log("Assigned HR value of: " + locationGroups[i][x].heartRate);
+                                    console.log("Assigned HR value of: " + locationGroups[i][x].heartRate);  
+                                    locationGroups[i].splice(x,1);
                                 }
                             }
                         })
@@ -327,6 +329,7 @@ app.get('/ui/api/zones', function(request, response) {
                             console.log("Error getting HR data: " + hrError);
                         });
                     console.log("Sorted Groups...");
+                    // Filter out groups which do not have heart rate data
                     callback(null, locationGroups);
                 })
                 .catch((err) => {
