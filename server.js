@@ -347,6 +347,7 @@ app.get('/ui/api/zones', function(request, response) {
             response.status(500).end();
         } else {
             console.log("All ok.. returning zones");
+            results.groups = results.groups.filter(element => element.length > 0);
             response.json(results);
         }
     });
