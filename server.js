@@ -321,8 +321,8 @@ app.get('/ui/api/zones', function(request, response) {
                                         locationGroups[i][x].heartRate = 1;
                                     }
                                     console.log("Assigned HR value of: " + locationGroups[i][x].heartRate);  
-                                    locationGroups[i].splice(x,1);
                                 }
+                                locationGroups[i] = locationGroups[i].filter(element => element.heartRate > 1);
                             }
                         })
                         .catch((hrError) => {
