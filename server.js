@@ -297,7 +297,7 @@ app.get('/ui/api/zones', function(request, response) {
                                             let startIndex;
                                             let endIndex;
                                             for (datasetEntry in dataset) {
-                                                console.log("Searching Dataset: Current Entry = " + JSON.stringify(datasetEntry));
+                                                console.log("Searching Dataset: Current Entry = " + JSON.stringify(dataset[datasetEntry]));
                                                 if (dataset[datasetEntry].time === startTime) {
                                                     startIndex = datasetEntry;
                                                     console.log("Found start index: " + startIndex);
