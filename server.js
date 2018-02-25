@@ -279,6 +279,7 @@ app.get('/ui/api/zones', function(request, response) {
                                     for (var y = 0; y < parsedHrData.length; y++) {
                                         let dayHr = parsedHrData[y];
                                         // Check if we have the correct day
+                                        console.log("Checking for match: " + dayHr.date + " : " + formattedStartDate);
                                         if (dayHr.date === formattedStartDate) {
                                             console.log("Found the correct day of HR data for this visit");
                                             let startTime = moment(visitStart).format("hh:mm:ss");
