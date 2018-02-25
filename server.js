@@ -273,6 +273,7 @@ app.get('/ui/api/zones', function(request, response) {
                             }
                         })
                         .catch((hrError) => {
+                            console.log("Error getting HR data: " + hrError);
                             // Calculate average HR per group (assign random for now)
                             for (var i = 0; i < locationGroups.length; i++) {
                                 locationGroups[i][0].heartRate = generateRandom(110, 120);
