@@ -312,13 +312,13 @@ app.get('/ui/api/zones', function(request, response) {
                                                 visitHrCount++;
                                                 visitHrTotal += dataset[z].value;
                                             }
-                                            if (visitHrCount == 0 || visitHrTotal == 0) {
-                                                // Remove from array, we do not have valid HR data for this zone
-                                                locationGroups[i].splice(x,1);
-                                            }
                                         }
                                     }
                                     locationGroups[i][x].heartRate = visitHrTotal/visitHrCount;
+                                    if (locationGroups[i][x].heartRate !== locationGroups[i][x].heartRate) {
+                                        console.log("HR was NaN, setting to 1");
+                                        locationGroups[i][x].heartRate = 1;
+                                    }
                                     console.log("Assigned HR value of: " + locationGroups[i][x].heartRate);
                                 }
                             }
