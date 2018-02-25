@@ -285,23 +285,31 @@ app.get('/ui/api/zones', function(request, response) {
                                         console.log("Checking for match: " + dayHr.date + " : " + formattedStartDate);
                                         if (dayHr.date === formattedStartDate) {
                                             console.log("Found the correct day of HR data for this visit");
+
                                             let startTime = moment(visitStart).format("hh:mm:ss");
                                             let endTime = moment(visitEnd).format("hh:mm:ss");
+
+                                            console.log("Searching dataset indexes between: " + startTime + " | " + endTime);
+
                                             // Loop over each entry of the day to find the start/end time for this visit
                                             let dataset = dayHr.data[0]["activities-heart-intraday"].dataset;
                                             // indexs
                                             let startIndex;
                                             let endIndex;
                                             for (datasetEntry in dataset) {
+                                                console.log("Searching Dataset: Current Entry = " + JSON.stringify(datasetEntry));
                                                 if (dataset[datasetEntry].time === startTime) {
                                                     startIndex = datasetEntry;
+                                                    console.log("Found start index: " + startIndex);
                                                 }
                                                 if (dataset[datasetEntry].time === endTime) {
                                                     endIndex = datasetEntry;
+                                                    console.log("Found end index: " + endIndex);
                                                 }
                                             }
                                             // Calculate HR values between our start/end index
                                             for (var z = startIndex; z < endIndex; z++) {
+                                                console.log("Adjusting visit hr... (Found value between indexes)");
                                                 visitHrCount++;
                                                 visitHrTotal += dataset[z].value;
                                             }
