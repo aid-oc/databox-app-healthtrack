@@ -263,12 +263,48 @@ app.get('/ui/api/zones', function(request, response) {
                     */
 
                     getHeartRateFromStore.then((hrData) => {
+                        let parsedHrData = JSON.parse(JSON.stringify(hrData));
                             for (var i = 0; i < locationGroups.length; i++) {
                                 for (var x = 0; x < locationGroups[i].length; x++) {
                                     let visit = locationGroups[i][x];
                                     let visitStart = locationGroups[i][x].start;
                                     let visitEnd = locationGroups[i][x].end;
                                     console.log("Trying to associate HR with visit: " + moment(visitStart) + " : " + moment(visitEnd));
+                                    let visitHrTotal = 0;
+                                    let visitHrCount = 0;
+
+                                    let formattedStartDate = moment(visitStart).format("YYYY-MM-DD");
+                                    let formattedEndDate = moment(visitEnd).format("YYYY-MM-DD");
+                                    // Loop over each day of heart rate data
+                                    for (var y = 0; y < parsedHrData.length; y++) {
+                                        let dayHr = parsedHrData[y];
+                                        // Check if we have the correct day
+                                        if (dayHr.date === formattedStartDate) {
+                                            console.log("Found the correct day of HR data for this visit");
+                                            let startTime = moment(visitStart).format("hh:mm:ss");
+                                            let endTime = moment(visitEnd).format("hh:mm:ss");
+                                            // Loop over each entry of the day to find the start/end time for this visit
+                                            let dataset = dayHr.data[0]["activities-heart-intraday"].dataset;
+                                            // indexs
+                                            let startIndex;
+                                            let endIndex;
+                                            for (datasetEntry in dataset) {
+                                                if (dataset[datasetEntry].time === startTime) {
+                                                    startIndex = datasetEntry;
+                                                }
+                                                if (dataset[datasetEntry].time === endTime) {
+                                                    endIndex = datasetEntry;
+                                                }
+                                            }
+                                            // Calculate HR values between our start/end index
+                                            for (var z = startIndex; z < endIndex; z++) {
+                                                visitHrCount++;
+                                                visitHrTotal += dataset[z].value;
+                                            }
+                                        }
+                                    }
+                                    locationGroups[i][x].heartRate = visitHrTotal/visitHrCount;
+                                    console.log("Assigned HR value of: " + locationGroups[i][x].heartRate);
                                 }
                             }
                         })
