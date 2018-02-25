@@ -326,7 +326,7 @@ app.get('/ui/api/zones', function(request, response) {
                             }
                             locationGroups = locationGroups.filter(element => {
                                 console.log("Filtering root array current: " + JSON.stringify(element));
-                                return element[0].heartRate !== undefined;
+                                return (typeof element[0] != 'undefined');
                             });
                         })
                         .catch((hrError) => {
