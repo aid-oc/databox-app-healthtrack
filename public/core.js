@@ -135,7 +135,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
             let locationGroup = groups[group];
             let rootLocation = locationGroup[0];
             // Keep track of totals for all group (to be shared as scope variable)
-            let groupHeartRate = locationGroup[0].heartRate;
+            let groupHeartRate = locationGroup[0].groupHeartRate;
             totalHr += groupHeartRate;
             if (groupHeartRate > maxHr) maxHr = groupHeartRate;
             if (groupHeartRate < minHr) minHr = groupHeartRate;

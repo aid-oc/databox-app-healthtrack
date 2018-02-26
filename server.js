@@ -317,7 +317,7 @@ app.get('/ui/api/zones', function(request, response) {
                                             }
                                         }
                                     }
-                                    locationGroups[i][x].heartRate = visitHrTotal / visitHrCount;
+                                    locationGroups[i][x].heartRate = Math.round(visitHrTotal / visitHrCount);
                                     if (locationGroups[i][x].heartRate !== locationGroups[i][x].heartRate) {
                                         console.log("HR was NaN, setting to 0");
                                         locationGroups[i][x].heartRate = 0;
@@ -330,7 +330,7 @@ app.get('/ui/api/zones', function(request, response) {
                                 }
                                 locationGroups[i] = locationGroups[i].filter(element => element.heartRate > 0);
                                 if (locationGroups[i].length > 0) {
-                                    locationGroups[i][0].groupHeartRate = currentGroupTotal / currentGroupLength;
+                                    locationGroups[i][0].groupHeartRate = Math.round(currentGroupTotal / currentGroupLength);
                                 }
                             }
                         })
