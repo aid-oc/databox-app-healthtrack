@@ -230,6 +230,8 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
 
         $scope.maxHr = maxHr;
         $scope.minHr = minHr;
+        $scope.worstOffender = worstOffender;
+        $scope.bestOffender = bestOffender;
         $scope.averageHr = Math.round(totalHr / groups.length);
         $scope.feedbackGiven = feedbackGiven;
         $scope.totalGroups = groups.length;
