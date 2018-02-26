@@ -158,7 +158,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
                         feedbackGiven++;
                     }
                     // Make date more readable, parse from JSON and format
-                    tag.zoneTagDate = moment(tag.zoneTagDate).format("dddd, MMMM Do YYYY, h:mm a");
+                    tag.tagMoment = moment(tag.zoneTagDate).format("dddd, MMMM Do YYYY, h:mm a");
                     groupFeedback.push(tag);
                 }
             }
