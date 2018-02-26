@@ -269,6 +269,8 @@ app.get('/ui/api/zones', function(request, response) {
                         console.log("Parsed Data: " + JSON.stringify(parsedHrData));
 
                             for (var i = locationGroups.length -1; i >=0 ; i--) {
+                                let currentGroupLength = 0;
+                                let currentGroupTotal = 0;
                                 for (var x = locationGroups[i].length -1; x >= 0; x--) {
                                     let visit = locationGroups[i][x];
                                     let visitStart = locationGroups[i][x].start;
@@ -317,12 +319,17 @@ app.get('/ui/api/zones', function(request, response) {
                                     }
                                     locationGroups[i][x].heartRate = visitHrTotal/visitHrCount;
                                     if (locationGroups[i][x].heartRate !== locationGroups[i][x].heartRate) {
-                                        console.log("HR was NaN, setting to 1");
-                                        locationGroups[i][x].heartRate = 1;
+                                        console.log("HR was NaN, setting to 0");
+                                        locationGroups[i][x].heartRate = 0;
+                                    } else {
+                                        // We've added another HR group to this zone
+                                        currentGroupTotal += locationGroups[i][x].heartRate;
+                                        currentGroupLength++;
                                     }
                                     console.log("Assigned HR value of: " + locationGroups[i][x].heartRate);  
                                 }
-                                locationGroups[i] = locationGroups[i].filter(element => element.heartRate > 1);
+                                locationGroups[i] = locationGroups[i].filter(element => element.heartRate > 0);
+                                locationGroups[i].heartRate = currentGroupTotal/currentGroupLength;
                             }
                         })
                         .catch((hrError) => {
