@@ -128,7 +128,9 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         let totalTime = 0;
         let totalHr = 0;
         let maxHr = 0;
+        let worstOffender = "";
         let minHr = 200;
+        let bestOffender = "";
 
         for (group in groups) {
             // Current working group/group root
@@ -137,8 +139,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
             // Keep track of totals for all group (to be shared as scope variable)
             let groupHeartRate = locationGroup[0].groupHeartRate;
             totalHr += groupHeartRate;
-            if (groupHeartRate > maxHr) maxHr = groupHeartRate;
-            if (groupHeartRate < minHr) minHr = groupHeartRate;
+
             // Group properties
             let groupName = "";
             let groupFeedback = [];
@@ -189,6 +190,15 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
                     }
                 }
             }
+            // Best/worst calc
+            if (groupHeartRate > maxHr) {
+                maxHr = groupHeartRate;
+                worstOffender = groupName;
+            }
+            if (groupHeartRate < minHr) {
+                minHr = groupHeartRate;
+                bestOffender = groupName;
+            }
             // Generate group zone
             let locationCircle = $window.L.circle([rootLocation.lat, rootLocation.lon], {
                 color: groupColour,
@@ -213,7 +223,6 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
             // Generate group HR marker
             addMarker(groupName, rootLocation.lat, rootLocation.lon, mostRecentVisit.start, mostRecentVisit.end, groupHeartRate);
         }
-
         // Add zone layer
         $window.placesmap.addLayer(zoneMarkers);
         // Add places layer
@@ -258,7 +267,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
 
     $scope.getRecentFiveFeedback = function() {
         $scope.sortedFeedback = $filter('orderBy')($scope.tags, 'zoneTagDate', false);
-        return $scope.sortedFeedback.slice(0,4);
+        return $scope.sortedFeedback.slice(0, 4);
     };
 
 
@@ -280,7 +289,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         // Copy groups, we want a new object here
         $scope.groupsToday = angular.copy($scope.groups);
         // Filter current groups to today's date
-        let newGroups = $scope.groupsToday.filter(function (element) {
+        let newGroups = $scope.groupsToday.filter(function(element) {
             console.log("Testing Element: " + element[0].start);
             return moment(element[0].start).isSame(new Date(), "day");
         });
