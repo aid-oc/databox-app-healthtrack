@@ -262,6 +262,16 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
     };
 
 
+
+    $scope.filterMonthly = function() {
+        // Clear map
+        $scope.clearLayers();
+        // Reset feedback
+        $scope.feedbackGroups = [];
+        // Add new groups to the map
+        addGroups($scope.tags, $scope.names, $scope.groups);
+    };
+
     $scope.filterDaily = function() {
         // Clear map
         $scope.clearLayers();
