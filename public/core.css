@@ -2,6 +2,11 @@
 
 #header-wrapper {padding-left: 15px; margin-top: 5px; padding-bottom: 20px;}
 
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+	color: #fff;
+	background-color: #309943;
+}
+
 .card-header {
 	color: white;
 	background-color: #3F51B5;
