@@ -128,13 +128,13 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         let totalTime = 0;
         let totalHr = 0;
         let maxHr = 0;
-        let worstOffender {
+        let worstOffender = {
             name: "",
             lat : 0,
             lon ; 0
         };
         let minHr = 200;
-        let bestOffender {
+        let bestOffender = {
             name: "",
             lat : 0,
             lon ; 0
