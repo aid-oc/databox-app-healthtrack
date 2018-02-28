@@ -212,7 +212,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
                 bestOffender.name = groupName;
                 bestOffender.lat = rootLocation.lat;
                 bestOffender.lon = rootLocation.lon;
-                worstOffender.feedbackReceived = groupTagged;
+                bestOffender.feedbackReceived = groupTagged;
             }
             // Generate tool tip based on feedback/no feedback
             let toolTip = "";
