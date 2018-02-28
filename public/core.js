@@ -86,7 +86,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         let markerLayer = $window.L.marker([lat, lon], {
             title: name,
             icon: markerIcon
-        }).bindTooltip('You have a average HR of ' + hr + ' at ' + name + "</br>" + "Last Visited: " + timeSince + "</br>" + "Time spent here: " + difference).on("click", onMarkerClick);
+        }).bindTooltip('You have a average HR of ' + hr + ' at ' + name + "</br>" + "Last Visited: " + timeSince + "</br>" + "Recently spent: " + difference + " here").on("click", onMarkerClick);
         placeMarkers.addLayer(markerLayer);
         // Focus on latest marker
         $window.placesmap.setView([lat, lon], 11);
@@ -210,6 +210,12 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
                 bestOffender.name = groupName;
                 bestOffender.lat = rootLocation.lat;
                 bestOffender.lon = rootLocation.lon;
+            }
+            let toolTip = "";
+            if (groupTag != "") {
+                toolTip = 'You have visited ' + locationGroup.length + ' locations in this area' + '</br>' + 'Feedback Provided: ' + groupTag;
+            } else {
+                toolTip = 'You have visited ' + locationGroup.length + ' locations in this area' + '</br>' + 'Click zone to provide feedback';
             }
             // Generate group zone
             let locationCircle = $window.L.circle([rootLocation.lat, rootLocation.lon], {

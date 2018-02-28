@@ -79,7 +79,15 @@
                     <div class="col-md-9">
                       <div class="card">
                         <div class="card-header"><i class="fa fa-map-marker" aria-hidden="true"></i> Zone Map</div>
-                        <div class="card-body"><div id="placesmap"></div></div>
+                        <div class="card-body">
+                          <div class="alert alert-info alert-dismissible fade show" role="alert">
+                            <strong>Tip!</strong> You can rename a zone by clicking its marker or provide feedback by clicking a coloured zone.<br/><br/>Green zones already have received feedback, however you can provide as much as you like. Feedback history is available through the zone diary.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div id="placesmap"></div>
+                        </div>
                       </div>
                       <script>
                       var placesmap = L.map('placesmap').setView([52.9536, -1.15047], 11);
