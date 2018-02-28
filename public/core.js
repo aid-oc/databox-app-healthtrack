@@ -131,13 +131,13 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         let worstOffender = {
             name: "",
             lat : 0,
-            lon ; 0
+            lon : 0
         };
         let minHr = 200;
         let bestOffender = {
             name: "",
             lat : 0,
-            lon ; 0
+            lon : 0
         };
 
         for (group in groups) {

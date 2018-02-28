@@ -1,6 +1,6 @@
 #placesmap { height: 600px; }
 
-#header-wrapper {padding-left: 15px; padding-bottom: 20px;}
+#header-wrapper {padding-left: 15px; margin-top: 5px; padding-bottom: 20px;}
 
 .card-header {
 	color: white;
