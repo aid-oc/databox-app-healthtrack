@@ -112,9 +112,9 @@
                         <div class="card-header"><i class="fa fa-bar-chart" aria-hidden="true"></i> Zone Analysis</div>
                         <div class="card-body">
                           <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Best Location<br/>
-                          <b>{{bestOffender.name}}</b>     <button ng-click="viewLocation(bestOffender)" type="button" class="btn btn-success btn-sm">View</button><br/>
+                          <b>{{bestOffender.name || 'Not yet available' }}</b>     <button ng-hide="!bestOffender.name" ng-click="viewLocation(bestOffender)" type="button" class="btn btn-success btn-sm">View</button><br/>
                           <i class="fa fa-thumbs-o-down" aria-hidden="true"></i> Worst Location<br/>
-                          <b>{{worstOffender.name}}</b>    <button ng-click="viewLocation(worstOffender)" type="button" class="btn btn-success btn-sm">View</button>
+                          <b>{{worstOffender.name || 'Not yet available' }}</b>    <button ng-hide="!worstOffender.name" ng-click="viewLocation(worstOffender)" type="button" class="btn btn-success btn-sm">View</button>
                         </div>
                       </div>
                     </div>
