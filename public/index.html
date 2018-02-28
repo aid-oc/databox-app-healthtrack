@@ -111,12 +111,18 @@
                       <div id="zoneAnalysisCard" class="card" style="margin-top: 10px;">
                         <div class="card-header"><i class="fa fa-bar-chart" aria-hidden="true"></i> Zone Analysis</div>
                         <div class="card-body">
-                          <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Best Location<br/>
-                          <b>{{bestOffender.name || 'Not yet available' }} </b><button ng-hide="!bestOffender.name" ng-click="viewLocation(bestOffender)" type="button" class="btn btn-success btn-sm">View</button>
-                          <span ng-if="bestOffender.feedbackReceived">Feedback Receieved: <i class="fa fa-check" aria-hidden="true"></i></span>
-                          <span ng-if="!bestOffender.feedbackReceived">Feedback Receieved: <i class="fa fa-times" aria-hidden="true"></i></span><br/>
-                          <i class="fa fa-thumbs-o-down" aria-hidden="true"></i> Worst Location<br/>
-                          <b>{{worstOffender.name || 'Not yet available' }}</b><button ng-hide="!worstOffender.name" ng-click="viewLocation(worstOffender)" type="button" class="btn btn-success btn-sm">View</button>
+                          <div class="card card-block bg-faded">
+                            <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Best Location<br/>
+                            <b>{{bestOffender.name || 'Not yet available' }}</b><button ng-hide="!bestOffender.name" ng-click="viewLocation(bestOffender)" type="button" class="btn btn-success btn-sm">View</button><br/>
+                            <span ng-if="bestOffender.feedbackReceived">Feedback Receieved: <i class="fa fa-check" aria-hidden="true"></i></span>
+                            <span ng-if="!bestOffender.feedbackReceived">Feedback Receieved: <i class="fa fa-times" aria-hidden="true"></i></span><br/>
+                          </div>
+                          <div class="card card-block bg-faded">
+                            <i class="fa fa-thumbs-o-down" aria-hidden="true"></i> Worst Location<br/>
+                            <b>{{worstOffender.name || 'Not yet available' }}</b><button ng-hide="!worstOffender.name" ng-click="viewLocation(worstOffender)" type="button" class="btn btn-success btn-sm">View</button><br/>
+                            <span ng-if="worstOffender.feedbackReceived">Feedback Receieved: <i class="fa fa-check" aria-hidden="true"></i></span>
+                            <span ng-if="!worstOffender.feedbackReceived">Feedback Receieved: <i class="fa fa-times" aria-hidden="true"></i></span><br/>
+                          </div>
                         </div>
                       </div>
                     </div>
