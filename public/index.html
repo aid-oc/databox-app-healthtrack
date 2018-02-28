@@ -51,9 +51,12 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-3">
+
               <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 <a ng-click="filterMonthly()" class="nav-link active" id="v-pills-monthly-tab" data-toggle="pill" href="#v-pills-monthly" role="tab" aria-controls="v-pills-monthly" aria-selected="true">Monthly Overview</a>
                 <a ng-click="filterDaily()" class="nav-link" id="v-pills-daily-tab" data-toggle="pill" href="#v-pills-monthly" role="tab" aria-selected="false">Daily Overview</a>
+              </div>
+              <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 <a class="nav-link" id="v-pills-zone-tab" data-toggle="pill" href="#v-pills-zone" role="tab" aria-controls="v-pills-zone" aria-selected="false">Zone Diary</a>
               </div>
             </div>
@@ -88,8 +91,10 @@
                       <div id="zoneAnalysisCard" class="card" style="margin-top: 10px;">
                         <div class="card-header"><i class="fa fa-bar-chart" aria-hidden="true"></i> Zone Analysis</div>
                         <div class="card-body">
-                          <i class="fa fa-thumbs-o-down" aria-hidden="true"></i> Worst Location (Average): {{worstOffender}} <br/>
-                          <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Best Location (Average): {{bestOffender}} <br/>
+                          <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Best Location<br/>
+                          <b>{{bestOffender.name}} <button ng-click="viewLocation(bestOffender)" type="button" class="btn btn-success">View</button></b>
+                          <i class="fa fa-thumbs-o-down" aria-hidden="true"></i> Worst Location<br/>
+                          <b>{{worstOffender.name}} <button ng-click="viewLocation(worstOffender)" type="button" class="btn btn-success">View</button></b>
                         </div>
                       </div>
                     </div>
