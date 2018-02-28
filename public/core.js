@@ -131,13 +131,15 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         let worstOffender = {
             name: "",
             lat : 0,
-            lon : 0
+            lon : 0,
+            feedbackReceived : false
         };
         let minHr = 200;
         let bestOffender = {
             name: "",
             lat : 0,
-            lon : 0
+            lon : 0,
+            feedbackReceived : false
         };
 
         for (group in groups) {
@@ -204,13 +206,15 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
                 worstOffender.name = groupName;
                 worstOffender.lat = rootLocation.lat;
                 worstOffender.lon = rootLocation.lon;
-            }
-            if (groupHeartRate < minHr) {
+                worstOffender.feedbackReceived = groupTagged;
+            } else if (groupHeartRate < minHr) {
                 minHr = groupHeartRate;
                 bestOffender.name = groupName;
                 bestOffender.lat = rootLocation.lat;
                 bestOffender.lon = rootLocation.lon;
+                worstOffender.feedbackReceived = groupTagged;
             }
+            // Generate tool tip based on feedback/no feedback
             let toolTip = "";
             if (groupTag != "") {
                 toolTip = 'You have visited ' + locationGroup.length + ' locations in this area' + '</br>' + 'Feedback Provided: ' + groupTag;
