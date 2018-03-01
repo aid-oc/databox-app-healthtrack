@@ -258,11 +258,13 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         let frequencyArray = [];
         let heatArray = [];
         for (var i = 0; i < $scope.feedbackGroups.length; i++) {
-            let freqGroup = $scope.feedbackGroups[i];
-            let adjustedFreq = (((freqGroup.visits - minVisits) * (1 - 0)) / (maxVisits - minVisits)) + 0;
-            let adjustedHeat = (((freqGroup.hr - minHr) * (1 - 0)) / (maxHr - minHr)) + 0;
-            frequencyArray.push([freqGroup.lat, freqGroup.lon, adjustedFreq]);
-            heatArray.push([freqGroup.lat, freqGroup.lon, adjustedHeat]);
+            if ($scope.feedbackGroups[i].visits > 0 && $scope.feedbackGroups[i].hr > 0) {
+                let freqGroup = $scope.feedbackGroups[i];
+                let adjustedFreq = (((freqGroup.visits - minVisits) * (1 - 0)) / (maxVisits - minVisits)) + 0;
+                let adjustedHeat = (((freqGroup.hr - minHr) * (1 - 0)) / (maxHr - minHr)) + 0;
+                frequencyArray.push([freqGroup.lat, freqGroup.lon, adjustedFreq]);
+                heatArray.push([freqGroup.lat, freqGroup.lon, adjustedHeat]);
+            }
         }
         // Construct layers for heat map
         frequencyLayer = $window.L.heatLayer(frequencyArray, {
