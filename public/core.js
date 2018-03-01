@@ -255,27 +255,17 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         // Add places layer
         $window.placesmap.addLayer(placeMarkers);
         // Convert ranges of visits and HR to between 0 and 1
-        let frequencyArray = [];
-        let heatArray = [];
+        $scope.frequencyArray = [];
+        $scope.heatArray = [];
         for (var i = 0; i < $scope.feedbackGroups.length; i++) {
             if ($scope.feedbackGroups[i].visits > 0 && $scope.feedbackGroups[i].hr > 0) {
                 let freqGroup = $scope.feedbackGroups[i];
                 let adjustedFreq = (((freqGroup.visits - minVisits) * (1 - 0)) / (maxVisits - minVisits)) + 0;
                 let adjustedHeat = (((freqGroup.hr - minHr) * (1 - 0)) / (maxHr - minHr)) + 0;
-                frequencyArray.push([freqGroup.lat, freqGroup.lon, adjustedFreq]);
-                heatArray.push([freqGroup.lat, freqGroup.lon, adjustedHeat]);
+                $scope.frequencyArray.push([freqGroup.lat, freqGroup.lon, adjustedFreq]);
+                $scope.heatArray.push([freqGroup.lat, freqGroup.lon, adjustedHeat]);
             }
         }
-        // Construct layers for heat map
-        frequencyLayer = $window.L.heatLayer(frequencyArray, {
-            radius: 120
-        });
-        heatLayer = $window.L.heatLayer(heatArray, {
-            radius: 120
-        });
-        // Add to heatmap maps
-        $window.heatmap.addLayer(heatLayer);
-        $window.freqmap.addLayer(frequencyLayer);
         // Show variables in scope
         $scope.maxHr = maxHr;
         $scope.minHr = minHr;
@@ -285,6 +275,19 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         $scope.feedbackGiven = feedbackGiven;
         $scope.totalGroups = groups.length;
         $scope.feedbackNeeded = groups.length - feedbackGiven;
+    };
+
+    $scope.generateHeatLayers() {
+        // Construct layers for heat map
+        frequencyLayer = $window.L.heatLayer($scope.frequencyArray, {
+            radius: 120
+        });
+        heatLayer = $window.L.heatLayer($scope.heatArray, {
+            radius: 120
+        });
+        // Add to heatmap maps
+        $window.heatmap.addLayer(heatLayer);
+        $window.freqmap.addLayer(frequencyLayer);
     };
 
     // Ask server to tag a zone and store
