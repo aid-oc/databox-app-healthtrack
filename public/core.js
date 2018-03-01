@@ -335,6 +335,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         addGroups($scope.tags, $scope.names, $scope.groups);
     };
 
+    // Filters to yesterday, allows for reflection on yesterday's activities
     $scope.filterDaily = function() {
         // Clear map
         $scope.clearLayers();
@@ -345,7 +346,8 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         // Filter current groups to today's date
         let newGroups = $scope.groupsToday.filter(function(element) {
             console.log("Testing Element: " + element[0].start);
-            return moment(element[0].start).isSame(new Date(), "day");
+            let yesterday = moment().subtract(1, 'days').startOf('day');
+            return moment(element[0].start).isSame(yesterday, "day");
         });
         // Add new groups to the map
         addGroups($scope.tags, $scope.names, newGroups);
