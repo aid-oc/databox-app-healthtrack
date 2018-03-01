@@ -257,8 +257,8 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         // Convert ranges of visits and HR to between 0 and 1
         let frequencyArray = [];
         let heatArray = [];
-        for (var i = 0; i < feedbackGroups.length; i++) {
-            let freqGroup = feedbackGroups[i];
+        for (var i = 0; i < $scope.feedbackGroups.length; i++) {
+            let freqGroup = $scope.feedbackGroups[i];
             let adjustedFreq = (((freqGroup.visits - minVisits) * (1 - 0)) / (maxVisits - minVisits)) + 0;
             let adjustedHeat = (((freqGroup.hr - minHr) * (1 - 0)) / (maxHr - minHr)) + 0;
             frequencyArray.push([freqGroup.lat, freqGroup.lon, adjustedFreq]);
