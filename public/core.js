@@ -277,11 +277,12 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         heatLayer = $window.L.heatLayer($scope.heatArray, {
             radius: 120
         });
-        */
+        
 
         // Add to heatmap maps
         $window.heatmap.addLayer(heatLayer);
         $window.freqmap.addLayer(frequencyLayer);
+        */
 
         // Show variables in scope
         $scope.maxHr = maxHr;
