@@ -266,6 +266,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
                 $scope.heatArray.push([freqGroup.lat, freqGroup.lon, adjustedHeat]);
             }
         }
+        /*
         // Construct layers for heat map
         frequencyLayer = $window.L.heatLayer($scope.frequencyArray, {
             radius: 120
@@ -276,6 +277,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         // Add to heatmap maps
         $window.heatmap.addLayer(heatLayer);
         $window.freqmap.addLayer(frequencyLayer);
+        */
         // Show variables in scope
         $scope.maxHr = maxHr;
         $scope.minHr = minHr;
