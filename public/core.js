@@ -277,7 +277,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         $scope.feedbackNeeded = groups.length - feedbackGiven;
     };
 
-    $scope.generateHeatLayers() {
+    $scope.generateHeatLayers = function() {
         // Construct layers for heat map
         frequencyLayer = $window.L.heatLayer($scope.frequencyArray, {
             radius: 120
