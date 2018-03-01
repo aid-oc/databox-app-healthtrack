@@ -286,12 +286,15 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         heatLayer = $window.L.heatLayer($scope.heatArray, {
             radius: 120
         });
-        // Invalidate Size (they're now visible)
+        // Invalidate Size (they're now invisible)
         $window.heatmap.invalidateSize();
         $window.freqmap.invalidateSize();
         // Add to heatmap maps
         $window.heatmap.addLayer(heatLayer);
         $window.freqmap.addLayer(frequencyLayer);
+        // Invalidate Size (they're now visible)
+        $window.heatmap.invalidateSize();
+        $window.freqmap.invalidateSize();
     };
 
     // Ask server to tag a zone and store
