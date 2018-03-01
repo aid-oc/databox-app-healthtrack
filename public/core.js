@@ -291,8 +291,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo($scope.freqmap);
 
-        $scope.heatmap.invalidateSize();
-        $scope.freqmap.invalidateSize();
+        
         
         // Construct layers for heat map
         frequencyLayer = $window.L.heatLayer($scope.frequencyArray, {
@@ -304,6 +303,9 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         // Add to heatmap maps
         $scope.heatmap.addLayer(heatLayer);
         $scope.freqmap.addLayer(frequencyLayer);
+
+        $scope.heatmap.invalidateSize();
+        $scope.freqmap.invalidateSize();
     };
 
     // Ask server to tag a zone and store
