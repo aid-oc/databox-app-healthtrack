@@ -278,6 +278,19 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
     };
 
     $scope.generateHeatLayers = function() {
+
+        $scope.heatmap = $window.L.map('heatmap').setView([52.9536, -1.15047], 11);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 17,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo($scope.heatmap);
+
+        $scope.freqmap = $window.L.map('freqmap').setView([52.9536, -1.15047], 11);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 17,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo($scope.freqmap);
+
         // Construct layers for heat map
         frequencyLayer = $window.L.heatLayer($scope.frequencyArray, {
             radius: 120
@@ -286,8 +299,8 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
             radius: 120
         });
         // Add to heatmap maps
-        $window.heatmap.addLayer(heatLayer);
-        $window.freqmap.addLayer(frequencyLayer);
+        $scope.heatmap.addLayer(heatLayer);
+        $scope.freqmap.addLayer(frequencyLayer);
     };
 
     // Ask server to tag a zone and store

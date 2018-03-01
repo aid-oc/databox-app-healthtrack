@@ -67,7 +67,7 @@
                   <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                     <a class="nav-link active" id="v-pills-zone-tab" data-toggle="pill" href="#v-pills-monthly" role="tab" aria-controls="v-pills-zone" aria-selected="true">Overview</a>
                     <a class="nav-link" id="v-pills-zone-tab" data-toggle="pill" href="#v-pills-zone" role="tab" aria-controls="v-pills-zone" aria-selected="false">Zone Diary</a>
-                    <a class="nav-link" id="v-pills-heat-tab" data-toggle="pill" href="#v-pills-heat" role="tab" aria-controls="v-pills-heat" aria-selected="false">Heatmaps</a>
+                    <a ng-click="generateHeatLayers()" class="nav-link" id="v-pills-heat-tab" data-toggle="pill" href="#v-pills-heat" role="tab" aria-controls="v-pills-heat" aria-selected="false">Heatmaps</a>
                     <a class="nav-link" id="v-pills-zone-tab" data-toggle="pill" href="#" role="tab" aria-controls="v-pills-zone" aria-selected="false">Location Rankings</a>
                   </div>
                 </div>
@@ -144,13 +144,6 @@
                           <div id="heatmap"></div>
                         </div>
                       </div>
-                      <script>
-                      var heatmap = L.map('heatmap').setView([52.9536, -1.15047], 11);
-                      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                      maxZoom: 17,
-                      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                      }).addTo(heatmap);
-                      </script>
                     </div>
                     <div class="col-md-6">
                       <div class="card">
@@ -159,13 +152,6 @@
                           <div id="freqmap"></div>
                         </div>
                       </div>
-                      <script>
-                      var freqmap = L.map('freqmap').setView([52.9536, -1.15047], 11);
-                      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                      maxZoom: 17,
-                      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                      }).addTo(freqmap);
-                      </script>
                     </div>
                   </div>
                 </div>
