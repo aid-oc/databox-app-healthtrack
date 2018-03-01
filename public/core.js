@@ -291,6 +291,9 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo($scope.freqmap);
 
+        $scope.heatmap.invalidateSize();
+        $scope.freqmap.invalidateSize();
+        
         // Construct layers for heat map
         frequencyLayer = $window.L.heatLayer($scope.frequencyArray, {
             radius: 120
