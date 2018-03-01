@@ -8,6 +8,8 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
 
     var zoneMarkers;
     var placeMarkers;
+    var frequencyLayer;
+    var heatLayer;
 
     $scope.clearLayers = function() {
         $window.placesmap.removeLayer(zoneMarkers);
@@ -112,12 +114,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         }, function() {
             console.log("Zone Feedback cancelled");
         });
-
     };
-
-
-
-    // addGroups(tags, names, groups, places);
 
     var addGroups = function(tags, names, groups) {
 
@@ -130,17 +127,19 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         let maxHr = 0;
         let worstOffender = {
             name: "",
-            lat : 0,
-            lon : 0,
-            feedbackReceived : false
+            lat: 0,
+            lon: 0,
+            feedbackReceived: false
         };
         let minHr = 200;
         let bestOffender = {
             name: "",
-            lat : 0,
-            lon : 0,
-            feedbackReceived : false
+            lat: 0,
+            lon: 0,
+            feedbackReceived: false
         };
+        let maxVisits = 0;
+        let minVisits = 0;
 
         for (group in groups) {
             // Current working group/group root
@@ -214,6 +213,12 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
                 bestOffender.lon = rootLocation.lon;
                 bestOffender.feedbackReceived = groupTagged;
             }
+            // Keep track of highest/lowest visits for converting range later
+            if (groupVisits > maxVisits) {
+                maxVisits = groupVisits;
+            } else if (groupVisits < minVisits) {
+                minVisits = groupVisits;
+            }
             // Generate tool tip based on feedback/no feedback
             let toolTip = "";
             if (groupTag != "") {
@@ -249,7 +254,27 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         $window.placesmap.addLayer(zoneMarkers);
         // Add places layer
         $window.placesmap.addLayer(placeMarkers);
-
+        // Convert ranges of visits and HR to between 0 and 1
+        let frequencyArray = [];
+        let heatArray = [];
+        for (var i = 0; i < feedbackGroups.length; i++) {
+            let freqGroup = feedbackGroups[i];
+            let adjustedFreq = (((freqGroup.visits - minVisits) * (1 - 0)) / (maxVisits - minVisits)) + 0;
+            let adjustedHeat = (((freqGroup.hr - minHr) * (1 - 0)) / (maxHr - minHr)) + 0;
+            frequencyArray.push([freqGroup.lat, freqGroup.lon, adjustedFreq]);
+            heatArray.push([freqGroup.lat, freqGroup.lon, adjustedHeat]);
+        }
+        // Construct layers for heat map
+        frequencyLayer = $window.L.heatLayer(frequencyArray, {
+            radius: 120
+        });
+        heatLayer = $window.L.heatLayer(heatArray, {
+            radius: 120
+        });
+        // Add to heatmap maps
+        $window.heatmap.addLayer(heatLayer);
+        $window.freqmap.addLayer(frequencyLayer);
+        // Show variables in scope
         $scope.maxHr = maxHr;
         $scope.minHr = minHr;
         $scope.worstOffender = worstOffender;

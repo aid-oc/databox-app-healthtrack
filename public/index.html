@@ -26,6 +26,7 @@
     <script src="ui/static/chart/chart.js"></script>
     <script src="ui/static/core.js"></script>
     <script src="ui/static/leaflet-markers/leaflet.awesome-markers.js"></script>
+    <script src="ui/static/leaflet-heat/leaflet-heat.js"></script>
   </head>
   <body ng-controller="mainController">
     <div id="wrapper">
@@ -66,7 +67,7 @@
                   <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                     <a class="nav-link active" id="v-pills-zone-tab" data-toggle="pill" href="#v-pills-monthly" role="tab" aria-controls="v-pills-zone" aria-selected="true">Overview</a>
                     <a class="nav-link" id="v-pills-zone-tab" data-toggle="pill" href="#v-pills-zone" role="tab" aria-controls="v-pills-zone" aria-selected="false">Zone Diary</a>
-                    <a class="nav-link" id="v-pills-zone-tab" data-toggle="pill" href="#" role="tab" aria-controls="v-pills-zone" aria-selected="false">Heatmaps</a>
+                    <a class="nav-link" id="v-pills-heat-tab" data-toggle="pill" href="#v-pills-heat" role="tab" aria-controls="v-pills-heat" aria-selected="false">Heatmaps</a>
                     <a class="nav-link" id="v-pills-zone-tab" data-toggle="pill" href="#" role="tab" aria-controls="v-pills-zone" aria-selected="false">Location Rankings</a>
                   </div>
                 </div>
@@ -134,7 +135,40 @@
                     </div>
                   </div>
                 </div>
-                <div class="tab-pane fade" id="v-pills-daily" role="tabpanel" aria-labelledby="v-pills-daily-tab">...</div>
+                <div class="tab-pane fade" id="v-pills-heat" role="tabpanel" aria-labelledby="v-pills-heat-tab">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="card">
+                        <div class="card-header"><i class="fa fa-map-marker" aria-hidden="true"></i> Zone Heartrate</div>
+                        <div class="card-body">
+                          <div id="heatmap"></div>
+                        </div>
+                      </div>
+                      <script>
+                      var heatmap = L.map('heatmap').setView([52.9536, -1.15047], 11);
+                      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                      maxZoom: 17,
+                      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                      }).addTo(heatmap);
+                      </script>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="card">
+                        <div class="card-header"><i class="fa fa-map-marker" aria-hidden="true"></i> Zone Frequency</div>
+                        <div class="card-body">
+                          <div id="freqmap"></div>
+                        </div>
+                      </div>
+                      <script>
+                      var freqmap = L.map('freqmap').setView([52.9536, -1.15047], 11);
+                      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                      maxZoom: 17,
+                      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                      }).addTo(freqmap);
+                      </script>
+                    </div>
+                  </div>
+                </div>
                 <div class="tab-pane fade" id="v-pills-zone" role="tabpanel" aria-labelledby="v-pills-zone-tab">
                   <div class="row">
                     <uib-tabset active="active">
