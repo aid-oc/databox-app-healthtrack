@@ -266,7 +266,8 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
                 $scope.heatArray.push([freqGroup.lat, freqGroup.lon, adjustedHeat]);
             }
         }
-        /*
+        $window.heatmap.invalidateSize();
+        $window.freqmap.invalidateSize(); 
         // Construct layers for heat map
         frequencyLayer = $window.L.heatLayer($scope.frequencyArray, {
             radius: 120
@@ -277,7 +278,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         // Add to heatmap maps
         $window.heatmap.addLayer(heatLayer);
         $window.freqmap.addLayer(frequencyLayer);
-        */
+
         // Show variables in scope
         $scope.maxHr = maxHr;
         $scope.minHr = minHr;
@@ -287,12 +288,6 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         $scope.feedbackGiven = feedbackGiven;
         $scope.totalGroups = groups.length;
         $scope.feedbackNeeded = groups.length - feedbackGiven;
-    };
-
-    $scope.invalidateHeatmaps = function() {
-        // Invalidate Size (they're now invisible)
-        $window.heatmap.invalidateSize();
-        $window.freqmap.invalidateSize(); 
     };
 
     // Ask server to tag a zone and store
