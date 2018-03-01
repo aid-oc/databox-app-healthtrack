@@ -1,5 +1,9 @@
 #placesmap { height: 600px; }
 
+#heatmap { height: 600px; }
+
+#freqmap { height: 600px; }
+
 #header-wrapper {padding-left: 15px; margin-top: 5px; padding-bottom: 20px;}
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
