@@ -27,6 +27,12 @@
     <script src="ui/static/core.js"></script>
     <script src="ui/static/leaflet-markers/leaflet.awesome-markers.js"></script>
     <script src="ui/static/leaflet-heat/leaflet-heat.js"></script>
+    <script>
+    $("a[href='#v-pills-heat']").on('shown.bs.tab', function(e) {
+    console.log('Loading heatmaps');
+    angular.element(document.getElementById('wrapper')).scope().renderHeatmaps();
+    });
+    </script>
   </head>
   <body ng-controller="mainController">
     <div id="wrapper">
@@ -67,7 +73,7 @@
                   <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                     <a class="nav-link active" id="v-pills-zone-tab" data-toggle="pill" href="#v-pills-monthly" role="tab" aria-controls="v-pills-zone" aria-selected="true">Overview</a>
                     <a class="nav-link" id="v-pills-zone-tab" data-toggle="pill" href="#v-pills-zone" role="tab" aria-controls="v-pills-zone" aria-selected="false">Zone Diary</a>
-                    <a class="nav-link" id="v-pills-heat-tab" data-toggle="pill" href="#v-pills-heat" role="tab" aria-controls="v-pills-heat" aria-selected="false">Heatmaps</a>
+                    <a ng-click="renderHeatmaps()" class="nav-link" id="v-pills-heat-tab" data-toggle="pill" href="#v-pills-heat" role="tab" aria-controls="v-pills-heat" aria-selected="false">Heatmaps</a>
                     <a class="nav-link" id="v-pills-zone-tab" data-toggle="pill" href="#" role="tab" aria-controls="v-pills-zone" aria-selected="false">Location Rankings</a>
                   </div>
                 </div>
@@ -121,7 +127,7 @@
                               <button ng-hide="!bestOffender.name" ng-click="viewLocation(bestOffender)" type="button" class="btn btn-success btn-sm">View</button>
                             </div>
                           </div>
-                         <div class="card card-block bg-faded" style="margin-top: 5px;">
+                          <div class="card card-block bg-faded" style="margin-top: 5px;">
                             <div class="card-header"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> Worst Location<br/></div>
                             <div class="card-body">
                               <b>{{worstOffender.name || 'Not yet available' }}</b><br/>
@@ -142,13 +148,6 @@
                         <div class="card-header"><i class="fa fa-map-marker" aria-hidden="true"></i> Zone Heartrate</div>
                         <div class="card-body">
                           <div id="heatmap"></div>
-                          <script>
-                          var heatmap = L.map('heatmap').setView([52.9536, -1.15047], 11);
-                          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                          maxZoom: 17,
-                          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                          }).addTo(heatmap);
-                          </script>
                         </div>
                       </div>
                     </div>
@@ -157,13 +156,6 @@
                         <div class="card-header"><i class="fa fa-map-marker" aria-hidden="true"></i> Zone Frequency</div>
                         <div class="card-body">
                           <div id="freqmap"></div>
-                          <script>
-                          var freqmap = L.map('freqmap').setView([52.9536, -1.15047], 11);
-                          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                          maxZoom: 17,
-                          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                          }).addTo(freqmap);
-                          </script>
                         </div>
                       </div>
                     </div>
@@ -198,9 +190,9 @@
     </div>
     <script>
     $("body").on("shown.bs.tab", "#v-pills-heat", function() {
-      freqmap.invalidateSize(false);
-      heatmap.invalidateSize(false);
+    freqmap.invalidateSize(false);
+    heatmap.invalidateSize(false);
     });
-  </script>
+    </script>
   </body>
 </html>
