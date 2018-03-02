@@ -293,7 +293,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
             $window.placesmap.addLayer(heatLayer);
         } else if (type == "freq") {
             console.log("Adding freq heatmap");
-            $window.placesmap.addLayer(heatLayer);
+            $window.placesmap.addLayer(frequencyLayer);
         } else {
             console.log("Adding zones");
             $window.placesmap.addLayer(zoneMarkers);

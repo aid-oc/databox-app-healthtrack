@@ -85,15 +85,9 @@
                     <div class="col-md-9">
                       <div class="card">
                         <div class="card-header"><i class="fa fa-map-marker" aria-hidden="true"></i> Zone Map  <div class="btn-group btn-group-toggle" data-toggle="buttons" style="float: right;">
-                          <label class="btn btn-success active">
-                            <button ng-click="changeMap('zones')" name="mapOptions" id="mapZoneMode" autocomplete="off" checked="" type="radio"> Zones
-                          </label>
-                          <label class="btn btn-success">
-                            <button ng-click="changeMap('heart')" name="mapOptions" id="mapHeartMode" autocomplete="off" type="radio"> Heatmap (Heart)
-                          </label>
-                          <label class="btn btn-success">
-                            <button ng-click="changeMap('freq')" name="mapOptions" id="mapFreqMode" autocomplete="off" type="radio"> Heatmap (Visit Frequency)
-                          </label>
+                            <button class="btn btn-success active" ng-click="changeMap('zones')" name="mapOptions" id="mapZoneMode" autocomplete="off" checked="" type="radio"> Zones
+                            <button class="btn btn-success" ng-click="changeMap('heart')" name="mapOptions" id="mapHeartMode" autocomplete="off" type="radio"> Heatmap (Heart)
+                            <button class="btn btn-success" ng-click="changeMap('freq')" name="mapOptions" id="mapFreqMode" autocomplete="off" type="radio"> Heatmap (Visit Frequency)
                         </div></div>
                         <div class="card-body">
                           <div class="alert alert-info alert-dismissible fade show" role="alert">
