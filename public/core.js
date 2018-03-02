@@ -10,10 +10,12 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
     var placeMarkers;
     var frequencyLayer;
     var heatLayer;
+    var showingHeat = false;
 
     $scope.clearLayers = function() {
         $window.placesmap.removeLayer(zoneMarkers);
         $window.placesmap.removeLayer(placeMarkers);
+        $window.placesmap.removeLayer(heatLayer);
     };
 
     $scope.parseJson = function(json) {
@@ -277,34 +279,24 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         $scope.feedbackNeeded = groups.length - feedbackGiven;
     };
 
-    $scope.renderHeatmaps = function() {
-
-
-        $scope.heatmap = $window.L.map('heatmap').setView([52.9536, -1.15047], 11);
-        $window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 17,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo($scope.heatmap);
-
-        $scope.freqmap = $window.L.map('freqmap').setView([52.9536, -1.15047], 11);
-        $window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 17,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo($scope.freqmap);
+    $scope.renderHeatmap = function() {
 
         // Construct layers for heat map
-        frequencyLayer = $window.L.heatLayer($scope.frequencyArray, {
-            radius: 120
-        });
-        heatLayer = $window.L.heatLayer($scope.heatArray, {
-            radius: 120
-        });
+        //frequencyLayer = $window.L.heatLayer($scope.frequencyArray, {
+        //    radius: 120
+        //});
+        if (!showingHeat) {
+            heatLayer = $window.L.heatLayer($scope.heatArray, {
+                radius: 120
+            });
+            $window.placesmap.addLayer(heatLayer);
+            showingHeat = true;
+        }
         // Add to heatmap maps
-        $scope.heatmap.addLayer(heatLayer);
-        $scope.freqmap.addLayer(frequencyLayer);
-
-        $scope.heatmap.invalidateSize();
-        $scope.freqmap.invalidateSize();
+        //$scope.heatmap.addLayer(heatLayer);
+        //$scope.freqmap.addLayer(frequencyLayer);
+        //$scope.heatmap.invalidateSize();
+        //$scope.freqmap.invalidateSize();
     };
 
     // Ask server to tag a zone and store

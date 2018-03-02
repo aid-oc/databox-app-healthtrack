@@ -73,7 +73,6 @@
                   <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                     <a class="nav-link active" id="v-pills-zone-tab" data-toggle="pill" href="#v-pills-monthly" role="tab" aria-controls="v-pills-zone" aria-selected="true">Overview</a>
                     <a class="nav-link" id="v-pills-zone-tab" data-toggle="pill" href="#v-pills-zone" role="tab" aria-controls="v-pills-zone" aria-selected="false">Zone Diary</a>
-                    <a class="nav-link" id="v-pills-heat-tab" data-toggle="pill" href="#v-pills-heat" role="tab" aria-controls="v-pills-heat" aria-selected="false">Heatmaps</a>
                     <a class="nav-link" id="v-pills-zone-tab" data-toggle="pill" href="#" role="tab" aria-controls="v-pills-zone" aria-selected="false">Location Rankings</a>
                   </div>
                 </div>
@@ -85,7 +84,17 @@
                   <div class="row">
                     <div class="col-md-9">
                       <div class="card">
-                        <div class="card-header"><i class="fa fa-map-marker" aria-hidden="true"></i> Zone Map</div>
+                        <div class="card-header"><i class="fa fa-map-marker" aria-hidden="true"></i> Zone Map  <div class="btn-group btn-group-toggle" data-toggle="buttons" style="float: right;">
+                          <label class="btn btn-success active">
+                            <input name="mapOptions" id="mapZoneMode" autocomplete="off" checked="" type="radio"> Zones
+                          </label>
+                          <label class="btn btn-success">
+                            <input name="mapOptions" id="mapHeartMode" autocomplete="off" type="radio"> Heatmap (Heart)
+                          </label>
+                          <label class="btn btn-success">
+                            <input name="mapOptions" id="mapFreqMode" autocomplete="off" type="radio"> Heatmap (Visit Frequency)
+                          </label>
+                        </div></div>
                         <div class="card-body">
                           <div class="alert alert-info alert-dismissible fade show" role="alert">
                             <strong>Tip!</strong> You can rename a zone by clicking its marker or provide feedback by clicking a coloured zone.<br/><br/>Green zones have already received feedback, however you can provide as much as you like. Feedback history is available through the zone diary.
@@ -141,26 +150,6 @@
                     </div>
                   </div>
                 </div>
-                <div class="tab-pane fade" id="v-pills-heat" role="tabpanel" aria-labelledby="v-pills-heat-tab">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="card">
-                        <div class="card-header"><i class="fa fa-map-marker" aria-hidden="true"></i> Zone Heartrate</div>
-                        <div class="card-body">
-                          <div id="heatmap"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="card">
-                        <div class="card-header"><i class="fa fa-map-marker" aria-hidden="true"></i> Zone Frequency</div>
-                        <div class="card-body">
-                          <div id="freqmap"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
                 <div class="tab-pane fade" id="v-pills-zone" role="tabpanel" aria-labelledby="v-pills-zone-tab">
                   <div class="row">
                     <uib-tabset active="active">
@@ -188,11 +177,5 @@
         </div>
       </div>
     </div>
-    <script>
-    $("body").on("shown.bs.tab", "#v-pills-heat", function() {
-    freqmap.invalidateSize(false);
-    heatmap.invalidateSize(false);
-    });
-    </script>
   </body>
 </html>
