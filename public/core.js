@@ -289,10 +289,13 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
     $scope.changeMap = function(type) {
         $scope.clearLayers();
         if (type == "heart") {
+            console.log("Adding heart heatmap");
             $window.placesmap.addLayer(heatLayer);
         } else if (type == "freq") {
+            console.log("Adding freq heatmap");
             $window.placesmap.addLayer(heatLayer);
         } else {
+            console.log("Adding zones");
             $window.placesmap.addLayer(zoneMarkers);
             $window.placesmap.addLayer(placeMarkers);
         }
