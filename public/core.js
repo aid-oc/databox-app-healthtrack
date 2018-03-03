@@ -265,22 +265,49 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
                 let adjustedFreq = (((freqGroup.visits - minVisits) * (1 - 0)) / (maxVisits - minVisits)) + 0;
                 let adjustedHeat = (((freqGroup.hr - minHr) * (1 - 0)) / (maxHr - minHr)) + 0;
                 $scope.frequencyArray.push([freqGroup.lat, freqGroup.lon, adjustedFreq]);
-                $scope.heatArray.push([freqGroup.lat, freqGroup.lon, adjustedHeat]);
+                $scope.heatArray.push({lat : freqGroup.lat, lng : freqGroup.lon, heat: adjustedHeat});
                 console.log("Zone created with heat intensity: " + adjustedHeat + " and frequency intensity: " + adjustedFreq);
             }
         }
         frequencyLayer = $window.L.heatLayer($scope.frequencyArray, {
             radius: 120,
             gradient : {0.4: 'blue', 0.65: 'lime', 1: 'red'},
-            maxZoom : 11
+            maxZoom : 14
         });
 
+        var cfg = {
+          // radius should be small ONLY if scaleRadius is true (or small radius is intended)
+          // if scaleRadius is false it will be the constant radius used in pixels
+          "radius": 120,
+          "maxOpacity": .8, 
+          // scales the radius based on map zoom
+          "scaleRadius": true, 
+          // if set to false the heatmap uses the global maximum for colorization
+          // if activated: uses the data maximum within the current map boundaries 
+          //   (there will always be a red spot with useLocalExtremas true)
+          "useLocalExtrema": true,
+          // which field name in your data represents the latitude - default "lat"
+          latField: 'lat',
+          // which field name in your data represents the longitude - default "lng"
+          lngField: 'lng',
+          // which field name in your data represents the data value - default "value"
+          valueField: 'heat'
+        };
+
+        heatLayer = new HeatmapOverlay(cfg);
+        let heatData {
+            max: 1,
+            data : $scope.heatArray
+        };
+        heatLayer.setData(heatData);
+
+        /*
         heatLayer = $window.L.heatLayer($scope.heatArray, {
             radius: 120,
             gradient : {0.4: 'blue', 0.65: 'lime', 1: 'red'},
-            maxZoom : 11
-        });
-        
+            maxZoom : 14
+        });*/
+
         // Show variables in scope
         $scope.maxHr = maxHr;
         $scope.minHr = minHr;
