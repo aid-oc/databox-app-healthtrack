@@ -5,7 +5,6 @@ var https = require('https');
 var databox = require('node-databox');
 var moment = require('moment');
 var morgan = require('morgan'); // Logger
-var mongoose = require('mongoose'); // For MongoDB
 var bodyParser = require('body-parser'); // HTML Post Parsing
 var methodOverride = require('method-override'); // Simulates DELETE/PUT
 var geolib = require('geolib');
@@ -185,7 +184,6 @@ app.get('/ui/api/zones', function(request, response) {
 
     async.parallel({
         tags: function(callback) {
-            console.log("Reading tags..");
             kvc.Read('healthtrackZoneTags').then((res) => {
                 console.log("Read Store with datasourceId: healthtrackZoneTags");
                 callback(null, res);
@@ -195,7 +193,6 @@ app.get('/ui/api/zones', function(request, response) {
             });
         },
         names: function(callback) {
-            console.log("Reading names...");
             kvctwo.Read('renamedGroups').then((res) => {
                 console.log("Read Store with datasourceId: renamedGroups");
                 callback(null, res);
@@ -205,10 +202,8 @@ app.get('/ui/api/zones', function(request, response) {
             });
         },
         groups: function(callback) {
-            console.log("Reading Places...");
             let locationGroups = [];
             getPlacesFromStore.then((data) => {
-                    console.log("Read Places Store");
                     let jsonString = JSON.stringify(data);
                     let json = JSON.parse(jsonString);
                     for (day in json) {
@@ -263,10 +258,7 @@ app.get('/ui/api/zones', function(request, response) {
                     */
 
                     getHeartRateFromStore.then((hrData) => {
-                            console.log(hrData);
-                            console.log(JSON.stringify(hrData));
                             let parsedHrData = JSON.parse(JSON.stringify(hrData));
-                            console.log("Parsed Data: " + JSON.stringify(parsedHrData));
 
                             for (var i = locationGroups.length - 1; i >= 0; i--) {
                                 let currentGroupLength = 0;
@@ -275,7 +267,6 @@ app.get('/ui/api/zones', function(request, response) {
                                     let visit = locationGroups[i][x];
                                     let visitStart = locationGroups[i][x].start;
                                     let visitEnd = locationGroups[i][x].end;
-                                    console.log("Trying to associate HR with visit: " + moment(visitStart) + " : " + moment(visitEnd));
                                     let visitHrTotal = 0;
                                     let visitHrCount = 0;
 
@@ -285,9 +276,7 @@ app.get('/ui/api/zones', function(request, response) {
                                     for (var y = 0; y < parsedHrData.length; y++) {
                                         let dayHr = parsedHrData[y];
                                         // Check if we have the correct day
-                                        console.log("Checking for match: " + dayHr.date + " : " + formattedStartDate);
                                         if (dayHr.date === formattedStartDate) {
-                                            console.log("Found the correct day of HR data for this visit");
 
                                             let startTime = moment(visitStart).format("HH:mm");
                                             let endTime = moment(visitEnd).format("HH:mm");
@@ -299,19 +288,15 @@ app.get('/ui/api/zones', function(request, response) {
                                             let startIndex;
                                             let endIndex;
                                             for (datasetEntry in dataset) {
-                                                console.log("(Start) Comparing: " + dataset[datasetEntry].time + " | " + startTime);
                                                 if (dataset[datasetEntry].time.indexOf(startTime) !== -1) {
                                                     startIndex = datasetEntry;
-                                                    console.log("Found start index: " + startIndex);
                                                 }
                                                 if (dataset[datasetEntry].time.indexOf(endTime) !== -1) {
                                                     endIndex = datasetEntry;
-                                                    console.log("Found end index: " + endIndex);
                                                 }
                                             }
                                             // Calculate HR values between our start/end index
                                             for (var z = startIndex; z < endIndex; z++) {
-                                                console.log("Adjusting visit hr... (Found value between indexes)");
                                                 visitHrCount++;
                                                 visitHrTotal += dataset[z].value;
                                             }
@@ -319,14 +304,12 @@ app.get('/ui/api/zones', function(request, response) {
                                     }
                                     locationGroups[i][x].heartRate = Math.round(visitHrTotal / visitHrCount);
                                     if (locationGroups[i][x].heartRate !== locationGroups[i][x].heartRate) {
-                                        console.log("HR was NaN, setting to 0");
                                         locationGroups[i][x].heartRate = 0;
                                     } else {
                                         // We've added another HR group to this zone
                                         currentGroupTotal += locationGroups[i][x].heartRate;
                                         currentGroupLength++;
                                     }
-                                    console.log("Assigned HR value of: " + locationGroups[i][x].heartRate);
                                 }
                                 locationGroups[i] = locationGroups[i].filter(element => element.heartRate > 0);
                                 if (locationGroups[i].length > 0) {
@@ -337,7 +320,6 @@ app.get('/ui/api/zones', function(request, response) {
                         .catch((hrError) => {
                             console.log("Error getting HR data: " + hrError);
                         });
-                    console.log("Sorted Groups...");
                     // Filter out groups which do not have heart rate data
                     callback(null, locationGroups);
                 })
@@ -347,7 +329,6 @@ app.get('/ui/api/zones', function(request, response) {
                 });
         }
     }, function(err, results) {
-        console.log("Got names, tags, group...");
         if (err) {
             console.log("Error (Final): " + err);
             response.status(500).end();

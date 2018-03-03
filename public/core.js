@@ -20,7 +20,6 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
 
     $scope.parseJson = function(json) {
         let parsed = JSON.parse(json);
-        console.log("JSON Parsed: " + parsed);
         return parsed;
     };
 
@@ -266,7 +265,6 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
                 let adjustedHeat = (((freqGroup.hr - minHr) * (1 - 0)) / (maxHr - minHr)) + 0;
                 $scope.frequencyArray.push([freqGroup.lat, freqGroup.lon, adjustedFreq]);
                 $scope.heatArray.push([freqGroup.lat, freqGroup.lon, adjustedHeat]);
-                console.log("Zone created with heat intensity: " + adjustedHeat + " and frequency intensity: " + adjustedFreq);
             }
         }
         frequencyLayer = $window.L.heatLayer($scope.frequencyArray, {
@@ -295,13 +293,10 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
     $scope.changeMap = function(type) {
         $scope.clearLayers();
         if (type == "heart") {
-            console.log("Adding heart heatmap");
             $window.placesmap.addLayer(heatLayer);
         } else if (type == "freq") {
-            console.log("Adding freq heatmap");
             $window.placesmap.addLayer(frequencyLayer);
         } else {
-            console.log("Adding zones");
             $window.placesmap.addLayer(zoneMarkers);
             $window.placesmap.addLayer(placeMarkers);
         }
@@ -368,7 +363,6 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         $scope.groupsToday = angular.copy($scope.groups);
         // Filter current groups to today's date
         let newGroups = $scope.groupsToday.filter(function(element) {
-            console.log("Testing Element: " + element[0].start);
             let yesterday = moment().subtract(1, 'days').startOf('day');
             return moment(element[0].start).isSame(yesterday, "day");
         });
