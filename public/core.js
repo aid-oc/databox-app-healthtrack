@@ -341,7 +341,12 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         return $scope.sortedFeedback.slice(0, 4);
     };
 
-
+    $scope.getMostRecentFeedback = function(feedbackArray) {
+        feedbackArray.sort(function(a, b) {
+            return moment(a.tagMoment) - moment(b.tagMoment);
+        });
+        return feedbackArray[0].zoneTag;
+    };
 
     $scope.filterMonthly = function() {
         // Clear map

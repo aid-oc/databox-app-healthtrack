@@ -172,14 +172,16 @@
                                 <th scope="col">Name</th>
                                 <th scope="col">Average HR</th>
                                 <th scope="col">Total Visits</th>
+                                <th scope="col">Recent Feedback</th>
                               </tr>
                             </thead>
                             <tbody>
-                              <tr ng-repeat="group in feedbackGroups | orderBy:'hr'">
+                              <tr ng-repeat="group in feedbackGroups | orderBy:'hr':true">
                                 <td>#{{$index + 1}}</td>
-                                <td>{{group.name}}</td>
+                                <td>{{group.name || 'Not yet named'}}</td>
                                 <td>{{group.hr}}</td>
                                 <td>{{group.visits}}</td>
+                                <td>{{getMostRecentFeedback(group.feedback)}}</td>
                               </tr>
                             </tbody>
                           </table>
