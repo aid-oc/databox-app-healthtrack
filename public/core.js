@@ -266,15 +266,21 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
                 let adjustedHeat = (((freqGroup.hr - minHr) * (1 - 0)) / (maxHr - minHr)) + 0;
                 $scope.frequencyArray.push([freqGroup.lat, freqGroup.lon, adjustedFreq]);
                 $scope.heatArray.push([freqGroup.lat, freqGroup.lon, adjustedHeat]);
+                console.log("Zone created with heat intensity: " + adjustedHeat + " and frequency intensity: " + adjustedFreq);
             }
         }
         frequencyLayer = $window.L.heatLayer($scope.frequencyArray, {
-            radius: 120
+            radius: 120,
+            gradient : {0.4: 'blue', 0.65: 'lime', 1: 'red'},
+            maxZoom : 11
         });
 
         heatLayer = $window.L.heatLayer($scope.heatArray, {
-            radius: 120
+            radius: 120,
+            gradient : {0.4: 'blue', 0.65: 'lime', 1: 'red'},
+            maxZoom : 11
         });
+        
         // Show variables in scope
         $scope.maxHr = maxHr;
         $scope.minHr = minHr;
