@@ -67,7 +67,7 @@
                   <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                     <a class="nav-link active" id="v-pills-zone-tab" data-toggle="pill" href="#v-pills-monthly" role="tab" aria-controls="v-pills-zone" aria-selected="true">Overview</a>
                     <a class="nav-link" id="v-pills-zone-tab" data-toggle="pill" href="#v-pills-zone" role="tab" aria-controls="v-pills-zone" aria-selected="false">Zone Diary</a>
-                    <a class="nav-link" id="v-pills-zone-tab" data-toggle="pill" href="#" role="tab" aria-controls="v-pills-zone" aria-selected="false">Location Rankings</a>
+                    <a class="nav-link" id="v-pills-rankings-tab" data-toggle="pill" href="#v-pills-rankings" role="tab" aria-controls="v-pills-rankings" aria-selected="false">Location Rankings</a>
                   </div>
                 </div>
               </div>
@@ -79,9 +79,9 @@
                     <div class="col-md-9">
                       <div class="card">
                         <div class="card-header"><i class="fa fa-map-marker" aria-hidden="true"></i> Zone Map  <div class="btn-group btn-group-toggle" data-toggle="buttons" style="float: right;">
-                            <button class="btn btn-success active" ng-click="changeMap('zones')" name="mapOptions" id="mapZoneMode" autocomplete="off" checked="" type="radio"> Zones
-                            <button class="btn btn-success" ng-click="changeMap('heart')" name="mapOptions" id="mapHeartMode" autocomplete="off" type="radio"> Heatmap (Heart)
-                            <button class="btn btn-success" ng-click="changeMap('freq')" name="mapOptions" id="mapFreqMode" autocomplete="off" type="radio"> Heatmap (Visit Frequency)
+                          <button class="btn btn-success active" ng-click="changeMap('zones')" name="mapOptions" id="mapZoneMode" autocomplete="off" checked="" type="radio"> Zones
+                          <button class="btn btn-success" ng-click="changeMap('heart')" name="mapOptions" id="mapHeartMode" autocomplete="off" type="radio"> Heatmap (Heart)
+                          <button class="btn btn-success" ng-click="changeMap('freq')" name="mapOptions" id="mapFreqMode" autocomplete="off" type="radio"> Heatmap (Visit Frequency)
                         </div></div>
                         <div class="card-body">
                           <div class="alert alert-info alert-dismissible fade show" role="alert">
@@ -157,6 +157,35 @@
                     </div>
                     </uib-tab>
                     </uib-tabset>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="v-pills-rankings" role="tabpanel" aria-labelledby="v-pills-rankings-tab">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="card">
+                        <div class="card-header"><i class="fa fa-map-marker" aria-hidden="true"></i> Rankings (Higher is worse)</div>
+                        <div class="card-body">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Average HR</th>
+                                <th scope="col">Total Visits</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr ng-repeat="group in feedbackGroups | orderBy:'hr'">
+                                <td>#{{$index + 1}}</td>
+                                <td>{{group.name}}</td>
+                                <td>{{group.hr}}</td>
+                                <td>{{group.visits}}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
