@@ -345,7 +345,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         feedbackArray.sort(function(a, b) {
             return moment(a.tagMoment) - moment(b.tagMoment);
         });
-        return feedbackArray[0].zoneTag;
+        return (typeof feedbackArray[0] != 'undefined') : feedbackArray[0].zoneTag ? 'No recent feedback';
     };
 
     $scope.filterMonthly = function() {
