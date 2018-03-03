@@ -305,6 +305,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
             $window.placesmap.addLayer(zoneMarkers);
             $window.placesmap.addLayer(placeMarkers);
         }
+        $window.placesmap.setZoom(12);
     };
 
     // Ask server to tag a zone and store
