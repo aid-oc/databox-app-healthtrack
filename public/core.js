@@ -295,7 +295,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         };
 
         heatLayer = new HeatmapOverlay(cfg);
-        let heatData {
+        let heatData = {
             max: 1,
             data : $scope.heatArray
         };
