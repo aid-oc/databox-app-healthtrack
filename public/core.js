@@ -364,8 +364,11 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         // Filter current groups to today's date
         let newGroups = $scope.groupsToday.filter(function(element) {
             let yesterday = moment().subtract(1, 'days').startOf('day');
-            console.log("(Daily Filter) - Checking if " + yesterday.format("YY-MM-DD") + " equals " + moment(element[0].start).format("YY-MM-DD"));
-            return moment(element[0].start).isSame(yesterday, "day");
+            for (var i = element.length - 1; i >= 0; i--) {
+                let segement = element[i];
+                return moment(segement.start).isSame(yesterday, "day");
+            }
+            return false;
         });
         // Add new groups to the map
         addGroups($scope.tags, $scope.names, newGroups);
