@@ -333,6 +333,8 @@ app.get('/ui/api/zones', function(request, response) {
             console.log("Error (Final): " + err);
             response.status(500).end();
         } else if (JSON.stringify(results.names) === JSON.stringify(results.tags)) {
+            console.log(JSON.stringify(results.names));
+            console.log(JSON.stringify(results.tags));
             console.log("Error (Stores returned the same content for tags and names...): ");
             response.status(500).end();
         } else {
