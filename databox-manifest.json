@@ -23,19 +23,19 @@
 
 	"packages": [
 		{
-			"name": "Location visualise",
-			"purpose": "To visualise your location history",
+			"name": "Moves Location History Access",
+			"purpose": "Needed to associate heart rate values with a physical location",
 			"install": "required",
-			"risks": "Shows where you have been.",
-			"benefits": "Shows your location history",
+			"risks": "Your location history held for the past 28 days by the Moves mobile application.",
+			"benefits": "Allows you to view where you have travelled recently.",
 			"datastores": [ "DS_movesPlaces" ]
 		},
 		{
-			"name": "HR Associate",
-			"purpose": "To associate your fitbit hr data with moves locations",
+			"name": "Fitbit Heart Rate History Access",
+			"purpose": "Needed to tag physical values with heart rate values",
 			"install": "required",
-			"risks": "Holds your heart rate at different times of the day",
-			"benefits": "Allows you to link heart rate to location",
+			"risks": "Your heart rate history held for the past 28 days by Fitbit.",
+			"benefits": "Allows you to view how your heart rate across differs across locations",
 			"datastores": [ "DS_fitbitHr" ]
 		}
 	],
