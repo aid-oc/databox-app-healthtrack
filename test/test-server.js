@@ -11,6 +11,8 @@ describe('Stores', function() {
         chai.request(server)
             .get('/ui/api/zones')
             .end(function(err, res) {
+                if (err) console.log(err);
+                if (res) console.log(res);
                 res.should.have.status(200);
                 res.should.be.json;
                 res.body.should.be.a('array');
