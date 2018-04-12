@@ -508,5 +508,5 @@ app.get('/ui', function(request, response) {
 // Start Application
 let httpsCredentials = databox.getHttpsCredentials();
 let server = https.createServer(httpsCredentials, app);
-server.listen(8080);
+module.exports = server.listen(8080);
 console.log("App listening on port 8080");
