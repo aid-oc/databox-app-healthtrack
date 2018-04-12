@@ -6,6 +6,7 @@ apk del make gcc g++ python curl git krb5-dev
 
 ADD . .
 RUN npm install
+RUN npm install -g mocha@2.3.1
 
 LABEL databox.type="app"
 
