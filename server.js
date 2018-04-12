@@ -25,6 +25,10 @@ app.use(bodyParser.json({
 })); // Parse vnd.api+json as json
 app.use(methodOverride());
 
+
+// For testing
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+
 // Set up stores
 const DATABOX_ZMQ_ENDPOINT = process.env.DATABOX_ZMQ_ENDPOINT;
 
