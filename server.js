@@ -189,7 +189,6 @@ app.get('/ui/api/zones', function(request, response) {
     async.parallel({
         tags: function(callback) {
             kvc.Read('healthtrackZoneTags').then((res) => {
-                console.log("Read Store with datasourceId: healthtrackZoneTags");
                 callback(null, res);
             }).catch((err) => {
                 console.log("Error reading tags.." + err);
@@ -198,7 +197,6 @@ app.get('/ui/api/zones', function(request, response) {
         },
         names: function(callback) {
             kvctwo.Read('renamedGroups').then((res) => {
-                console.log("Read Store with datasourceId: renamedGroups");
                 callback(null, res);
             }).catch((err) => {
                 console.log("Error reading names...");
@@ -336,13 +334,6 @@ app.get('/ui/api/zones', function(request, response) {
         if (err) {
             console.log("Error (Final): " + err);
             response.status(500).end();
-        /*
-        } else if (JSON.stringify(results.names) === JSON.stringify(results.tags)) {
-            console.log(JSON.stringify(results.names));
-            console.log(JSON.stringify(results.tags));
-            console.log("Error (Stores returned the same content for tags and names...): ");
-            response.status(500).end();
-        */
         } else {
             console.log("All ok.. returning zones");
             results.groups = results.groups.filter(element => element.length > 0);
@@ -354,7 +345,6 @@ app.get('/ui/api/zones', function(request, response) {
 /* Returns JSON of stored zone tags */
 app.get('/ui/api/tags', function(request, response) {
     kvc.Read('healthtrackZoneTags').then((res) => {
-        console.log("Read Store with datasourceId: healthtrackZoneTags - Response: " + JSON.stringify(res));
         response.json(res);
     }).catch((err) => {
         response.status(500).end();
@@ -364,7 +354,6 @@ app.get('/ui/api/tags', function(request, response) {
 /* Returns JSON of stored zone names */
 app.get('/ui/api/names', function(request, response) {
     kvc.Read('renamedGroups').then((res) => {
-        console.log("Read Store with datasourceId: renamedGroups - Response: " + JSON.stringify(res));
         response.json(res);
     }).catch((err) => {
         response.status(500).end();
