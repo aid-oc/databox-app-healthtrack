@@ -85,10 +85,10 @@ describe('Stores', function() {
 
     it('should store a zone tag on /ui/api/tagZone POST', function(done) {
         let newTag = {
-            zoneTagDate: "2018-01-01T16:28:48.274Z",
-            zoneLat: -33.918861,
-            zoneLon: 18.423300,
-            zoneTag: "test"
+            date: "2018-01-01T16:28:48.274Z",
+            lat: -33.918861,
+            lon: 18.423300,
+            tag: "test"
         };
         chai.request(server)
             .post('/ui/api/tagZone')
@@ -103,9 +103,9 @@ describe('Stores', function() {
 
     it('should store a name override on /ui/api/renameZone POST', function(done) {
         let newRename = {
-            zoneLat: -33.918861,
-            zoneLon: 18.423300,
-            zoneName: "test"
+            lat: -33.918861,
+            lon: 18.423300,
+            name: "test"
         };
         chai.request(server)
             .post('/ui/api/renameZone')
@@ -116,8 +116,6 @@ describe('Stores', function() {
                 done();
             });
     });
-
-
 
 
 });
