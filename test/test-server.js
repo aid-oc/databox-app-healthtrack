@@ -24,7 +24,7 @@ describe('Stores', function() {
             .end(function(err, res) {
                 res.should.have.status(200);
                 res.should.be.json;
-                res.body.should.be.an('object');
+                res.body.should.be.an('array');
                 done();
             });
     });
@@ -35,7 +35,7 @@ describe('Stores', function() {
             .end(function(err, res) {
                 res.should.have.status(200);
                 res.should.be.json;
-                res.body.should.be.an('object');
+                res.body.should.be.an('array');
                 done();
             });
     });
@@ -78,12 +78,12 @@ describe('Stores', function() {
             .get('/ui/')
             .end(function(err, res) {
                 res.should.have.status(200);
-                res.body.should.be.an('array');
+                res.body.should.be.an('object');
                 done();
             });
     });
 
-    it('should store a zone tag on /ui/tagZone POST', function(done) {
+    it('should store a zone tag on /ui/api/tagZone POST', function(done) {
         let newTag = {
             zoneTagDate: "2018-01-01T16:28:48.274Z",
             zoneLat: -33.918861,
@@ -91,7 +91,7 @@ describe('Stores', function() {
             zoneTag: "test"
         };
         chai.request(server)
-            .post('/ui/tagZone')
+            .post('/ui/api/tagZone')
             .send(newTag)
             .end(function(err, res) {
                 // Res = 200 is only sent upon a successful tag store
@@ -101,14 +101,14 @@ describe('Stores', function() {
     });
 
 
-    it('should store a name override on /ui/renameZone POST', function(done) {
+    it('should store a name override on /ui/api/renameZone POST', function(done) {
         let newRename = {
             zoneLat: -33.918861,
             zoneLon: 18.423300,
             zoneName: "test"
         };
         chai.request(server)
-            .post('/ui/renameZone')
+            .post('/ui/api/renameZone')
             .send(newRename)
             .end(function(err, res) {
                 // Res = 200 is only sent upon a successful zone rename
