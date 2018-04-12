@@ -8,8 +8,8 @@ chai.use(chaiHttp);
 describe('Stores', function() {
 
     it('should list all zones on GET', function(done) {
-        chai.request(server)
-            .get('https://localhost:8080/ui/api/zones')
+        chai.request("https://localhost:8080")
+            .get('/ui/api/zones')
             .end(function(err, res) {
                 if (err) console.log(err);
                 if (res) console.log(res);
