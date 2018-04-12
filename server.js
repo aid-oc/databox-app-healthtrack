@@ -128,6 +128,19 @@ var getHeartRateFromStore = new Promise(function(resolve, reject) {
 
 
 /* Handles saving a tag to a zone (description against a zone identified by lat/long) */
+app.post('/ui/api/resetOverrides', function(request, response) {
+    let empty = {};
+    kvc.Write("healthtrackZoneTags", empty).then((res) => {
+        return kvc.Write("renamedGroups", empty);
+    }).then(() => {
+        console.log("Reset user preferences");
+    }).catch((err) => {
+        response.status(500).end();
+    });
+});
+
+
+/* Handles saving a tag to a zone (description against a zone identified by lat/long) */
 app.post('/ui/api/tagZone', function(request, response) {
 
     let newTag = {
