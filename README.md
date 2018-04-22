@@ -4,6 +4,8 @@ Healthtrack is based upon the databox platform and has the following dependencie
 
 * [Docker](https://docs.docker.com/install/)
 * [Git](https://git-scm.com/)
+* [Moves Account](https://moves-app.com/) with a stored location history.
+* [Fitbit Account](https://www.fitbit.com/) with a stored heart rate history.
 
 ## Installing the components
 
@@ -17,7 +19,7 @@ Once you have installed Docker and Git, you will be able to install the databox 
 
 The databox system will now be available at [http://localhost], follow the prompts to secure the website and accept the certifcates.
 
-### Healthtrack components
+### Healthtrack
 
 With the databox system running, navigate to the databox directory and run the following commands:
 
@@ -53,4 +55,4 @@ Once both of the drivers have been authenticated, you are ready to set up the ap
 
 1. Navigate to [Installed Applications](https://localhost/#!/app/installed) and select "databox healthtrack"
 
-You will now see an interface displaying a range of features, to see what is available please view the [Overview Image](https://github.com/psyaoc/databox-app-healthtrack/blob/master/overview.png)
+You will now see an interface displaying a range of features, to see what is available please view the image here: [Overview Image](https://github.com/psyaoc/databox-app-healthtrack/blob/master/overview.png)
