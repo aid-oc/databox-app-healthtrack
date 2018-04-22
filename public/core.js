@@ -11,6 +11,8 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
     var frequencyLayer;
     var heatLayer;
 
+
+    /* Removes all of the layers added to the leaflet.js map, (markers, zones, heatmaps) */
     $scope.clearLayers = function() {
         $window.placesmap.removeLayer(zoneMarkers);
         $window.placesmap.removeLayer(placeMarkers);
@@ -18,12 +20,13 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         $window.placesmap.removeLayer(frequencyLayer);
     };
 
+    /* Converts a JSON string into an object */
     $scope.parseJson = function(json) {
         let parsed = JSON.parse(json);
         return parsed;
     };
 
-    // Event listener for a zone click
+    /* Event listener for a location marker click, this will trigger the rename dialog */
     var onMarkerClick = function(e) {
         let clickedMarker = e.target;
         let latLng = clickedMarker.getLatLng();
@@ -45,6 +48,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
 
     };
 
+    /* Add a marker to the map, must supply the location, name, duration and heart rate average for the zone */
     var addMarker = function(name, lat, lon, start, end, hr) {
         if (!name) {
             name = "Unknown";
@@ -52,7 +56,8 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         // Marker values based on HR
         let markerIcon = "";
         $window.L.AwesomeMarkers.Icon.prototype.options.prefix = 'fa';
-        // Classify colour based on HR
+        // Classify colour based on HR (Static values will be dynamic in the future)
+        // Currently these were based off my own heart rate history
         switch (true) {
             case (hr < 80):
                 markerIcon = L.AwesomeMarkers.icon({
@@ -95,11 +100,12 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         $window.placesmap.setView([lat, lon], 11);
     };
 
-    // Event listener for a zone click
+    /* Event listener for a zone click, will trigger the feedback dialog */
     var onZoneClick = function(e) {
         let clickedCircle = e.target;
+        // Get the center bounds, necessary to tie the feedback to the root of a zone
         let latLng = clickedCircle.getBounds().getCenter();
-
+        // Create dialog
         var confirm = $mdDialog.prompt()
             .title('Zone Feedback')
             .textContent('Please provide as much information about how you felt during your visit to this area as possible.')
@@ -109,7 +115,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
             .required(true)
             .ok('Okay')
             .cancel('Cancel');
-
+        // Store tag if user wishes
         $mdDialog.show(confirm).then(function(result) {
             $scope.tagZone(latLng.lat, latLng.lng, result);
         }, function() {
@@ -117,8 +123,9 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         });
     };
 
+    /* Combine the user-defined tags and names along with group data (HR, Locations) to produce zones to show on the map */
     var addGroups = function(tags, names, groups) {
-
+        // Store layers for later removal
         zoneMarkers = new $window.L.FeatureGroup();
         placeMarkers = new $window.L.FeatureGroup();
 
@@ -141,6 +148,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         };
         let maxVisits = 0;
         let minVisits = 0;
+
 
         for (group in groups) {
             // Current working group/group root
@@ -267,12 +275,12 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
                 $scope.heatArray.push([freqGroup.lat, freqGroup.lon, adjustedHeat]);
             }
         }
+        // Generate heatmap layers
         frequencyLayer = $window.L.heatLayer($scope.frequencyArray, {
             radius: 120,
             gradient : {0.4: 'blue', 0.65: 'lime', 1: 'red'},
             maxZoom : 14
         });
-
         heatLayer = $window.L.heatLayer($scope.heatArray, {
             radius: 120,
             gradient : {0.4: 'blue', 0.65: 'lime', 1: 'red'},
@@ -290,6 +298,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         $scope.feedbackNeeded = groups.length - feedbackGiven;
     };
 
+    /* Toggle the map between different views (zones/location frequency/heartrate intensity) */
     $scope.changeMap = function(type) {
         $scope.clearLayers();
         if (type == "heart") {
@@ -303,7 +312,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         $window.placesmap.setZoom(12);
     };
 
-    // Ask server to tag a zone and store
+    /* Request API (server.js) to tag a zone and store */
     $scope.tagZone = function(zoneLat, zoneLon, zoneTag) {
         let postData = {
             date: moment().toJSON(),
@@ -318,7 +327,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         });
     };
 
-    // Ask server to tag a zone and store
+    /* Request API (server.js) to rename a zone and store */
     $scope.renameZone = function(zoneLat, zoneLon, zoneName) {
         let postData = {
             lat: zoneLat,
@@ -332,11 +341,13 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         });
     };
 
+    /* Filter the feedback array and get the 5 most recent */
     $scope.getRecentFiveFeedback = function() {
         $scope.sortedFeedback = $filter('orderBy')($scope.tags, 'zoneTagDate', false);
         return $scope.sortedFeedback.slice(0, 4);
     };
 
+    /* Get the most recent entry in a feedback array */
     $scope.getMostRecentFeedback = function(feedbackArray) {
         feedbackArray.sort(function(a, b) {
             return moment(a.tagMoment) - moment(b.tagMoment);
@@ -344,6 +355,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         return (typeof feedbackArray[0] != 'undefined') ? feedbackArray[0].zoneTag : 'No recent feedback';
     };
 
+    /* Filter the global groups to monthly entries */
     $scope.filterMonthly = function() {
         // Clear map
         $scope.clearLayers();
@@ -353,7 +365,7 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         addGroups($scope.tags, $scope.names, $scope.groups);
     };
 
-    // Filters to yesterday, allows for reflection on yesterday's activities
+    /* Filter the global groups to yesterday's entries */
     $scope.filterDaily = function() {
         // Clear map
         $scope.clearLayers();
@@ -374,15 +386,17 @@ function mainController($scope, $http, $window, $filter, $document, $mdDialog, $
         addGroups($scope.tags, $scope.names, newGroups);
     };
 
+    /* Filter used by angular to determine whether to show feedback for a location */
     $scope.filterForFeedback = function(item) {
         return item.feedback.length > 0;
     };
 
+    /* Focus the map on a particular location */
     $scope.viewLocation = function(location) {
         $window.placesmap.setView([location.lat, location.lon], 17);
     };
 
-
+    /* Called upon application load, trigger API (server.js) calls to retrieve necessary information */
     $http.get('/databox-app-healthtrack/ui/api/zones').then(function(success) {
         let data = JSON.parse(JSON.stringify(success.data));
         $scope.tags = data.tags;

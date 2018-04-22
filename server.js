@@ -69,14 +69,15 @@ kvc.RegisterDatasource(healthtrackZoneTags)
         console.log("Error registering data source:" + err);
     });
 
+/* Helper functions */
 var generateRandom = function(min, max) {
     return Math.round(Math.random() * (max - min) + min);
 };
-
 var emptyObject = function(obj) {
     return !Object.keys(obj).length;
 }
 
+/* Promise to attempt to access the 'movesPlaces' data source */
 var getPlacesFromStore = new Promise(function(resolve, reject) {
     let DATASOURCE_DS_movesPlaces = process.env.DATASOURCE_DS_movesPlaces;
     databox.HypercatToSourceDataMetadata(DATASOURCE_DS_movesPlaces)
@@ -102,6 +103,7 @@ var getPlacesFromStore = new Promise(function(resolve, reject) {
 });
 
 
+/* Promise to attempt to access the 'fitbitHR' data source */
 var getHeartRateFromStore = new Promise(function(resolve, reject) {
     let DATASOURCE_DS_fitbitHr = process.env.DATASOURCE_DS_fitbitHr;
     databox.HypercatToSourceDataMetadata(DATASOURCE_DS_fitbitHr)
@@ -127,7 +129,7 @@ var getHeartRateFromStore = new Promise(function(resolve, reject) {
 });
 
 
-/* Handles saving a tag to a zone (description against a zone identified by lat/long) */
+/* Reset the 'renamedGroups' datasource (remove all data) */
 app.post('/ui/api/resetOverrides', function(request, response) {
     let empty = {};
     kvc.Write("healthtrackZoneTags", empty).then((res) => {
@@ -140,7 +142,7 @@ app.post('/ui/api/resetOverrides', function(request, response) {
 });
 
 
-/* Handles saving a tag to a zone (description against a zone identified by lat/long) */
+/* Handles saving a tag to a zone (description against a zone identified by lat/long), expects a date/lat/lon and tag */
 app.post('/ui/api/tagZone', function(request, response) {
 
     let newTag = {
@@ -170,6 +172,7 @@ app.post('/ui/api/tagZone', function(request, response) {
     });
 });
 
+/* Handles renaming a zone, expects a lat/lon and name parameter */
 app.post('/ui/api/renameZone', function(request, response) {
     let newRename = {
         zoneLat: request.body.lat,
@@ -196,7 +199,7 @@ app.post('/ui/api/renameZone', function(request, response) {
     });
 });
 
-
+/* Primary API route, reads user-defined overrides and associates these with heart rate and location data to form groups */
 app.get('/ui/api/zones', function(request, response) {
 
     async.parallel({
@@ -221,9 +224,11 @@ app.get('/ui/api/zones', function(request, response) {
             getPlacesFromStore.then((data) => {
                     let jsonString = JSON.stringify(data);
                     let json = JSON.parse(jsonString);
+                    // Loop over each day of location visits
                     for (day in json) {
+                        // Loop over each visit in each day
                         for (segment in json[day].segments) {
-                            // Create marker
+                            // Create a marker corresponding to this visit
                             let marker = {};
                             let placeName = json[day].segments[segment].place.name;
                             marker.start = json[day].segments[segment].startTime;
@@ -231,8 +236,7 @@ app.get('/ui/api/zones', function(request, response) {
                             marker.lat = json[day].segments[segment].place.location.lat;
                             marker.lon = json[day].segments[segment].place.location.lon;
                             marker.name = placeName;
-
-                            // Check if any valid groups exist
+                            // Check if any valid groups exist to add this visit to
                             if (locationGroups.length > 0) {
                                 let groupFound = false;
                                 // Loop over each group, check if this marker belongs
@@ -265,19 +269,14 @@ app.get('/ui/api/zones', function(request, response) {
                             }
                         }
                     }
-                    /*
-                    // Filter for invalid groups
-                    locationGroups = locationGroups.filter(function(elGroup) {
-                        return elGroup.length >= 1 && elGroup[0].name;
-                    });
-                    */
-
+                    // Groups have now been constructed, get the heart rate data from the store
                     getHeartRateFromStore.then((hrData) => {
                             let parsedHrData = JSON.parse(JSON.stringify(hrData));
-
+                            // Loop over each group
                             for (var i = locationGroups.length - 1; i >= 0; i--) {
                                 let currentGroupLength = 0;
                                 let currentGroupTotal = 0;
+                                // Loop over each visit within a group
                                 for (var x = locationGroups[i].length - 1; x >= 0; x--) {
                                     let visit = locationGroups[i][x];
                                     let visitStart = locationGroups[i][x].start;
@@ -292,11 +291,8 @@ app.get('/ui/api/zones', function(request, response) {
                                         let dayHr = parsedHrData[y];
                                         // Check if we have the correct day
                                         if (dayHr.date === formattedStartDate) {
-
                                             let startTime = moment(visitStart).format("HH:mm");
                                             let endTime = moment(visitEnd).format("HH:mm");
-
-
                                             // Loop over each entry of the day to find the start/end time for this visit
                                             let dataset = dayHr.data[0]["activities-heart-intraday"].dataset;
                                             // indexs
@@ -401,7 +397,7 @@ app.get('/ui/api/locationMarkers', function(request, response) {
         });
 });
 
-/* Returns a JSON array of location groups, grouped by 15m distance */
+/* Returns a JSON array of location groups, grouped by 120m distance */
 app.get('/ui/api/locationGroups', function(request, response) {
     let locationGroups = [];
 
@@ -451,12 +447,6 @@ app.get('/ui/api/locationGroups', function(request, response) {
                     }
                 }
             }
-            /*
-            // Filter for invalid groups
-            locationGroups = locationGroups.filter(function(elGroup) {
-                return elGroup.length >= 1 && elGroup[0].name;
-            });
-            */
             // Calculate average HR per group (assign random for now)
             for (var i = 0; i < locationGroups.length; i++) {
                 locationGroups[i][0].heartRate = generateRandom(67, 120);

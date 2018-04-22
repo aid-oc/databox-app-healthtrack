@@ -53,4 +53,4 @@ Once both of the drivers have been authenticated, you are ready to set up the ap
 
 1. Navigate to [Installed Applications](https://localhost/#!/app/installed) and select "databox healthtrack"
 
-You will now see an interface displaying a range of features, to see what is available please view the [Overview Image](https://github.com/psyaoc/databox-app-healthtrack/overview.png)
+You will now see an interface displaying a range of features, to see what is available please view the [Overview Image](https://github.com/psyaoc/databox-app-healthtrack/blob/master/overview.png)
