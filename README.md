@@ -6,6 +6,7 @@ Healthtrack is based upon the databox platform and has the following dependencie
 * [Git](https://git-scm.com/)
 * [Moves Account](https://moves-app.com/) with a stored location history.
 * [Fitbit Account](https://www.fitbit.com/) with a stored heart rate history.
+* [Databox](https://github.com/me-box/databox/commit/cabbf0867e440ee032d4b874a1500f75c9b5cce8) Version 0.3.2
 
 ## Installing the components
 
@@ -15,7 +16,8 @@ Once you have installed Docker and Git, you will be able to install the databox 
 
 1. Clone the databox project: `git clone https://github.com/me-box/databox.git`
 2. Navigate into the databox directory: `cd databox`
-3. Start the databox system: `./databox-start`
+3. Set the version to 0.3.2: `git reset --hard cabbf0867e440ee032d4b874a1500f75c9b5cce8`
+4. Start the databox system: `./databox-start`
 
 The databox system will now be available at [http://localhost], follow the prompts to secure the website and accept the certifcates.
 
